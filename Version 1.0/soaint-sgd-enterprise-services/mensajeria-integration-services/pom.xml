@@ -16,7 +16,7 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-framework.version>4.3.10.RELEASE</spring-framework.version>
+        <spring-framework.version>5.2.0.RELEASE</spring-framework.version>
 
         <!-- Inicio de propiedades de JaCoCo -->
         <!--  This format is used by SonarQube. If you need another format see "buildnumber-maven-plugin" -->
