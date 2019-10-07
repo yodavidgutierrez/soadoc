@@ -1,0 +1,435 @@
+<div class="page-title">
+  <h2>Consulta documentos</h2>
+</div>
+<p-tabView>
+  <p-tabPanel header="Expediente">
+  <app-consulta-expedientes></app-consulta-expedientes>
+  </p-tabPanel>
+  <p-tabPanel header="Documento">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+          <p-panel header="Búsqueda de documentos" [style]="{ border: 'none'}" >
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-12">
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="tipo_comunicacion">Tipo de comunicación*</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="tiposComunicacion | async | dropdownItemSingle" id="tipo_comunicacion"
+                                  formControlName="tipo_comunicacion" placeholder="Seleccione" [autoWidth]="false">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaEnviada || isExternaRecibida || isInternaRecibida">
+                   <div class="ui-g form-group">
+                     <div class="ui-g-12">
+                       <label>N°. Radicado</label>
+                     </div>
+                     <!--<div class="ui-g-4">
+                       <input type="text" pInputText id="anio" placeholder="Año" formControlName="anio">
+                     </div>-->
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="nro_radicado"
+                             formControlName="nro_radicado">
+                    </div>
+                    <!--<div class="ui-g-4">
+                       <input type="text" pInputText id="consecutivo" placeholder="Consecutivo"
+                              formControlName="consecutivo">
+                     </div>-->
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaEnviada || isExternaRecibida || isInternaRecibida || isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="startDate">Fecha inicial</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-calendar [(ngModel)]="start_date" [showIcon]="true" dateFormat="dd/mm/yy"
+                                  [maxDate]="end_date"
+                                  id="startDate">
+                      </p-calendar>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaEnviada || isExternaRecibida || isInternaRecibida || isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="endDate">Fecha final</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-calendar [(ngModel)]="end_date" [showIcon]="true" dateFormat="dd/mm/yy"
+                                  [minDate]="start_date"
+                                  id="endDate">
+                      </p-calendar>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaEnviada || isExternaRecibida">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="nro_guia">N°. guía</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="nro_guia" formControlName="nro_guia">
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isInternaRecibida">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="dep_origen">Dependencia origen</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="dependencias | dropdownItem"
+                                  id="dep_origen" placeholder="Seleccione"
+                                  [autoWidth]="false"
+                                  formControlName="dep_origen">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isInternaRecibida">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="dep_destino">Dependencia destino</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="dependencias | dropdownItem"
+                                  id="dep_destino" placeholder="Seleccione"
+                                  [autoWidth]="false"
+                                  formControlName="dep_destino">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaRecibida || isExternaEnviada">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="solicitante" *ngIf="isExternaRecibida">Solicitante</label>
+                      <label for="solicitante" *ngIf="isExternaEnviada">Destinatario</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="solicitante" formControlName="solicitante">
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaRecibida">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="destinatario">Destinatario</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="destinatario" formControlName="destinatario">
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaEnviada || isExternaRecibida">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="tipoDocumento">Tipo documento identificación</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="tiposDocumento | async | dropdownItemSingle" id="tipoDocumento"
+                                  formControlName="tipoDocumento" placeholder="Seleccione" [autoWidth]="false">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaRecibida || isExternaEnviada">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="nro_identificacion">N°. identificación</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="nro_identificacion" formControlName="nro_identificacion">
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaRecibida || isExternaEnviada || isInternaRecibida">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="asunto">Asunto</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="asunto" formControlName="asunto">
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="tramite">Trámite</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="tramite" formControlName="tramite">
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="evento">Evento</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="evento" formControlName="evento">
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="actuacion">Actuación</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="actuacion" formControlName="actuacion">
+                    </div>
+                  </div>
+                </div>
+                <div  class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isGeneral" [formGroup]="formDocumento">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="dependencias">Dependencia Productora</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="(dependencias$|async|dropdownItemSingle)"
+                                  id="dependencias"
+                                  [autoWidth]="false"
+                                  (onChange)="selectDependencia($event)"
+                                  formControlName="depCode"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3" *ngIf="isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="sCode">Serie</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown #seriedropdown [options]="(seriesObservable$ |async)"
+                                  optionLabel="nombreSerie"
+                                  id="sCode"
+                                  [autoWidth]="false"
+                                  formControlName="sCode"
+                                  (onChange)="selectSerie($event)"
+                                  (update)="selectSerie($event)" >
+
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="ssCode">Subserie</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="(subseriesObservable$|async)"
+                                  id="ssCode"
+                                  optionLabel="nombreSubSerie"
+                                  [autoWidth]="false"
+                                  formControlName="ssCode"
+                                  (onChange)="selectSubserie($event)"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaRecibida || isExternaEnviada || isInternaRecibida">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="tipologiaDocumental">Tipología documental</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="tipologiaDocumentalSuggestions$ | async | dropdownItemFullName"
+                                  id="tipologiaDocumental" formControlName="tipologiaDocumental"
+                                  placeholder="Seleccione" [autoWidth]="false">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="tipologiaDocumental">Tipología documental</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="tipologiaDoc$ | async | tipologiaDocumentalPipe"
+                                  id="tipologiaDoc" formControlName="tipologiaDocumental"
+                                  placeholder="Seleccione" [autoWidth]="false">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div [formGroup]="formDocumento" class="ui-sm-6 ui-g-4 ui-lg-4 ui-md-4" *ngIf="isExternaRecibida || isExternaEnviada || isInternaRecibida || isGeneral">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="nombre">Nombre del documento</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="nombre" formControlName="nombre">
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12" [style.padding-top]="'40px'">
+                  <button pButton type="button" label="Buscar" (click)="listasDocumentos()"
+                          [disabled]="!formDocumento.valid" style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"></button>
+                  <button pButton type="button" label="Limpiar" (click)="cleanForm()" style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"></button>
+                </div>
+              </div>
+            </div>
+          </p-panel>
+          <p-panel header="Resultados búsqueda" [style]="{border: 'none'}" *ngIf="listadoDocumentos$">
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-12">
+                <p-dataTable emptyMessage="No se encontraron resultados" [paginator]="true" [rows]="5" [responsive]="true"
+                             [value]="listadoDocumentos$ | async" [(selection)]="documentSelected" [(first)]="first"
+                             [expandableRows]="true" (onRowSelect)="selectDocumento($event)">
+                  <p-column selectionMode="single" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+                  <p-column field="tipoDocumental" header="Tipo Documental" [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.tipologiaDocumental}}
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida|| !isExternaRecibida" field="numeroRadicado" header="N°.radicado"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.nroRadicado | niceNoRadicado }}
+
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida|| !isExternaRecibida" field="fechaRadicado" header="Fecha y hora de radicado"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.fechaRadicacion | date:'dd/MM/yy'}} - {{row.fechaRadicacion | date:'mediumTime'}}
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida || isExternaEnviada || isInternaRecibida" field="remitente" header="Remitente"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.nombreRemitente}}
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida || isExternaEnviada || isInternaRecibida" field="destinatario" header="Destinatario"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.destinatario}}
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isGeneral" field="nombreDocumento" header="Nombre Documento"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.nombreDocumento}}
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isGeneral" field="docAutor" header="Autor"
+                            [sortable]="true">
+                  </p-column>
+                  <p-column *ngIf="isGeneral" field="idUnidadDocumental" header="ID Expediente"
+                            [sortable]="true">
+
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida || isExternaEnviada" field="numeroGuia" header="N°.guia"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      <a *ngIf="row.nroGuia" [href]="baseUrl(row)">Ver: {{row.nroGuia}}</a>
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida || isExternaEnviada" field="estado" header="Estado"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.estado}}
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida" field="funcionario" header="Funcionario"
+                            [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.funcionario}}
+                    </ng-template>
+                  </p-column>
+                  <p-column *ngIf="isExternaRecibida" field="fechaVencimiento"
+                            header="Fecha Vencimiento" [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.fechaVencimiento | date:'dd/MM/yy'}} - {{row.fechaVencimiento | date:'mediumTime'}}
+                    </ng-template>
+                  </p-column>
+                  <p-column  field="anulado"
+                            header="Anulado" [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row?.anulado ? 'Anulado' : ''}}
+                    </ng-template>
+                  </p-column>
+                  <p-column field="Origen"
+                            header="Origen" [sortable]="true">
+                    <ng-template pTemplate="body" let-row="rowData">
+                      {{row.origen}}
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+            </div>
+          </p-panel>
+          <p-panel header="Historial de Versiones" [style]="{border: 'none'}" *ngIf="(documentSelected$ | async)?.length > 0">
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-12">
+                <p-dataTable emptyMessage="No se encontraron resultados"
+                             [paginator]="true" [rows]="5" [responsive]="true" [value]="documentSelected$ | async"
+                             [expandableRows]="true"  >
+                  <p-column selectionMode="single" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+                  <p-column field="versiones" header="Versión" [sortable]="true">
+                    <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                      {{row.versionLabel}}
+                    </ng-template>
+                  </p-column>
+                  <p-column field="fecha" header="Fecha" [sortable]="true">
+                    <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                      {{row.fechaCreacion| date:'dd/MM/yy'}} - {{row.fechaCreacion | date:'mediumTime'}}
+                    </ng-template>
+                  </p-column>
+                  <p-column field="documento" header="Documento" [sortable]="true">
+                    <ng-template pTemplate="item" let-row="rowData" pTemplate="body">
+                      <button type="button" pButton label="Ver Documento" (click)="showDocument(row)" [disabled]="viewerManager != null"></button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+            </div>
+            <p-dialog [visible]="showPDF" (onHide)="hideDocument()"
+                      [responsive]="true" [positionTop]="'20'" [width]="1000" >
+              <div class="ui-g-12 padding-top" *ngIf="viewerManager != null" style="max-height: 400px;overflow-y: auto">
+                <p-panel>
+                  <p-header>
+                    <div class="ui-g ui-fluid">
+                      <div class="ui-g-6">
+                        Documento
+                      </div>
+                      <div class="ui-g-6 text-right">
+                        <button type="button" label="Cerrar" pButton (click)="hideDocument()" style="width: auto" class="ui-button-danger"></button>
+                      </div>
+                    </div>
+                  </p-header>
+                  <ng-template [ngIf]=" $viewer.PDF == viewerManager" [ngIfElse]="htmlContent">
+                    <p-blockUI [(blocked)]="isLoading"></p-blockUI>
+                    <div class="pdf-container">
+                      <div id="pdf-embeded" style="min-height: 400px" class="pdf-container-print"></div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template #htmlContent>
+                    <div id="content-html" style="padding: 10px" appHtmlContent [content]="contentHtml"></div>
+                  </ng-template>
+                </p-panel>
+              </div>
+            </p-dialog>
+
+          </p-panel>
+        </div>
+      </div>
+    </div>
+
+  </p-tabPanel>
+</p-tabView>

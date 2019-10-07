@@ -1,0 +1,51 @@
+<form [formGroup]="form" name="formDefault" >
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-sm-12 ui-g-12 ui-lg-12">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="observacion">Observación</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <textarea pInputTextarea [style.height]="'125px'" id="observacion" maxlength="500"
+                    formControlName="observacion" (blur)="listenForBlurEvents('observacion')"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12" style="padding-top: 20px">
+      <button pButton type="button" label="Cerrar" [hidden] = "!isPopup"
+              style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+              (click)="hideDialog()">
+      </button>
+      <button pButton type="button" label="Agregar" [disabled]="!form.valid"
+              style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px" (click)="addObservation()">
+      </button>
+    </div>
+  </div>
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12" style="max-height: 300px; overflow: auto" >
+      <p-dataTable emptyMessage="No se encontraron resultados" [paginator]="true" [rows]="5" [responsive]="true"
+                   [value]="observaciones" >
+        <p-column header="Funcionario" [sortable]="true" field="nomFuncionario" [style]="{'width':'170px'}">
+          <ng-template let-col let-observacion="rowData" pTemplate="body">
+            {{nombreCompleto(observacion)}}
+          </ng-template>
+        </p-column>
+        <p-column header="Fecha y hora" [sortable]="true" field="fecha" [style]="{'width':'170px'}">
+          <ng-template let-col let-observacion="rowData" pTemplate="body">
+            {{observacion[col.field] | date:'dd/MM/yyyy'}} {{observacion[col.field] | date:'mediumTime'}}
+          </ng-template>
+        </p-column>
+        <!--<p-column header="Estado" [sortable]="true" [style]="{'width':'100px'}" field="estado"></p-column>-->
+        <p-column header="Observaciones" [sortable]="true" field="observacion"></p-column>
+        <!--<p-column header="Causal de devolución" [sortable]="true"></p-column>-->
+        <p-column header="Dependencia asignada" [sortable]="true" field="nomDependencia"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</form>

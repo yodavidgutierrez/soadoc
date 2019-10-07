@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://co.com.foundation.soaint.documentmanager.ws/services/records" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ECMIntegrationServicesService" targetNamespace="http://co.com.foundation.soaint.documentmanager.ws/services/records">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://co.com.foundation.soaint.documentmanager.ws/services/records" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://co.com.foundation.soaint.documentmanager.ws/services/records">
+  <xs:element name="createStructureContent" type="tns:createStructureContent"/>
+  <xs:element name="createStructureContentResponse" type="tns:createStructureContentResponse"/>
+  <xs:element name="createStructureECM" type="tns:createStructureECM"/>
+  <xs:element name="createStructureECMResponse" type="tns:createStructureECMResponse"/>
+  <xs:element name="createStructureRecords" type="tns:createStructureRecords"/>
+  <xs:element name="createStructureRecordsResponse" type="tns:createStructureRecordsResponse"/>
+  <xs:complexType name="createStructureRecords">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="estructura" type="tns:estructuraTrdVO"/>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="estructuraTrdVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="contenidoDependenciaList" nillable="true" type="tns:contenidoDependenciaTrdVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="organigramaItemList" nillable="true" type="tns:organigramaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="contenidoDependenciaTrdVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codSerie" type="xs:string"/>
+      <xs:element minOccurs="0" name="codSubSerie" type="xs:string"/>
+      <xs:element name="diposicionFinal" type="xs:int"/>
+      <xs:element minOccurs="0" name="idOrgAdm" type="xs:string"/>
+      <xs:element minOccurs="0" name="idOrgOfc" type="xs:string"/>
+      <xs:element minOccurs="0" name="nomSerie" type="xs:string"/>
+      <xs:element minOccurs="0" name="nomSubSerie" type="xs:string"/>
+      <xs:element minOccurs="0" name="procedimiento" type="xs:string"/>
+      <xs:element minOccurs="0" name="retArchivoCentral" type="xs:long"/>
+      <xs:element minOccurs="0" name="retArchivoGestion" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="organigramaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codOrg" type="xs:string"/>
+      <xs:element minOccurs="0" name="ideOrgaAdmin" type="xs:long"/>
+      <xs:element minOccurs="0" name="nomOrg" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStructureRecordsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:messageResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="messageResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codMessage" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStructureContent">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="estructura" type="tns:estructuraTrdVO"/>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStructureContentResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:messageResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStructureECM">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="estructura" type="tns:estructuraTrdVO"/>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStructureECMResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:messageResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ECMIntegrationException" type="tns:ECMIntegrationException"/>
+  <xs:complexType name="ECMIntegrationException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createStructureRecords">
+    <wsdl:part element="tns:createStructureRecords" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStructureRecordsResponse">
+    <wsdl:part element="tns:createStructureRecordsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ECMIntegrationException">
+    <wsdl:part element="tns:ECMIntegrationException" name="ECMIntegrationException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStructureECM">
+    <wsdl:part element="tns:createStructureECM" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStructureContent">
+    <wsdl:part element="tns:createStructureContent" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStructureContentResponse">
+    <wsdl:part element="tns:createStructureContentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStructureECMResponse">
+    <wsdl:part element="tns:createStructureECMResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ECMIntegrationServices">
+    <wsdl:operation name="createStructureRecords">
+      <wsdl:input message="tns:createStructureRecords" name="createStructureRecords">
+    </wsdl:input>
+      <wsdl:output message="tns:createStructureRecordsResponse" name="createStructureRecordsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:ECMIntegrationException" name="ECMIntegrationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStructureContent">
+      <wsdl:input message="tns:createStructureContent" name="createStructureContent">
+    </wsdl:input>
+      <wsdl:output message="tns:createStructureContentResponse" name="createStructureContentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:ECMIntegrationException" name="ECMIntegrationException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStructureECM">
+      <wsdl:input message="tns:createStructureECM" name="createStructureECM">
+    </wsdl:input>
+      <wsdl:output message="tns:createStructureECMResponse" name="createStructureECMResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:ECMIntegrationException" name="ECMIntegrationException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ECMIntegrationServicesServiceSoapBinding" type="tns:ECMIntegrationServices">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createStructureRecords">
+      <soap:operation soapAction="createStructureRecords" style="document"/>
+      <wsdl:input name="createStructureRecords">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createStructureRecordsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ECMIntegrationException">
+        <soap:fault name="ECMIntegrationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStructureContent">
+      <soap:operation soapAction="createStructureContent" style="document"/>
+      <wsdl:input name="createStructureContent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createStructureContentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ECMIntegrationException">
+        <soap:fault name="ECMIntegrationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStructureECM">
+      <soap:operation soapAction="createStructureECM" style="document"/>
+      <wsdl:input name="createStructureECM">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createStructureECMResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ECMIntegrationException">
+        <soap:fault name="ECMIntegrationException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ECMIntegrationServicesService">
+    <wsdl:port binding="tns:ECMIntegrationServicesServiceSoapBinding" name="ECMIntegrationServicesPort">
+      <soap:address location="http://localhost:9091/ECM-Integration-Services/services/ECMIntegrationServices"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>soaint sgd web</title>
+  <base href="/">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="icon" type="image/x-icon" href="assets/layout/images/favicon.png">
+
+  <!-- Layout CSS -->
+  <!--<link id="theme-css" rel="stylesheet" type="text/css" href="assets/theme/theme-blue-grey.css">-->
+  <link id="layout-css" rel="stylesheet" type="text/css" href="assets/layout/css/layout-indigo.css">
+  <!--<script type="text/javascript" src="assets/js/worker-container.js"></script>-->
+  <script type="text/javascript" src="assets/js/ckeditor.js"></script>
+  <script type="text/javascript" src="assets/js/pdfobject.js"></script>
+  <!--<script type="text/javascript" src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>-->
+
+  <script>
+    CKEDITOR.config.forcePasteAsPlainText = true;
+   </script>
+</head>
+<body>
+<script>
+  window.host = 'http://192.168.1.23:28080/soaint-sgd-web-api-gateway/apis';
+  window.ecmHost = 'http://192.168.1.23:28080/ecm-integration-services/apis/ecm';
+  window.digitalizacionUrl = 'http://192.168.1.42:4200/#/';
+  window.dashBuilderUrl = 'http://192.168.1.42:8089/dashbuilder/';
+  window.toolboxOrigin = 'http://192.168.1.23:28080/toolbox-front';
+  // window.dashBuilderUrl = 'http://192.168.1.43:8080/alfresco/webdav/'
+  // window.dashBuilderUrl = 'http://192.168.1.43:8080/share/page/'
+  // window.dashBuilderUrl = 'http://181.49.173.42:4040/mantisbt-2.20.0.0/mantisbt-2.20.0/login_password_page.php'
+  window.base_url = '';
+</script>
+    <app-root>
+        <div class="splash-screen">
+            <div class="splash-container">
+              <div class="logo"></div>
+              <div class="load-bar">
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+              </div>
+            </div>
+        </div>
+    </app-root>
+</body>
+</html>

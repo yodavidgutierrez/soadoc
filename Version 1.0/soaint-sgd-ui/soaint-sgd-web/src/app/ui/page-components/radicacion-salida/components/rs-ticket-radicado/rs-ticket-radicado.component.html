@@ -1,0 +1,124 @@
+<!--<div id="{{idTicket}}" class="ticket-panel {{browser.name}}"   *ngIf="ticket">-->
+<!--<div class="clearfix" *ngIf="browser.name != 'firefox'"></div>-->
+   <!--<div style="display: table;border: dashed 1pt; float: right;background-color: #fff;" class="ticket-content">-->
+    <!--<div style="padding-top: 0 !important; padding-bottom: 0 !important;">-->
+      <!--<div style="position: absolute; float: left;z-index: 1000;background-color: #fff;">-->
+        <!--SIC-->
+      <!--</div>-->
+      <!--<div class="row-container ui-g ui-fluid" style="width: 440px; float: right;margin-left:2px;">-->
+        <!--<div class="ui-g-5 text-right" style="clear: both"><b>No radicado</b></div>-->
+        <!--<div class="ui-g-1 text-right"></div>-->
+        <!--<div class="ui-g-6 text-left">{{ ticket.noRadicado }}</div>-->
+
+        <!--<div class="ui-g-5 text-right"> <b>Fecha</b></div>-->
+        <!--<div class="ui-g-1 text-right"></div>-->
+        <!--<div class="ui-g-6 text-left">{{ ticket.fecha | date: 'dd/MM/yyyy hh:mm:ss a'}}</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row-container" >-->
+
+      <!--<ng-template [ngIf]="ticket.isInterno()" [ngIfElse]="ticketExterno">-->
+        <!--<div  class="clear" style="padding-top: 5px; padding-bottom: 0">-->
+          <!--<div class="ui-g-3 text-left "> <b>Destinatario</b></div>-->
+          <!--<div class="ui-g-2 text-left "> <b>Sede</b></div>-->
+          <!--<div class="ui-g-7 text-left "> {{ ticket.destinatarioSede}}</div>-->
+
+          <!--<div class="ui-g-3 text-left "></div>-->
+          <!--<div class="ui-g-2 text-left "> <b>Depen</b></div>-->
+          <!--<div class="ui-g-7 text-left "> {{ ticket.destinatarioGrupo }}</div>-->
+
+
+            <!--<div class="ui-g-3 text-left "></div>-->
+            <!--<div class="ui-g-2 text-left "> <b>Funcio</b></div>-->
+            <!--<div class="ui-g-7 text-left "> {{ ticket.remitente }}</div>-->
+        <!--</div>-->
+        <!--<div [hidden]="!ticket.remitenteSede" class="clear" >-->
+          <!--<div class="ui-g-3 text-left "> <b>Remitente</b></div>-->
+          <!--<div class="ui-g-2 text-left "> <b>Sede</b></div>-->
+          <!--<div class="ui-g-7 text-left "> {{ ticket.remitenteSede}}</div>-->
+
+          <!--<div class="ui-g-3 text-left "></div>-->
+          <!--<div class="ui-g-2 text-left "> <b>Depen</b></div>-->
+          <!--<div class="ui-g-7 text-left "> {{ ticket.remitenteGrupo }}</div>-->
+        <!--</div>-->
+      <!--</ng-template>-->
+
+      <!--<ng-template #ticketExterno>-->
+        <!--<div  class="clear"  style="padding-top: 5px; padding-bottom: 0">-->
+          <!--<div class="ui-g-3 text-left "> <b>Destinatario</b></div>-->
+          <!--<div class="ui-g-9 text-left "> {{ ticket.destinatario }}</div>-->
+        <!--</div>-->
+
+        <!--<div  class="clear" >-->
+          <!--<div class="ui-g-3 text-left "> <b>Remitente</b></div>-->
+          <!--<div class="ui-g-2 text-left "> <b>Sede</b></div>-->
+          <!--<div class="ui-g-7 text-left "> {{ ticket.remitenteSede}}</div>-->
+
+          <!--<div class="ui-g-3 text-left "></div>-->
+          <!--<div class="ui-g-2 text-left "> <b>Depen</b></div>-->
+          <!--<div class="ui-g-7 text-left "> {{ ticket.remitenteGrupo }}</div>-->
+        <!--</div>-->
+
+        <!--<div class="clear" >-->
+          <!--<div class="ui-g-3 text-left "> <b>Funci</b></div>-->
+          <!--<div class="ui-g-9 text-left "> {{ ticket.remitente }}</div>-->
+        <!--</div>-->
+
+      <!--</ng-template>-->
+    <!--</div>-->
+
+    <!--<div class="ui-g-12" style="display: flex; justify-content: center;">-->
+
+      <!--<div class="ui-g-2 text-left" style="padding-left: 10px"><b>Folios</b></div>-->
+      <!--<div class="ui-g-2 text-left" style="padding-right: 10px"> {{ ticket.folios }}</div>-->
+
+      <!--<div class="ui-g-2 text-left" style="padding-left: 10px"> <b>Anexo</b></div>-->
+      <!--<div class="ui-g-2 text-left" style="padding-right: 10px"> {{ ticket.anexos }}</div>-->
+
+    <!--</div>-->
+
+    <!--<ngx-barcode [bc-height]="28" [bc-format]="'CODE128B'" [bc-value]="ticket.noRadicado" [bc-display-value]="true"-->
+                 <!--[bc-margin-left]="0" [bc-margin-bottom]="0" [bc-margin-right]="0" [bc-margin-top]="0" [bc-text-margin]="0" [bc-text-align]="0"-->
+                 <!--style="margin: 0 auto"></ngx-barcode>-->
+
+  <!--</div>-->
+  <!--<div class="clearfix" *ngIf="browser.name != 'firefox'"></div>-->
+<!--</div>-->
+<!--<div style="clear: both"></div>-->
+
+
+<div  class="ticket-panel" style="display: table" id="{{idTicket}}" *ngIf="ticket">
+  <div class="clearfix" *ngIf="browser.name != 'firefox'"></div>
+   <div  style="display: table;border: dashed 1pt;background-color: #fff;padding: 5px; margin: 0 1px 1px 0;" class="ticket-content">
+  <p style="text-transform: uppercase;margin:-4px 0 4px ;">SOAINT</p>
+  <div style="margin-top: -5px">
+    <ngx-barcode [bc-height]="30" [bc-format]="'CODE128B'" [bc-value]="ticket.noRadicado | niceNoRadicado" [bc-width] = "3.2"
+                 [bc-margin-left]="0" [bc-margin-bottom]="0" [bc-margin-right]="0" [bc-margin-top]="0" [bc-text-margin]="0" [bc-text-align]="0"
+                 style="margin: 0 auto" ></ngx-barcode>
+  </div>
+
+  <div style="margin-top: -5px">
+    <div class="row-container"  style="text-align: left">
+      <div class="ui-g-8"><strong>N&deg;. Radicado :</strong> {{ticket.noRadicado | niceNoRadicado}} </div>
+      <div class="ui-g-4"><strong>Folios: </strong> {{ticket.folios}}</div>
+
+    </div>
+    <div class="row-container" style="text-align: left;">
+      <div class="ui-g-8"> <strong>Fecha :</strong> {{ticket.fecha | date:'dd/MM/yyyy'}}  {{ticket.fecha | date:'mediumTime'}}</div>
+      <div class="ui-g-4"><strong>Anexos : </strong> {{ticket.anexos}}</div>
+    </div>
+    <div class="row-container">
+      <div class="ui-g-12" style="overflow: hidden;text-align: left"> <strong>Destinatario:</strong> {{ticket.destinatario}} </div>
+    </div>
+    <div class="row-container" >
+      <div class="ui-g-12" style="overflow: hidden; text-align: left"> <strong>Dependencia Remitente:</strong> {{ticket.remitenteGrupo}}-{{ticket.abreviatura}} </div>
+    </div>
+  </div>
+  </div>
+  <div class="clearfix" *ngIf="browser.name != 'firefox'"></div>
+</div>
+<div style="clear: both"></div>
+
+
+

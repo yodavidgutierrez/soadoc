@@ -1,0 +1,146 @@
+<!-- Seccion de Adjuntar Dccumentos para archivar -->
+<p-panel header="Adjuntar documentos para archivar" [style]="{border: 'none'}" *ngIf="nroRadicado === undefined || nroRadicado === null">
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+
+      <p-fileUpload #uploader
+                    chooseLabel="Buscar"
+                    uploadLabel="Subir"
+                    cancelLabel="Cancelar"
+                    [multiple]="true"
+                    customUpload="true"
+                    [accept]="allowedTypes"
+                    (uploadHandler)="uploadDocuments($event,uploader)"
+                    (onError)="onErrorUpload($event)"
+                    name="file[]"
+                    maxFileSize="10485760"
+                    invalidFileSizeMessageSummary="El documento que desea adjuntar supera el tamaño permitido"
+
+      ></p-fileUpload>
+    </div>
+  </div>
+</p-panel>
+<!-- Fin de Seccion -->
+
+<div  class="ui-g ui-fluid">
+  <div class="ui-g-12 padding-top">
+    <p-panel header="Documentos para archivar" [style]="{border:'none'}">
+      <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="multiple" (onHeaderCheckboxToggle)="toggleDocuments($event)"
+                   [paginator]="true" [rows]="10" [responsive]="true" [(value)]="documentos"
+                  [(selection)]="archivarDocumentoModel.Documentos"
+
+      >
+        <p-column [style]="{'width':'50px'}" selectionMode="multiple" >
+
+        </p-column>
+        <p-column header="Identificador de documento" [sortable]="true" >
+          <ng-template let-col let-row="rowData" let-index="rowIndex" pTemplate="body">
+            {{row.identificador | niceNoRadicado}}
+           <!-- <input type="text" pInputText *ngIf="row.isAttachment"
+                   (keyup)="updateDocumentMeta(row,$event)"
+                   [disabled]="!IsSelected(row.idDocumento)"
+                   [(ngModel)]="row.idDocumento" />
+            <div *ngIf="!row.isAttachment" >
+              {{row.identificador}}
+            </div>-->
+          </ng-template>
+        </p-column>
+        <p-column header="Nombre/asunto documento" [sortable]="true" >
+          <ng-template let-col let-row="rowData" pTemplate="body" let-index="rowIndex">
+            <input type="text" pInputText *ngIf="row.isAttachment" [value]="row.nombreDocumento"
+                   (keyup)="updateDocumentMeta(row,$event)"
+                   [disabled]="!IsSelected(row.idDocumento)"
+                   [(ngModel)]="row.nombreDocumento"/>
+            <div *ngIf="!row.isAttachment" >
+              {{row.nombreDocumento}}
+            </div>
+          </ng-template>
+        </p-column>
+        <p-column header="Ver" >
+          <ng-template  let-col let-row="rowData" pTemplate="body">
+            <a href="#" (click)="showDocumento(row.idDocumento,$event)" >Ver</a>
+          </ng-template>
+        </p-column>
+        <p-column header="Tipologia Documental" >
+          <ng-template pTemplate="body" let-col let-row="rowData" let-index="rowIndex">
+            <p-dropdown [style]="{'width':'100%'}"[options]="tipologiaDocumentales$|async|tipologiaDocumentalPipe"
+                        placeholder="Seleccione"
+                        [(ngModel)] = "row.tipologiaDocumental"
+                        [disabled]="!IsSelected(row.idDocumento)"
+                        (onChange)="updateDocumentMeta(row,$event)"
+            ></p-dropdown>
+          </ng-template>
+        </p-column>
+
+      </p-dataTable>
+    </p-panel>
+    <div class="text-right">
+      <p-confirmDialog #cd>
+        <p-footer>
+          <button type="button" pButton icon="fa-check" label="Si" (click)="cd.accept()"></button>
+          <button type="button" pButton icon="fa-close" label="No" (click)="cd.reject()"></button>
+        </p-footer>
+      </p-confirmDialog>
+      <div class="padding-top">
+        <button type="button" label="Archivar Documentos" pButton style="width:auto" (click)="confirmArchivarDocumentos()"></button>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 padding-top">
+    <p-panel header="Documentos archivados">
+      <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="multiple"
+                   [paginator]="true" [rows]="10" [responsive]="true" [value]="documentosArchivados">
+        <p-column header="Identificador de unidad documental" [sortable]="true" field="idDocumento">
+          <ng-template let-row = "rowData" pTemplate="body">
+            {{archivarDocumentoModel.UnidadDocumental.id | niceNoRadicado}}
+          </ng-template>
+        </p-column>
+        <p-column header="Nombre de unidad documental" [sortable]="true" field="nombreUnidadDocumental"></p-column>
+        <p-column header="Serie/subserie" [sortable]="true" field="currentFatherName"></p-column>
+        <p-column header="Fecha y hora de archivo" [sortable]="true">
+          <ng-template let-col let-row="rowData" pTemplate="body">
+            {{ row.fechaCreacion | date:'dd/MM/yyyy'}} {{ row.fechaCreacion | date:'mediumTime' }}
+          </ng-template>
+        </p-column>
+        <p-column header="identificacion documento" [sortable]="true" field="idDocumento"></p-column>
+        <p-column header="Tipología documental" [sortable]="true" field="tipologiaDocumental"></p-column>
+        <p-column header="Nombre/ Asunto Documento" [sortable]="true" field="nombreDocumento">
+
+        </p-column>
+        <p-column header="Ver" [sortable]="true" >
+          <ng-template pTemplate="body" let-row="rowData">
+            <button type="button" label="Ver" pButton style="width:auto" (click)="showDocumento(row.idDocumento)" [disabled]="documentPreview" ></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </p-panel>
+  </div>
+</div>
+
+<p-dialog [visible]="documentPreview" modal="modal" [responsive]="true" positionTop="20"
+          (onHide)="hidePdf()" [width]="1024">
+  <p-header>
+    Visor de PDF
+  </p-header>
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-sm-12 ui-g-12 ui-lg-12">
+      <app-documentos-ecm-list [(idDocumentECM)]="idEcm" [versionar] = "false" ></app-documentos-ecm-list>
+      <!--<div style="overflow-y: scroll;max-height:500px">-->
+      <!--<pdf-viewer [src]="documentPreviewUrl" [show-all]="true" [zoom]="1.5"-->
+      <!--(after-load-complete)="afterLoadComplete($event)"-->
+      <!--&gt;</pdf-viewer>-->
+      <!--</div>-->
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button pButton type="button" label="Cerrar" style="width: auto; margin-bottom: 10px;margin-left: 12px"
+              (click)="hidePdf()"></button>
+      <!--<button pButton type="button" label="Descargar" style="width: auto; margin-bottom: 10px;margin-left: 12px"-->
+      <!--[disabled]="!documentLoaded"-->
+      <!--(click)="downloadPdf()"></button>-->
+    </div>
+  </p-footer>
+</p-dialog>

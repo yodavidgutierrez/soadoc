@@ -1,0 +1,42 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <p-panel header="Unidades documentales solicitadas" [style]="{border: 'none'}">
+        <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="single"
+                     [paginator]="true" [rows]="10" [responsive]="true"
+                     [value]="solicitudModel.Solicitudes"
+                     [selection]="solicitudModel.SolicitudSelected"
+                     (onRowSelect) = "selectRow($event)"
+                     #tq>
+          <p-column selectionMode="single" [style]="{'width':'50px'}"></p-column>
+          <p-column  header="Nombre serie o subserie" [style]="{width:'100px'}">
+            <ng-template pTemplate="body" let-row="rowData" >
+             {{row.codigoSerie}}.{{ seriesObservableShow$ | async | seriename:row.codigoSerie }} <span class="before_slash">{{ row.codigoSubSerie ?row.codigoSubSerie+'-':''}}{{row.codigoSubSerie}}{{ allSubSeriesObservable$ | async | seriename:row.codigoSubSerie:'subserie'}}</span>
+            </ng-template>
+          </p-column>
+          <p-column field="id" header="Identificador unidad documental"></p-column>
+          <p-column field="fechaHora" header="Fecha de Solicitud">
+            <ng-template pTemplate="body" let-row="rowData">
+              {{row.fechaHora | date:'dd/MM/yyyy'}} {{row.fechaHora | date:'mediumTime'}}
+            </ng-template>
+          </p-column>
+          <p-column field="nombreUnidadDocumental" header="Nombre de la unidad documental"></p-column>
+          <p-column field="descriptor1" header="Descriptor 1"></p-column>
+          <p-column field="descriptor2" header="Descriptor 2"></p-column>
+          <p-column field="observaciones" header="Observaciones"></p-column>
+          <p-column  header="Accion">
+            <ng-template pTemplate="body"  let-index="rowIndex" let-row="rowData">
+              <p-dropdown  (onChange)="selectAction(index,$event)"
+                           [options] = '[{value:null,label:"Seleccione una accion"},{value:"Creación UD",label:"Crear Unidad Documental"},{value:"No crear UD",label:"No crear UD"}]'
+                           [style]="{width:'100%'}"
+                           [disabled] = "index != solicitudModel.SelectedIndex"
+                           [(ngModel)]="row.accion"
+              >
+              </p-dropdown>
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+      </p-panel>
+    </div>
+  </div>
+</div>

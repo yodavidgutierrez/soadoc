@@ -1,0 +1,23 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="ui-sm-12 ui-md-12 ui-g-12 ui-lg-12">
+      <div class="ui-g-12">
+        <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="multiple"
+                     [paginator]="true" [rows]="5" [responsive]="true"
+                     [value]="destinatarioList">
+          <p-header>
+            Datos destinatario
+          </p-header>
+          <p-column header="Tipo destinatario" [sortable]="true" field="tipoDestinatario">
+
+          </p-column>
+          <p-column header="Depedencia Jerárquica" [sortable]="true" field="sede">
+
+          </p-column>
+          <p-column header="Dependencia Productora" [sortable]="true" field="dependencia">
+           </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>

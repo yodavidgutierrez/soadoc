@@ -1,0 +1,14 @@
+.ui-fileupload-row div {
+  margin: auto;
+  vertical-align: middle;
+}
+
+.ui-fileupload-files {
+  display: table;
+  width: 100%;
+  background-color: aliceblue;
+}
+
+.uploaderDisabled .ui-fileupload-choose {
+  opacity: .35;
+}

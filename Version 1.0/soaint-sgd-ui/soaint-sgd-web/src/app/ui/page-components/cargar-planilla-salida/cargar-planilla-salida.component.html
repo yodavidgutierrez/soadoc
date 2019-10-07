@@ -1,0 +1,117 @@
+<app-task-container>
+  <div taskBody="">
+<div class="ui-fluid" >
+   <div >
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-panel header="Actualizar planilla" [style]="{border: 'none'}">
+                    <div class="ui-g ui-fluid" *ngIf="!(closedTask | async)">
+                      <div class="ui-g-12">
+                        <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="multiple"
+                                    [(selection)]="selectedComunications"
+                                    [paginator]="true" [rows]="10" [responsive]="true" [value]="planAgentes" [expandableRows]="true">
+                          <p-column selectionMode="multiple" [style]="{'width':'50px'}"></p-column>
+                          <p-column header="Detalle" expander="true"></p-column>
+                          <p-column field="correspondencia.nroRadicado" header="N&deg;. radicado" [sortable]="true">
+                            <ng-template pTemplate="item" let-data="rowData">
+                              {{data.correspondencia?.nroRadicado | niceNoRadicado}}
+                            </ng-template>
+                          </p-column>
+                          <p-column field="fecRadicado" header="Fecha y hora de radicación" [sortable]="true">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              {{data.correspondencia?.fecRadicado | date:'dd/MM/yyyy'}}{{data.correspondencia?.fecRadicado | date:'mediumTime'}}
+                            </ng-template>
+                          </p-column>
+                          <p-column field="tipologiaDocumental.nombre" header="Tipo de documento" [sortable]="true"></p-column>
+                          <p-column field="nombre_razonSocial" header="Nombre / Razón social" [sortable]="true">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              {{(data.agente?.nombre || data.agente?.razonSocial)}}
+                            </ng-template>
+                          </p-column>
+                          <p-column   header="Dependencia productora" [sortable]="true">
+                            <ng-template let-data="rowData" pTemplate="body">
+                              {{ dependencias$|async|dependenciaNombre:data.agente?.codDependencia}}
+                            </ng-template>
+                          </p-column>
+                          <p-column field="descEstado" header="Estado de entrega" [sortable]="true"></p-column>
+                          <p-column field="fecCarguePla" header="Fecha entrega" [sortable]="true">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              {{data.fecCarguePla | date:'dd/MM/yyyy'}} {{data.fecCarguePla | date:'mediumTime'}}
+                            </ng-template>
+                          </p-column>
+                          <p-column field="varNumeroGuia" header="N&deg;. guía" [sortable]="true"></p-column>
+                          <p-column field="observaciones" header="Observaciones" [style]="{'width':'120px','text-align':'center'}"  [sortable]="true"></p-column>
+                          <template let-data pTemplate="rowexpansion">
+                            <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+                              <div class="ui-grid-row">
+                                <div class="ui-grid-col-12">
+                                  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                      <div class="ui-grid-row">
+                                          <div class="ui-grid-col-2 label">Folios: </div>
+                                          <div class="ui-grid-col-2">{{data.folios}}</div>
+                                          <div class="ui-grid-col-2 label">Anexos: </div>
+                                          <div class="ui-grid-col-2">{{data.anexos}}</div>
+                                      </div>
+                                      <div class="ui-grid-row">
+                                          <div class="ui-grid-col-2 label">País: </div>
+                                          <div class="ui-grid-col-2">{{data.agente.datosContactoList[0].pais.nombre}}</div>
+                                          <div class="ui-grid-col-2 label">Departamento: </div>
+                                          <div class="ui-grid-col-2">{{data.agente.datosContactoList[0].departamento.nombre}}</div>
+                                          <div class="ui-grid-col-2 label">Clase envío: </div>
+                                          <div class="ui-grid-col-2">{{data.correspondencia.descClaseEnvio}}</div>
+                                      </div>
+                                      <div class="ui-grid-row">
+                                          <div class="ui-grid-col-2 label">Ciudad / Municipio: </div>
+                                          <div class="ui-grid-col-2">{{data.agente.datosContactoList[0].municipio.nombre}}</div>
+                                          <div class="ui-grid-col-2 label">Dirección: </div>
+                                          <div class="ui-grid-col-2">{{data.agente.datosContactoList[0].direccion | direccionToText}}</div>
+                                          <div class="ui-grid-col-2 label">Modalidad correo: </div>
+                                          <div class="ui-grid-col-2">{{data.correspondencia.descModalidadEnvio}}</div>
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                          </template>
+                        </p-dataTable>
+                      </div>
+                    </div>
+                  </p-panel>
+             </div>
+         </div>
+    </div>
+
+    <div >
+    <button pButton type="button" label="Actualizar planilla"
+            [disabled]="!canUpdatePlanilla()" (click)="actualizarPlanilla()"
+            style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px">
+    </button>
+    <button pButton type="button" label="Registrar resultado"
+            [disabled]="selectedComunications.length == 0" (click)="showEditarPlantillaDialog(popupEditar)"
+            style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px">
+    </button>
+  </div>
+
+
+</div>
+<p-dialog [visible]="editarPlanillaDialogVisible" modal="modal" [responsive]="true" positionTop="20"
+          [contentStyle]="{'overflow':'scroll'}"
+          (onHide)="hideEditarPlanillaDialog()" [width]="800">
+  <p-header>
+    Registrar resultado
+  </p-header>
+  <app-editar-planilla #popupEditar [planilla]="data" [keyEstadoEntrega]="'estadosEntregaSalida'" (completado)="editarPlanilla($event)" (onPressCloseButton)="hideEditarPlanillaDialog()"></app-editar-planilla>
+
+  <p-footer>
+  </p-footer>
+</p-dialog>
+  </div>
+</app-task-container>
+
+
+
+
+
+
+
+

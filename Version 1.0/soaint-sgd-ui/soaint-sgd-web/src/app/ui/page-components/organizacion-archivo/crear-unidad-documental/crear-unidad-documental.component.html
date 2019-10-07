@@ -1,0 +1,90 @@
+<div class="ui-fluid crear-unidad-documental">
+  <app-task-container [forceHiddenButtons]="true"  >
+    <div taskBody>
+      <div  class="page-buttons text-right">
+        <button pButton type="button" label="Guardar" style="width: auto; margin-bottom: 10px" (click)="save()" ></button>
+        <button pButton type="button"  class="ui-button-success" label="Finalizar" style="width: auto; margin-bottom: 10px" (click)="finalizar()" ></button>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12" >
+          <div class="card card-w-title">
+            <p-panel header="Información solicitud unidad documental" [style]="{border: 'none'}">
+              <div class="ui-g ui-fluid" [formGroup]="form" >
+                <div class="ui-g-12">
+                  <div class="ui-g-3 ui-sm-6">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12">
+                        <label for="sede">Dependencia Jerárquica</label>
+                      </div>
+                      <div class="ui-g-12">
+                        <input type="text" pInputText  id="sede" formControlName="sede" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-3 ui-sm-6">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12">
+                        <label for="dependencia">Dependencia Productora</label>
+                      </div>
+                      <div class="ui-g-12">
+                        <input type="text" pInputText  id="dependencia" formControlName="dependencia"  >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-3 ui-sm-6">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12">
+                        <label for="sede">Usuario Solicitante</label>
+                      </div>
+                      <div class="ui-g-12">
+                        <input type="text" pInputText formControlName="solicitante">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-3 ui-sm-6">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12">
+                        <label for="sede">Fecha Solicitud</label>
+                      </div>
+                      <div class="ui-g-12">
+                        <input pInputText formControlName="fechaSolicitud" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+        </div>
+      </div>
+
+      <ng-template *ngIf="solicitudModel.SelectedIndex != -1">
+
+      </ng-template>
+
+      <app-lista-solicitud-crear-ud (changeAction)="selectAction($event)" [solicitudModel]="solicitudModel"  #listaSolicitudeNoTramitadas
+       [seriesObservableShow$]="seriesObservable$" [allSubSeriesObservable$]="allSubSeriesObservable$"
+      ></app-lista-solicitud-crear-ud>
+
+      <app-no-tramitar-creacion-ud *ngIf="currentAction =='No crear UD'"     (onNoTramitarUnidadDocumental)="actualizarSolicitudesTramitadas($event)" [solicitudModel]="solicitudModel"  ></app-no-tramitar-creacion-ud>
+
+      <app-form-crear-unidad-documental *ngIf="currentAction=='Creación UD'" [solicitudModel]="solicitudModel"  (onCreateUnidadDocumental)="actualizarSolicitudesTramitadas($event)" ></app-form-crear-unidad-documental>
+
+      <app-ud-tramitadas [solicitudesProcesadas$]="solicitudesProcesadas$"
+                         [allSubSeriesObservable$]="allSubSeriesObservable$"
+                         [seriesObservable$]="seriesObservable$" ></app-ud-tramitadas>
+
+      <p-dialog header="Alerta" [(visible)]="visiblePopup" modal="modal" >
+        <div class="text-center">
+          El sistema no encuentra la unidad documental que está buscando. <br>
+          Por favor, solicite su creación
+        </div>
+        <p-footer>
+          <button type="button" pButton  (click)="closePopup()" label="Aceptar"></button>
+        </p-footer>
+      </p-dialog>
+    </div>
+  </app-task-container>
+</div>
+
+

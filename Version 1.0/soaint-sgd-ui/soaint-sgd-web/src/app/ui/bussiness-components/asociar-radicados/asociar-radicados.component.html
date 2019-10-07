@@ -1,0 +1,137 @@
+
+  <p-panel header="Búsqueda de radicados">
+    <form [formGroup]="form" >
+      <div class="ui-g ui-fluid">
+        <!--fechaRadicacion-->
+        <div class="ui-sm-12 ui-md-4 ui-g-4 ui-lg-4" style="padding-top: 40px">
+          <div class="ui-g form-group">
+            <div class="ui-g-12 md-dropdownfield" style="position: relative">
+
+              <p-dropdown [options]="(tiposDocumento$ | async | dropdownItemSingle)"
+                          id="tipoIdentificacion"
+                          placeholder="Tipo Identificación"
+                          [autoWidth]="false"
+                          formControlName="tipoDocumento"
+              >
+              </p-dropdown>
+              <!--<button pButton class="ui-button-icon" icon="fa-close" (click)="clearDropdown()" style="font-size: 5px;position: absolute;top:15px;right: 32px;"></button>-->
+              <div class="ui-message ui-messages-error">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--nroRadicado-->
+        <div class="ui-sm-12 ui-md-4 ui-g-4 ui-lg-4" style="padding-top: 40px">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="noIdentificacion" formControlName="numIdentificacion"  (blur)="listenForBlur('numIdentificacion')">
+                    <label >N&deg; Identificaci&oacute;n</label>
+                  </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-sm-12 ui-md-1 ui-g-1 ui-lg-1" style="padding-top: 40px">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="year"  formControlName="anno"  (blur)="listenForBlur('anno')">
+                    <label >A&ntilde;o</label>
+                  </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-md-3 ui-g-3 ui-lg-3" style="padding-top: 40px">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="noRadicado"  formControlName="noRadicado"  (blur)="listenForBlur('noRadicado')">
+                    <label >N&deg;. Radicado</label>
+                  </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g ui-fluid">
+        <!--fechaRadicacion-->
+
+        <!--nroRadicado-->
+        <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6" style="padding-top: 40px">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="nombSolicitante"  formControlName="nombre"  (blur)="listenForBlur('nombre')">
+                    <label >Nombre solicitante / remitente</label>
+                  </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6" style="padding-top: 40px">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="noGuia" formControlName="noGuia"  (blur)="listenForBlur('noGuia')">
+                    <label >N&deg; guia</label>
+                  </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui-fluid ui-g">
+        <div class="ui-g ui-g-12" style="position: relative; height: 40px;" >
+            <button pButton type="button" class="ui-button-primary" style="width: 150px; position: absolute; left: calc(100% - 180px)" label="Buscar" (click)="buscarRadicados()" [disabled]="form.invalid"></button>
+        </div>
+      </div>
+    </form>
+  </p-panel>
+
+  <div style="margin: 20px 0;" *ngIf="(radicados$ | async)">
+    <p-dataTable [paginator]="true"
+                 [(selection)]="radicadoSelected"
+                 [rows]="10"
+                 [responsive]="true"
+                 [value]="(radicados$ | async)"
+                 emptyMessage="No se encontraron resultados "
+                 (onRowClick)="changeRadicado($event)"
+                 tableStyleClass="s-radicadosPadre"
+
+    >
+      <p-column header="Tipo Documento">
+        <ng-template  let-row = "rowData" pTemplate="body">
+          {{ tiposDocumentosList$ | async | constantName:row.tipoDocumento}}
+        </ng-template>
+      </p-column>
+      <p-column header="N&deg; Identificación" >
+        <ng-template  let-row="rowData" pTemplate="body">
+          {{ isPersonaJuridica(row) ? row.NIT : row.numeroIdentificacion}}
+        </ng-template>
+      </p-column>
+      <p-column header="Nombre solicitante/remitente" field="nombre"></p-column>
+      <p-column  header="N&deg; Radicado" field="numeroRadicado"></p-column>
+      <p-column  header="Asunto" field="asunto"></p-column>
+      <p-column  header="Ver" [style]="{'text-align':'center'}">
+        <ng-template let-row = "rowData" pTemplate="body">
+          <button pButton label="Ver" style="width: 90%;max-width: 120px" *ngIf="row.idECM" (click)="showDocuments(row.idECM)"></button>
+        </ng-template>
+      </p-column>
+      <p-column   selectionMode="single" >
+        <ng-template pTemplate="header">
+           Seleccione
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+    <div class="ui-fluid ui-g">
+      <div class="ui-g ui-g-12" style="position: relative; height: 40px;" >
+        <button  pButton type="button" class="ui-button-primary" style="width: 150px; position: absolute; left: calc(100% - 180px); margin: 20px 30px" label="Asociar" (click)="asociarRadicado()" [disabled]="!radicadoSelected"></button>
+      </div>
+    </div>
+  </div>
+  <p-dialog [modal]="true" [visible]="idEcm !== null" [responsive]="true" (onHide)="hideDocuments()" [width]="800"  [contentStyle]="{'overflow':'scroll'}"  [positionTop]="10">
+    <div *ngIf="idEcm !== null">
+      <app-documentos-ecm-list [(idDocumentECM)]="idEcm"></app-documentos-ecm-list>
+    </div>
+  </p-dialog>

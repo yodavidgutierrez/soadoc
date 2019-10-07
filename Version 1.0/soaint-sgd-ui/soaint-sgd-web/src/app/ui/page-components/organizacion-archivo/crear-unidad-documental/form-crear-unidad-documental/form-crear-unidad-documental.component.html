@@ -1,0 +1,172 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12" >
+    <div class="card card-w-title">
+      <p-panel header="Crear Unidad Documental" [style]="{border: 'none'}">
+        <div class="ui-g ui-fluid" [formGroup] = "form">
+          <div class="ui-g-12">
+            <div class="ui-g-4 ui-sm-6">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label >Serie</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-dropdown
+                    [options] = "seriesObservable" optionLabel="nombreSerie"
+                    (onChange)="selectSerie($event)"
+                    formControlName="serie"
+                    [autoWidth]="false"
+                  ></p-dropdown>
+                  <div class="ui-message ui-messages-error"  *ngIf="form.controls['serie'].invalid && form.controls['serie'].touched">
+                   <p *ngIf="form.controls['serie'].hasError('required')">
+                     Debe  de Seleccionar un numero de serie
+                   </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-4 ui-sm-6">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label >Subserie</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-dropdown
+                    [options] = subseriesObservable
+                    optionLabel="nombreSubSerie"
+                    formControlName="subserie"
+                    [autoWidth]="false"
+                  ></p-dropdown>
+                  <div class="ui-message ui-messages-error"  *ngIf="form.controls['subserie'].hasError('required') && form.controls['subserie'].touched">
+                    <p *ngIf="form.controls['subserie'].hasError('required')">
+                      Debe  de Seleccionar un numero de serie
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-4 ui-sm-6">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="fcu-identificador">Identificador de unidad documental</label>
+                </div>
+                <div class="ui-g-12">
+                  <input type="text" id="fcu-identificador" pInputText formControlName="identificador">
+                  <div class="ui-message ui-messages-error"  *ngIf="form.controls['identificador'].invalid && form.controls['identificador'].touched">
+                    <p *ngIf="form.controls['identificador'].hasError('required')">
+                      Debe  de Seleccionar un numero de serie
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-3 ui-sm-6">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="fcu-nombre">Nombre de unidad documental</label>
+                </div>
+                <div class="ui-g-12">
+                  <input type="text" id="fcu-nombre" pInputText formControlName="nombre">
+                  <div class="ui-message ui-messages-error"  *ngIf="form.controls['nombre'].invalid && form.controls['nombre'].touched">
+                    <p *ngIf="form.controls['nombre'].hasError('required')">
+                      Debe  de Seleccionar un numero de serie
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-sm-6">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="fcu-descriptor1">Descriptor 1</label>
+                </div>
+                <div class="ui-g-12">
+                  <input type="text" id="fcu-descriptor1" pInputText formControlName="descriptor1">
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-sm-6">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="fcu-descriptor2">Descriptor 2</label>
+                </div>
+                <div class="ui-g-12">
+                  <input type="text" id="fcu-descriptor2" pInputText formControlName="descriptor2">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="fcu-observaciones">Observaciones</label>
+                </div>
+                <div class="ui-g-12">
+                  <textarea name="" id="fcu-observaciones" cols="30" rows="10" pInputTextarea formControlName="observaciones" readonly></textarea>
+                </div>
+              </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g form-group">
+              <div class="ui-g-3">Agregar unidad física</div>
+              <div class="ui-g-9">
+                <p-checkbox [binary]="true" formControlName="unidadFisica"></p-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12" *ngIf="haveUnidadFisica">
+            <div class="ui-g form-group">
+                <div class="ui-g-3">
+                  <label>La unidad documental f&iacute;sica esta en el sistema </label>
+                </div>
+                <div class="ui-g-9">
+                  <p-radioButton value="1" label="Si" name="creada" formControlName="creada"></p-radioButton>
+                  <p-radioButton value="0" label="No" name="creada" formControlName="creada"></p-radioButton>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="ui-g ui-fluid"  *ngIf="haveUnidadFisica">
+          <div class="ui-g-12 margin-20"  *ngIf="unidadFisicaCreada">
+            <p-panel header="Relacionar unidad documental fisica" [style]="{border: 'none'}">
+              <div class="ui-g ui-fluid">
+                <div class="ui-g-12">
+                  <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="single"  [(selection)]="unidadConservacioSelected"
+                               [paginator]="true" [rows]="10" [responsive]="true" [value]="(unidadesConservacion$|async)">
+                    <p-column selectionMode="single" [style]="{'width':'50px'}"></p-column>
+                    <p-column  header="Item" [style]="{'width':'50px'}">
+                      <ng-template pTemplate="body" let-index="rowIndex">
+                        {{index + 1}}
+                      </ng-template>
+                    </p-column>
+                    <p-column header="Nombre Serie/Subserie" [sortable]="true" field="nomSerieSubserie" >
+                    </p-column>
+                    <p-column header="Identificador unidad documental" [sortable]="true" field="idUniDoc"> </p-column>
+                    <p-column header="Nombre unidad documental" [sortable]="true" field="nomUniDoc"></p-column>
+                    <p-column header="Descriptor 1" [sortable]="true" field="desc1"></p-column>
+                    <p-column header="Descriptor 2" [sortable]="true" [style]="{'width':'110px'}" field="desc2"></p-column>
+                  </p-dataTable>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+          <div class="ui-g-12" *ngIf="!unidadFisicaCreada">
+            <p-panel header="Asignar ubicacion topografica" [style]="{border: 'none'}">
+              <app-datos-unidad-conservacion [tipoArchivo]="tipoArchivo" (onChange)="updateDatosUnidadConservacion($event)"></app-datos-unidad-conservacion>
+            </p-panel>
+          </div>
+        </div>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12 text-right">
+            <ng-template [ngIf]="haveUnidadFisica && unidadFisicaCreada">
+              <button pButton type="button" label="Relacionar UD" style="width: auto" (click)="relacionarUD()" [disabled]="!unidadConservacioSelected" ></button>
+              <button type="button" pButton style="width: auto" label="Buscar" (click)="buscar()" [disabled]="!buttonSearchIsEnable()"></button>
+            </ng-template>
+            <button type="button" label="Crear UD" pButton style="width: auto" (click)="crearUD()" [disabled]="!dataValid"></button>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+</div>

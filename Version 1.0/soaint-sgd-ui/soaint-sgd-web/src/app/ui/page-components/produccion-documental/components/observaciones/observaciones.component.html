@@ -1,0 +1,39 @@
+<p-toolbar>
+  <div class="ui-toolbar-group-right">
+    <button pButton type="button" label="Nueva Observación" icon="fa-plus" class="ui-button-success" (click)="showPopupObservacion()"></button>
+  </div>
+</p-toolbar>
+<p-dataTable  [paginator]="true" [rows]="10" [responsive]="true" [value]="observaciones" emptyMessage="No se encontraron resultados">
+  <p-column  header="Funcionario" [sortable]="true" field="usuario" [style]="{width:'200px'}"></p-column>
+  <p-column  header="Fecha" [sortable]="true"  [style]="{width: '200px'}">
+    <ng-template let-row="rowData" pTemplate="">
+      {{row.fechaCreacion | date:'dd/MM/yyyy'}} {{row.fechaCreacion | date:'mediumTime'}}
+    </ng-template>
+  </p-column>
+  <p-column  header="Observación" field="observacion">
+    <!--<ng-template pTemplate="body" let-index="rowIndex">-->
+
+  </p-column>
+  <p-column header="Acciones"  [style]="{width:'100px'}">
+    <ng-template pTemplate="body" let-observacion="rowData" let-index="rowIndex">
+      <div *ngIf="observacion.idTarea == tarea.idTarea">
+        <button type="button" icon="ui-icon-mode-edit" pButton  class="amber-btn ui-button ui-button-icon" (click)="showPopupObservacion(index)"></button>
+        <button type="button" icon="ui-icon-close" pButton  class="ui-button ui-button-icon ui-button-danger" (click)="removeObservacion(index)"></button>
+      </div>
+    </ng-template>
+  </p-column>
+</p-dataTable>
+
+<p-dialog  [(visible)]="visibleObservacionPopup" modal="modal" [responsive]="true" (onHide)="hidePopupObservacion()" header="Nueva observación" [width]="500">
+  <form [formGroup]="form" class="md-dropdownfield">
+  <textarea pInputTextarea formControlName="observacion" rows="10" ></textarea>
+    <div class="ui-message ui-messages-error " style="position: relative;"  *ngIf="validations.observacion">
+      {{ validations.observacion }}
+    </div>
+  <button type="button"   pButton  label="Guardar" (click)="saveObservacion()" [disabled]="form.invalid" ></button>
+  </form>
+</p-dialog>
+
+
+
+

@@ -1,0 +1,137 @@
+<form [formGroup]="form">
+    <p-panel header="Gestionar producción" [style]="{border: 'none'}">
+
+        <div class="ui-g ui-fluid">
+
+          <div class="ui-sm-12 ui-g-10 ui-lg-10">
+
+            <div class="ui-sm-12 ui-g-3 ui-lg-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="sede">Dependencia Jerárquica</label>
+                </div>
+                <div class="ui-g-12 md-dropdownfield">
+
+                  <p-dropdown [options]="sedesAdministrativas$ | async | dropdownItem"
+                              id="sede"
+                              formControlName="sede"
+                              placeholder="Seleccione"
+                              [autoWidth]="false"
+                              (onBlur)="listenForBlurEvents('sede')"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-12 ui-g-3 ui-lg-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="dependencia">Dependencia Productora</label>
+                </div>
+                <div class="ui-g-12 md-dropdownfield">
+
+                  <p-dropdown [options]="dependencias |  dropdownItem"
+                              id="dependencia"
+                              formControlName="dependencia"
+                              placeholder="Seleccione"
+                              [autoWidth]="false"
+                              (onChange)="dependenciaChange($event)"
+                              (onBlur)="listenForBlurEvents('dependencia')"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-sm-12 ui-g-3 ui-lg-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="rol">Rol</label>
+                </div>
+                <div class="ui-g-12 md-dropdownfield">
+                  <p-dropdown [options]="roles$ | async | dropdownItem"
+                              id="rol"
+                              formControlName="rol"
+                              placeholder="Seleccione"
+                              [autoWidth]="false"
+                              (onChange)="rolChange($event)"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-sm-12 ui-g-3 ui-lg-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="funcionario">Funcionario</label>
+                </div>
+                <div class="ui-g-12 md-dropdownfield">
+                  <p-dropdown [options]="funcionarios$ | async | dropdownItem"
+                              id="funcionario"
+                              formControlName="funcionario"
+                              placeholder="Seleccione"
+                              [autoWidth]="false"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="ui-sm-12 ui-g-2 ui-lg-2">
+
+            <div class="ui-sm-12 ui-g-12 ui-lg-12">
+              <div class="ui-g form-group">
+                <div class="ui-g-12"> <label></label> </div>
+                <div class="ui-g-12">
+                  <button pButton type="button" label="Agregar" style="width:auto;margin-bottom:10px;float:right"
+                          [disabled]="!form || !form.valid"
+                          (click)="agregarProyector()"
+                  ></button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <br/>
+
+        <div class="ui-g ui-fluid">
+
+          <div class="ui-sm-12 ui-g-12 ui-lg-12">
+
+            <p-dataTable selectionMode="single"
+                         [paginator]="true"
+                         [rows]="10"
+                         [responsive]="true"
+                         [value]="listaProyectores"
+                         emptyMessage="No se han agregado proyectores"
+            >
+              <p-column field="sede.nombre" header="Dependencia Jerárquica" [sortable]="true"></p-column>
+              <p-column field="dependencia.nombre" header="Dependencia Productora" [sortable]="true"></p-column>
+              <p-column field="rol.nombre" header="Rol" [sortable]="true"></p-column>
+              <p-column field="funcionario.nombre" header="Funcionario" [sortable]="true"></p-column>
+              <p-column header="Acción" [style]="{'width':'120px','text-align':'center'}">
+                <ng-template let-rdata="rowData" let-rindex="rowIndex" pTemplate="item">
+                  <button type="button" icon="ui-icon-close" pButton
+                          class="ui-button ui-button-icon ui-button-danger"
+                          (click)="eliminarProyector(rindex)"
+                          [disabled]="rdata.blocked"
+                  ></button>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+
+          </div>
+
+        </div>
+
+    </p-panel>
+</form>
+
+
+

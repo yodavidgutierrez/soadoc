@@ -1,0 +1,109 @@
+<div class="ui-fluid radicar-comunicaciones radicar">
+  <app-task-container [hidden]="hiddenR">
+    <div customActions>
+      <!--<button pButton type="button" label="Reintentar firma digital" style="width: auto; margin-bottom: 10px" *ngIf="showReintentarF"
+              (click)="reintentarFirmaDigital()"></button>-->
+
+      <button pButton type="button" label="Cancelar" style="width: auto; margin-bottom: 10px" *ngIf="!radicacion"
+              (click)="abort()"></button>
+
+      <button pButton type="button" label="Guardar" style="width: auto; margin-bottom: 10px" *ngIf="!radicacion"
+              (click)="saveTask()"></button>
+
+      <button pButton type="button" label="Radicar" style="width: auto; margin-bottom: 10px" *ngIf="!radicacion"
+              [disabled]="!radicacionButtonIsShown()"
+              (click)="radicarSalida()"></button>
+
+      <button pButton type="button" label="Ver etiqueta" style="width: auto; margin-bottom: 10px" *ngIf="radicacion"
+              (click)="showTicketRadicado()"></button>
+      <button pButton type="button" label="Imprimir documento" style="width: auto; margin-bottom: 10px" *ngIf="radicacion"
+              (click)="preview()"></button>
+      <button pButton type="button" class="ui-button-success" label="Finalizar"  style="width: auto; margin-bottom: 10px"
+              (click)="navigateBack()" *ngIf=" radicacion"></button>
+    </div>
+
+    <div taskBody>
+      <p-tabView [activeIndex]="tabIndex" (onChange)="updateTabIndex($event)">
+        <p-tabPanel header="Consultar radicado" leftIcon="ui-icon-assignment" >
+          <app-asociar-radicados (asociarRadicadoEvent)="asociarRadicado($event)" ></app-asociar-radicados>
+        </p-tabPanel>
+        <p-tabPanel header="Datos generales" leftIcon="ui-icon-assignment">
+          <app-datos-generales #datosGenerales  [tipoComunicacion]="filterTipoComunicacion"
+                               (onChangeTipoDistribucion)="changeValidationAbility($event)"
+                               [tipoRadicacion]="tipoRadicacion"
+                               [dataDefault]="datosGenerales$"
+                               [documentoProducido]="true"
+                               [medioDocumentoProducido]="false"
+                               [fieldsDisabled]="fieldDatosGeneralesDisabled"
+
+          >
+            <div *ngIf="radicadoPadre" class="ui-g ui-fluid ui-g-12 radicar-comunicaciones">
+
+
+              <div class="ui-g ui-g-2 ui-md-3 ">
+                <strong >Radicado Padre</strong>
+              </div>
+              <div class="ui-g ui-g-1 ui-sm-2" style="padding: 0 2px">
+                <input type="text" [(ngModel)] = "radicadoPadre.numeroRadicado.split('-')[0]"  readonly style="width: 100%;height: 25px;">
+              </div>
+              <div class="ui-g ui-g-3 ui-sm-4" style="padding: 0 2px">
+                <input type="text" [(ngModel)] = "radicadoPadre.numeroRadicado.split('-')[1]" readonly style="width: 100%;height: 25px;">
+              </div>
+              <div class="ui-g ui-g-1 ui-sm-2" style="padding: 0 2px">
+                <input type="text" [(ngModel)] = "radicadoPadre.numeroRadicado.split('-')[2]" readonly  style="width: 100%;height: 25px;">
+              </div>
+
+            </div>
+
+          </app-datos-generales>
+        </p-tabPanel>
+
+        <p-tabPanel header="Datos destinatarios" leftIcon="ui-icon-assignment">
+          <!--rs-datos-remitente #datosRemitente></rs-datos-remitente-->
+          <pd-datos-contacto #datosContacto [taskData]="task"  [dataDefault]="datosContacto$" [(sectionsVisible)]="sectionRemitenteVisibility" ></pd-datos-contacto>
+
+          <div class="paddign-top" *ngIf="datosGenerales.form.get('reqDistFisica').value && datosGenerales.form.get('tipoComunicacion').value == 'SE'">
+            <app-form-envio  #datosEnvio ></app-form-envio>
+          </div>
+        </p-tabPanel>
+
+
+        <p-tabPanel header="Datos remitente" leftIcon="ui-icon-assignment">
+          <rs-datos-remitente #datosRemitente  [loadCurrentUserData]="true"  ></rs-datos-remitente>
+        </p-tabPanel>
+
+        <p-tabPanel header="Visualizar Documentos">
+          <app-documentos-ecm-list [(idDocumentECM)]="ideEcm"></app-documentos-ecm-list>
+        </p-tabPanel>
+      </p-tabView>
+
+      <div class="ui-g-12" style="margin-top: 10px; margin-bottom: 10px">
+        <button pButton type="button" label="Siguiente" style="width: 150px; float: right"
+                (click)="openNext()" icon="ui-icon-arrow-forward" *ngIf="tabIndex < 4">
+        </button>
+        <button pButton label="Anterior" style="width: 150px; float: left"
+                (click)="openPrev()" icon="ui-icon-arrow-back" *ngIf="tabIndex > 0">
+        </button>
+      </div>
+
+      <p-dialog [(visible)]="barCodeVisible" [modal]="true"  [blockScroll]="true" [contentStyle]="{'overflow':'visible','max-height':'230px'}"
+                (onHide)="hideTicketRadicado()" [width]="560" [height]="265" [responsive]="false" styleClass="ticket-radicado">
+        <rs-ticket-radicado  #ticketRadicado idTicket="ticket-rad" id="ticket"></rs-ticket-radicado>
+
+        <p-footer>
+          <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button pButton type="button" class="ui-button-primary" [printelement]="'ticket'" printDirective
+                    [inlineStyles]="printStyle" label="Imprimir" [disabled]="!printButtonEnabled"></button>
+          </div>
+        </p-footer>
+
+      </p-dialog>
+
+      <p-dialog [(visible)]="previewVisible" [modal]="true"  [width]="1000" header="Documento para imprimir">
+        <div id="pdf-embeded" style="min-height: 400px" class="pdf-container-print">
+        </div>
+      </p-dialog>
+    </div>
+  </app-task-container>
+</div>
+<div id="ticket-image"></div>

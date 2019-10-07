@@ -1,0 +1,104 @@
+<form [formGroup]="form" name="formDefault">
+  <div class="ui-g ui-fluid">
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="serie">Nombre serie/subserie</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <input type="text" pInputText id="serie" formControlName="serie" disabled/>
+        </div>
+      </div>
+    </div>
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="identificador">Identificador unidad documental</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <input type="text" pInputText id="identificador" formControlName="identificador" disabled/>
+        </div>
+      </div>
+    </div>
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="unidad">Identificador unidad conservacion</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <input type="text" pInputText id="unidad" formControlName="unidad" disabled/>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="serie">Bodega</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+         <p-dropdown [autoWidth]="false" formControlName="bodega"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="identificador">Piso</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <p-dropdown [autoWidth]="false" formControlName="piso"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="unidad">Estante</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <p-dropdown [autoWidth]="false"></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="serie">Entrepa&ntilde;o</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <p-dropdown [autoWidth]="false" formControlName="piso"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="identificador">Caja</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <p-dropdown [autoWidth]="false" formControlName="caja"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-sm-12 ui-g-4 ui-lg-4">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <label for="unidad">Carpeta</label>
+        </div>
+        <div class="ui-g-12 md-inputfield">
+          <p-dropdown [autoWidth]="false" formControlName="carpeta"></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-sm-12 ui-g-6 ui-lg-6">
+      <div class="ui-g form-group">
+        <div class="ui-g-12 md-dropdownfield">
+          <button pButton label="Guardar" [disabled]="form.invalid" style="width:auto;margin-left:5px;margin-top:20px;float:right;" type="button" (click)="Guardar()" ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

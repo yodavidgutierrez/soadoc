@@ -1,0 +1,138 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <p-panel header="Unidades documentales gestionadas" [style]="{border: 'none'}">
+        <p-dataTable emptyMessage="No se encontraron resultados"
+                     [paginator]="true" [rows]="10" [responsive]="true" [value]="solicitudesProcesadas$|async">
+          <p-column  header="Nombre serie o subserie">
+            <ng-template pTemplate="body" let-row="rowData">
+              {{row.codigoSerie}}.{{ seriesObservable$ | async | seriename:row.codigoSerie }} <span class="before_slash">{{ row.codigoSubSerie ?row.codigoSubSerie+'-':''}}{{ allSubSeriesObservable$ | async | seriename:row.codigoSubSerie:'subserie'}}</span>
+            </ng-template>
+          </p-column>
+          <p-column field="id" header="Identificador unidad documental"></p-column>
+          <p-column field="nombreUnidadDocumental" header="Nombre de la unidad documental"></p-column>
+          <p-column field="descriptor1" header="Descriptor 1"></p-column>
+          <p-column field="descriptor2" header="Descriptor 2"></p-column>
+          <p-column field="observaciones" header="Observaciones"></p-column>
+          <p-column field="fechaHora" header="Fecha de Solicitud">
+            <ng-template let-row="rowData" pTemplate="body">
+              {{row.fechaHora |  date: 'dd/MM/yyyy'}} {{row.fechaHora | date:'mediumTime'}}
+            </ng-template>
+          </p-column>
+          <p-column header="Consultar unidad de conservación" [style]="{'width':'150px'}">
+            <ng-template let-solicitud="rowData"  pTemplate="body" >
+              <button pButton type="button" label="Ver" style="width: auto; margin-bottom: 10px" (click)="verDetalle(solicitud)" *ngIf="solicitud.unidadesConservacion"
+              ></button>
+            </ng-template>
+          </p-column>
+          <p-column header="Accion" field="accion"></p-column>
+        </p-dataTable>
+      </p-panel>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [visible]="visibleDetails "
+  modal="modal"
+  [responsive]="true"
+  [closable]="true"
+  [width]="1200"
+  (onHide)="closeDetails()"
+  header="Datos unidad documental"
+>
+  <ng-template [ngIf]="solicitudSeleccionada" >
+    <div class="ui-g ui-fluid">
+    <div class="ui-sm-12 ui-g-6 ui-lg-12">
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="idunidaddocumental">Identificador principal unidad documental</label>
+          </div>
+          <div class="ui-g-12">
+            <input type="text" pInputText   id="idunidaddocumental" [(ngModel)]="solicitudSeleccionada.id" disabled />
+          </div>
+        </div>
+      </div>
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="nombre">Nombre unidad documental</label>
+          </div>
+          <div class="ui-g-12">
+            <input type="text" pInputText   id="nombre" [(ngModel)]="solicitudSeleccionada.nombreUnidadDocumental" disabled />
+          </div>
+        </div>
+      </div>
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="descriptor1">Descriptor 1</label>
+          </div>
+          <div class="ui-g-12">
+            <input type="text" pInputText   id="descriptor1" [(ngModel)]="solicitudSeleccionada.descriptor1" disabled/>
+          </div>
+        </div>
+      </div>
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="descriptor2">Descriptor 2</label>
+          </div>
+          <div class="ui-g-12">
+            <input type="text" pInputText   id="descriptor2" [(ngModel)]="solicitudSeleccionada.descriptor2" disabled/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <p-panel header="Unidades de conservación asociadas" leftIcon="ui-icon-assignment">
+    <div class="ui-fluid">
+      <p-dataTable selectionMode="single"
+                   [paginator]="true"
+                   [rows]="10"
+                   [responsive]="true"
+                   [value]="solicitudSeleccionada.unidadesConservacion"
+                   emptyMessage="No se encontraron resultados "
+                   scrollWidth="100%"
+                   [scrollable]="true"
+                   styleClass="ui-datatable-scrollable-header ui-datatable-scrollable-body"
+      >
+        <p-column [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-index="rowIndex">
+            {{index + 1}}
+          </ng-template>
+        </p-column>
+        <p-column  header="Nombre serie/subserie" [style]="{'width':'200px'}">
+            <ng-template pTemplate="body">
+              {{ seriesObservable$ | async | seriename:solicitudSeleccionada.codigoSerie }} <span class="before_slash">{{ allSubSeriesObservable$ | async | seriename:solicitudSeleccionada.codigoSubSerie:'subserie'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column  header="Identificar unidad conservación" field="valCodigo" [sortable]="true" [style]="{'width':'150px'}">
+        </p-column>
+        <p-column field="nomUniDocConsrv" header="Nombre unidad conservación" [sortable]="true" [style]="{'width':'200px'}">
+        </p-column>
+        <p-column field="valDescriptor1" header="Descriptor 1" [sortable]="true" [style]="{'width':'200px'}">
+        </p-column>
+        <p-column field="valDescriptor2" header="Descriptor 2" [sortable]="true" [style]="{'width':'200px'}">
+        </p-column>
+        <p-column field="faseArchivo" header="Fase archivo" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" >
+            Archivo Gestión
+          </ng-template>
+        </p-column>
+        <p-column field="fecExtremaIniUdc" header="Fecha extrema inicial"  [sortable]="true" [style]="{'width':'150px'}">
+          <ng-template let-row="rowData" pTemplate="body">
+            {{row.fecExtremaIniUdc |  date: 'dd/MM/yyyy'}} {{row.fecExtremaIniUdc |  date: 'mediumTime'}}
+          </ng-template>
+        </p-column>
+        <p-column field="fecExtremaFinUdc" header="Fecha extrema final"  [sortable]="true" [style]="{'width':'150px'}">
+          <ng-template let-row="rowData" pTemplate="body">
+            {{row.fecExtremaFinUdc |  date: 'dd/MM/yyyy'}} {{row.fecExtremaFinUdc |  date: 'mediumTime'}}
+          </ng-template>
+        </p-column>
+        <p-column field="nroFoliosUnidDoc" header="No. Folios" [style]="{'width':'85px'}" [sortable]="true"></p-column>
+      </p-dataTable>
+    </div>
+  </p-panel>
+  </ng-template>
+</p-dialog>

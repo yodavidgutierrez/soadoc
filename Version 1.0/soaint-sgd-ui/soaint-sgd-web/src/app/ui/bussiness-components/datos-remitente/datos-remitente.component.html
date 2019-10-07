@@ -1,0 +1,220 @@
+<form [formGroup]="form" name="formDefault">
+  <div class="ui-fluid">
+    <div class="card card-w-title">
+      <h1>Datos Remitente</h1>
+
+      <div class="ui-g ui-fluid" [hidden]="!visibility.sedeAdministrativa">
+        <div class="ui-sm-12 ui-g-6 ui-lg-6">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <label for="sedeAdministrativa"><span class="text-danger">*</span>Sede</label>
+            </div>
+            <div class="ui-g-12 md-dropdownfield">
+              <p-dropdown [options]="sedeAdministrativaSuggestions$ | async | dropdownItem"
+                          id="sedeAdministrativa"
+                          formControlName="sedeAdministrativa"
+                          placeholder="Seleccione"
+                          [filter]="true"
+                          [autoWidth]="false"
+                          [dynamicDisable]="!visibility.sedeAdministrativa"
+                          (onBlur)="listenForBlurEvents('sedeAdministrativa')">
+              </p-dropdown>
+
+              <div class="ui-message ui-messages-error"
+                   *ngIf="validations.sedeAdministrativa">
+                {{ validations.sedeAdministrativa }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-sm-12 ui-g-6 ui-lg-6">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <label for="dependenciaGrupo"><span class="text-danger">*</span>Dependencia / Grupo</label>
+            </div>
+            <div class="ui-g-12 md-dropdownfield">
+
+              <p-dropdown [options]="dependenciasGrupoList | dropdownItem"
+                          id="dependenciaGrupo"
+                          formControlName="dependenciaGrupo"
+                          placeholder="Seleccione"
+                          [filter]="true"
+                          [autoWidth]="false"
+                          [dynamicDisable]="!visibility.dependenciaGrupo"
+                          (onBlur)="listenForBlurEvents('dependenciaGrupo')"
+              >
+              </p-dropdown>
+
+              <div class="ui-message ui-messages-error"
+                   *ngIf="validations.dependenciaGrupo">
+                {{ validations.dependenciaGrupo }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g ui-fluid" >
+
+        <!--Tipo Persona-->
+        <div class="ui-sm-12 ui-g-6 ui-lg-6">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <label for="tipoPersona"><span class="text-danger">*</span>Tipo de persona</label>
+            </div>
+            <div class="ui-g-12 md-dropdownfield">
+              <p-dropdown [options]="tipoPersonaSuggestions$ | async | dropdownItemSingle"
+                          id="tipoPersona"
+                          formControlName="tipoPersona"
+                          placeholder="Seleccione"
+                          [autoWidth]="false"
+                          (onBlur)="listenForBlurEvents('tipoPersona')"
+              >
+              </p-dropdown>
+
+              <div class="ui-message ui-messages-error"
+                   *ngIf="validations.tipoPersona">
+                {{ validations.tipoPersona }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Tipo Documento-->
+        <div class="ui-sm-12 ui-g-6 ui-lg-6" [hidden]="!visibility.tipoDocumento">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <label for="tipoDocumento">Tipo documento  Identificaci&oacute;n</label>
+            </div>
+            <div class="ui-g-12 md-dropdownfield">
+              <p-dropdown [options]="subscriptionTipoDocumentoPersona | dropdownItemSingle"
+                          id="tipoDocumento"
+                          formControlName="tipoDocumento"
+                          placeholder="Seleccione"
+                          [autoWidth]="false"
+                          [dynamicDisable]="!visibility.tipoDocumento"
+              >
+              </p-dropdown>
+
+              <div class="ui-message ui-messages-error"
+                   *ngIf="validations.tipoDocumento">
+                {{ validations.tipoDocumento }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Razon Social-->
+        <div class="ui-sm-12 ui-g-6 ui-lg-6" [hidden]="!visibility.razonSocial">
+          <div class="ui-g form-group" style="padding-top: 40px">
+            <div class="ui-g-12">
+              <span class="md-inputfield">
+              <input type="text" pInputText id="razonSocial" formControlName="razonSocial" [dynamicDisable]="!visibility.razonSocial"
+                     (blur)="listenForBlurEvents('razonSocial','blur')" (keyup)="listenForBlurEvents('razonSocial')">
+              <label for="razonSocial"><span class="text-danger">*</span>Razon social</label>
+
+                 <div class="ui-message ui-messages-error"
+                      *ngIf="validations.razonSocial">
+                 {{ validations.razonSocial }}
+              </div>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!--Nit-->
+        <div class="ui-sm-12 ui-g-6 ui-lg-6" [hidden]="!visibility.nit">
+          <div class="ui-g form-group" style="padding-top: 40px">
+            <div class="ui-g-12">
+              <span class="md-inputfield">
+              <input type="text" pInputText id="nit" formControlName="nit" [dynamicDisable]="!visibility.nit" (blur)="listenForBlurEvents('nit','blur')" (keyup)="listenForBlurEvents('nit')">
+              <label for="nit">N&deg;. Identificacion Tributario</label>
+
+                 <div class="ui-message ui-messages-error"
+                      *ngIf="validations.nit">
+                {{ validations.nit }}
+              </div>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!--Actua en Calidad-->
+        <div class="ui-sm-12 ui-g-6 ui-lg-6" [hidden]="!visibility.actuaCalidad">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <label for="actuaCalidad">Actua en calidad</label>
+            </div>
+            <div class="ui-g-12 md-dropdownfield">
+              <p-dropdown [options]="actuaCalidadSuggestions$ | async | dropdownItemSingle"
+                          id="actuaCalidad"
+                          formControlName="actuaCalidad"
+                          placeholder="Seleccione"
+                          [filter]="true"
+                          [autoWidth]="false"
+                          [dynamicDisable]="!visibility.actuaCalidad"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <!--Nombre y Apellidos-->
+        <div class="ui-sm-12 ui-g-6 ui-lg-6" [hidden]="!visibility.nombreApellidos">
+          <div class="ui-g form-group" style="padding-top: 40px">
+            <div class="ui-g-12">
+              <span class="md-inputfield">
+              <input type="text" pInputText id="nombreApellidos" formControlName="nombreApellidos"
+                     [dynamicDisable]="!visibility.nombreApellidos"
+                     [clearValidators]="visibility.personaJuridica"
+                     (blur)="listenForBlurEvents('nombreApellidos','blur')"  (keyup)="listenForBlurEvents('nombreApellidos')"
+              >
+                <label for="nombreApellidos"><span class="text-danger" [hidden]="visibility.personaJuridica">*</span>Nombre y Apellidos</label>
+
+                <div class="ui-message ui-messages-error"
+                     *ngIf="validations.nombreApellidos">
+                {{ validations.nombreApellidos }}
+              </div>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!--Nro Documento Identidad-->
+        <div class="ui-sm-12 ui-g-6 ui-lg-6" [hidden]="!visibility.nroDocumentoIdentidad">
+          <div class="ui-g form-group" style="padding-top: 40px">
+            <div class="ui-g-12">
+              <span class="md-inputfield">
+              <input type="text" pInputText id="nroDocumentoIdentidad" formControlName="nroDocumentoIdentidad" [dynamicDisable]="!visibility.nroDocumentoIdentidad" (keyup)="listenForBlurEvents('nroDocumentoIdentidad')" (blur)="listenForBlurEvents('nroDocumentoIdentidad','blur')" >
+              <label for="nroDocumentoIdentidad">N&deg;. documento identificaci&oacute;n</label>
+
+                 <div class="ui-message ui-messages-error"
+                      *ngIf="validations.nroDocumentoIdentidad">
+                    {{ validations.nroDocumentoIdentidad }}
+                 </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-fluid ui-g">
+        <div class="ui-g ui-g-12" style="position: relative; height: 40px;" >
+          <button  pButton type="button" class="ui-button-primary" style="width: 150px; position: absolute; left: calc(100% - 180px); margin: 20px 30px" label="Buscar Contactos" (click)="buscarContactos()"  *ngIf="buttonSearchContacts()" [disabled]="!buttonSearchContactsEnable()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<div >
+  <app-datos-direccion #datosContactos [editable]="editable" [contactsDefault]="contacts"></app-datos-direccion>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+co\com\foundation\soaint\documentmanager\integration\domain\EstructuraEcmDTO.class
+co\com\foundation\soaint\documentmanager\integration\soap\SeriesEndpoint.class
+co\com\foundation\soaint\documentmanager\integration\utilities\Utilities$1.class
+co\com\foundation\soaint\documentmanager\integration\domain\ContenidoTrdDTO.class
+co\com\foundation\soaint\documentmanager\integration\transformer\EstructuraEcmTransformer.class
+co\com\foundation\soaint\documentmanager\integration\domain\DisposicionesFinalesDTO.class
+co\com\foundation\soaint\documentmanager\integration\soap\RelacionEquivalenciaEndPoint.class
+co\com\foundation\soaint\documentmanager\integration\domain\OrganigramaDTO.class
+co\com\foundation\soaint\documentmanager\integration\domain\OrganigramaItemDTO.class
+co\com\foundation\soaint\documentmanager\integration\domain\SerieDTO.class
+co\com\foundation\soaint\documentmanager\integration\soap\OrganigramaEndpoint.class
+co\com\foundation\soaint\documentmanager\integration\utilities\Utilities.class
+co\com\foundation\soaint\documentmanager\integration\transformer\DisposicionFinalTransformer.class
+co\com\foundation\soaint\documentmanager\integration\transformer\OrganigramaItemTransformer.class

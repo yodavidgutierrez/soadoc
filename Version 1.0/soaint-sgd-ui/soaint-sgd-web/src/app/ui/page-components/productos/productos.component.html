@@ -1,0 +1,18 @@
+<p>
+  productos works!
+</p>
+<div class="card card-w-title">
+  <h1>DataTable</h1>
+  <p-dataTable [value]="model.productos" selectionMode="single" [(selection)]="model.selectedProducto"
+               [paginator]="true" [rows]="10" [responsive]="true" emptyMessage="No se encontraron resultados">
+    <p-header>Lista De Productos</p-header>
+    <p-column field="id" header="ID" [sortable]="true"></p-column>
+    <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+    <p-column field="costo" header="Precio" [sortable]="true"></p-column>
+    <p-column header="Acciones" [style]="{'width':'120px','text-align':'center'}">
+      <ng-template let-car pTemplate="item">
+        <button type="button" icon="ui-icon-close" pButton class="ui-button ui-button-icon"></button>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</div>

@@ -1,0 +1,17 @@
+.pdf-container{
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 1400px) {
+  .height-popup {
+    max-height: 456px;
+    overflow-y: scroll;
+  }
+}
+
+@media screen and (min-width: 1401px)  {
+  .height-popup {
+    max-height: 766px;
+    overflow-y: scroll;
+  }
+}

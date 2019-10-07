@@ -1,0 +1,46 @@
+<div class="ui-g" style="margin-bottom: 20px;">
+  <div class="ui-g-12">
+    <h2 class="text-left page-title">Administrar tareas por usuario</h2>
+  </div>
+</div>
+
+<p-panel header="Seleccionar usuario">
+  <div class="ui-g ui-fluid" style="padding: 10px">
+    <div class="ui-g-5 ui-lg-5">
+      <p-dropdown [options]="(funcionariosOrigen| dropdownItemFullName )" [(ngModel)]="funcionarioOrigen" [autoWidth]="false"
+                  placeholder="Seleccionar funcionario de origen" (onChange)="changeFuncionarioOrigen()"
+      ></p-dropdown>
+    </div>
+    <div class="ui-g-5 ui-lg-5">
+      <p-dropdown [options]="(funcionariosDestino|dropdownItemFullName )" [(ngModel)]="funcionarioDestino" [autoWidth]="false"
+                  placeholder="Seleccionar funcionario destino" (onChange)="changeFuncionarioDestino()"
+      ></p-dropdown>
+    </div>
+  </div>
+</p-panel>
+
+<div class="card card-w-title" style="margin-top: 20px" *ngIf="tasks.length > 0">
+  <p-toolbar>
+    <div class="left">
+      <h1 class="ui-g-6 ui-lg-6" style="margin: 0">Listado de tareas</h1>
+    </div>
+    <div class="ui-toolbar-group-right">
+      <button pButton type="button" label="Reasignar Tareas" icon="fa-caret-right" class="ui-button-success" [disabled]="!funcionarioDestino" (click)="reassignTasks()" ></button>
+    </div>
+  </p-toolbar>
+
+  <p-dataTable [value]="tasks" selectionMode="multiple" [(selection)]="selectedTasks" [lazy]="true"
+               [paginator]="true" [rows]="pageSize" [responsive]="true" [totalRecords]="(totalRecords$ | async)"
+               (onLazyLoad)="loadTaskPage($event)"
+               emptyMessage="No se encontraron resultados" (onHeaderCheckboxToggle)="selectAllTasks()"
+
+  >
+    <p-column selectionMode="multiple"></p-column>
+    <p-column field="idTarea" header="ID" [sortable]="true"></p-column>
+    <p-column field="idInstanciaProceso" header="Instancia" [sortable]="true"></p-column>
+    <p-column field="descripcion" header="Tarea" [sortable]="true"></p-column>
+    <p-column field="estado" header="Estado" [sortable]="true"></p-column>
+  </p-dataTable>
+</div>
+
+

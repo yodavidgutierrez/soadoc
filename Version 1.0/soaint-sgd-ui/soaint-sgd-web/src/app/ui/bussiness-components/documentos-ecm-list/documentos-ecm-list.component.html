@@ -1,0 +1,94 @@
+<div class="ui-fluid radicar-comunicaciones">
+  <div customActions></div>
+  <div taskBody>
+    <p-panel header="Documentos Asociados" [style]="{border: 'none'}">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <p-progressBar mode="indeterminate" *ngIf="loading"></p-progressBar>
+          <p-dataTable selectionMode="single" *ngIf="!loading"
+                       [paginator]="true" [rows]="10"
+                       [responsive]="true"
+                       [value]="documentsList"
+                       inmutable="true"
+                       emptyMessage="No tiene documentos asociados">
+            <!--<p-header>Redirecciones / Devoluciones Fallidas</p-header>-->
+            <p-column  header="Principal" [sortable]="true" *ngIf="!versionar">
+              <ng-template let-row="rowData" pTemplate="item">
+                <div style="text-align: center">
+                <i class="material-icons checked" *ngIf="row.tipoPadreAdjunto==='Principal'"  >checked</i>
+                <i class="material-icons red" *ngIf="row.tipoPadreAdjunto!='Principal'" >close</i>
+                </div>
+              </ng-template>
+            </p-column>
+            <p-column field="nombreDocumento" header="Nombre" [sortable]="true"></p-column>
+            <p-column field="tamano" header="Tamaño" [sortable]="true">
+              <ng-template let-col let-row="rowData" pTemplate="body">
+                {{(row.tamano/1024)|number:'1.0-0'}}KB
+              </ng-template>
+            </p-column>
+            <p-column field="tipoDocumento" header="Tipo" [sortable]="true"></p-column>
+            <p-column field="fechaCreacion" header="Fecha de ultima modificación" [sortable]="true">
+              <ng-template let-col let-row="rowData" pTemplate="body">
+                {{row.fechaCreacion|date:'dd/MM/yyyy'}}
+              </ng-template>
+            </p-column>
+            <p-column  header="Ver Documento">
+              <ng-template pTemplate="item" let-row="rowData"  >
+                <button type="button" pButton label="Ver Documento" (click)="showDocument(row)" [disabled]="viewerManager != null"></button>
+              </ng-template>
+            </p-column>
+            <p-column header="Acciones" [style]="{'width':'265px','text-align':'center'}" *ngIf="versionar" >
+              <ng-template let-row="rowData"  pTemplate="item">
+                <p-fileUpload *ngIf="row.tipoPadreAdjunto==='Principal'" #uploader
+                              (onSelect)="selectFile(uploader)"
+                              (onRemove)="clearFileList(uploader)"
+                              (onUpload)="onUpload($event)"
+                              customUpload="true"
+                              (uploadHandler)="uploadHandler($event, uploader)"
+                              [styleClass]="selectedFile"
+                              [showUploadButton]="false"
+                              [showCancelButton]="false"
+                              chooseLabel="Buscar"
+                              uploadLabel="Versionar"
+                              cancelLabel="Cancelar"
+                              accept="application/pdf"
+                ></p-fileUpload>
+              </ng-template>
+            </p-column>
+          </p-dataTable>
+        </div>
+        </div>
+
+      </p-panel>
+
+    <p-dialog  [(visible)]="viewDocument" [modal]="false"  [width]="1000" [showHeader]="false" [responsive]="true" positionTop="20"  >
+
+      <div class="ui-g-12 padding-top" *ngIf="viewerManager != null">
+        <p-panel>
+          <p-header>
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-6">
+                Documento
+              </div>
+              <div class="ui-g-6 text-right">
+                <button type="button" label="Cerrar" pButton (click)="hideDocument()" style="width: auto" class="ui-button-danger"></button>
+              </div>
+            </div>
+          </p-header>
+          <ng-template [ngIf]=" $viewer.PDF == viewerManager" [ngIfElse]="htmlContent">
+            <p-blockUI [(blocked)]="isLoading"></p-blockUI>
+            <div class="pdf-container">
+              <div id="pdf-embeded" style="min-height: 400px" class="pdf-container-print"></div>
+            </div>
+          </ng-template>
+
+          <ng-template #htmlContent>
+            <div id="content-html" style="padding: 10px" appHtmlContent [content]="contentHtml"></div>
+          </ng-template>
+        </p-panel>
+      </div>
+
+    </p-dialog>
+
+  </div>
+</div>

@@ -1,0 +1,9 @@
+co\com\sic\business\tabretdoc\TabRecDocBoundary.class
+co\com\sic\business\serie\SerieControl.class
+co\com\sic\business\tabretdoc\TabRetDocControl.class
+co\com\sic\web\apis\rest\OrganigramaWebApi.class
+co\com\sic\business\serie\SerieBoundary.class
+co\com\sic\business\organigrama\OrganigramaControl.class
+co\com\sic\web\apis\rest\SerieWebApi.class
+co\com\sic\web\apis\rest\TabRetDocWebApi.class
+co\com\sic\business\organigrama\OrganigramaBoundary.class

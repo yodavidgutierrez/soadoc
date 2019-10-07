@@ -1,0 +1,33 @@
+<div class="ui-fluid">
+  <div class="comunicacion-detalles">
+    <p-tabView [activeIndex]="tabIndex" [lazy]="true" (onChange)="onTabChange()">
+      <p-tabPanel header="Datos generales" leftIcon="ui-icon-assignment">
+        <app-detalles-datos-generales [comunicacion]="comunicacion"
+                                      [constantesList]="constantes"></app-detalles-datos-generales>
+      </p-tabPanel>
+
+      <p-tabPanel header="Remitente / Destinatario" leftIcon="ui-icon-assignment">
+        <div style="max-height: 500px; overflow: auto;">
+
+        <app-detalles-datos-remitente [comunicacion]="comunicacion"
+                                      [remitente]="remitente$ | async"
+                                      [contactos]="contactos$ | async"
+                                      [constantesList]="constantes" [paises]="paises"
+                                      [municipiosList]="municipios"></app-detalles-datos-remitente>
+        <app-detalles-datos-destinatario [destinatarios]="destinatarios$ "
+                                         [constantesList]="constantes"></app-detalles-datos-destinatario>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Vista previa del documento" leftIcon="ui-icon-assignment" no-padding *ngIf="ideEcm">
+        <div style="overflow-y: scroll;max-height: 700px" *ngIf="docSrc">
+          <app-documentos-ecm-list [idDocumentECM]="ideEcm" [versionar]="false"></app-documentos-ecm-list>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>
+<!--
+
+          [src]="'http://192.168.1.81:28080/ecm-integration-services/apis/ecm/descargarDocumentoECM/?identificadorDoc=d126e9fa-bd82-4689-9b96-3f3ca4dcf109'"
+-->

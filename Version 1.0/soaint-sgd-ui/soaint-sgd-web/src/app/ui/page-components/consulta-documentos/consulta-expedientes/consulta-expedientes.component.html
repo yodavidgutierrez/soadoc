@@ -1,0 +1,268 @@
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-panel header="Búsqueda de expedientes" [style]="{ border: 'none'}" >
+          <form [formGroup]="formExpediente">
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-12">
+                 <div class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="depP">Dependencia productora</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="dependencias$| async | dropdownItemSingle"
+                                  id="depP"
+                                  formControlName="depP"
+                                  placeholder="Seleccione"
+                                  [autoWidth]="false"
+                                  (onBlur)="OnBlurEvents('depP')">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="sCode">Serie</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="state.ListadoSeries "
+                                  id="sCode"
+                                  formControlName="sCode"
+                                  placeholder="Seleccione"
+                                  optionLabel="nombreSerie"
+                                  [autoWidth]="false"
+                                  (onBlur)="OnBlurEvents('sCode')"
+                                  (onChange)="selectSerie($event)"
+                                  (update)="selectSerie($event)">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="ssCode">Subserie</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <p-dropdown [options]="(subseriesObservable$ |async | dropdownItemSubserie)"
+                                  id="ssCode"
+                                  formControlName="ssCode"
+                                  placeholder="Seleccione"
+                                  [autoWidth]="false"
+                                  (onBlur)="OnBlurEvents('ssCode')">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="udId">Identificador documental</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="udId"
+                             formControlName="udId"
+                             (onBlur)="OnBlurEvents('udId')">
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="udName">Nombre unidad documental</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="udName"
+                             formControlName="udName"
+                             (onBlur)="OnBlurEvents('udName')">
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="desc1">Descriptor 1</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="desc1" formControlName="desc1" (onBlur)="OnBlurEvents('desc1')">
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-sm-6 ui-g-3 ui-lg-3 ui-md-3">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <label for="desc2">Descriptor 2</label>
+                    </div>
+                    <div class="ui-g-12">
+                      <input type="text" pInputText id="desc2" formControlName="desc2" (onBlur)="OnBlurEvents('desc2')">
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12" [style.padding-top]="'40px'">
+                  <button pButton type="button" label="Buscar" (click)="listasExpediente()" [disabled]="formExpediente.invalid" style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"></button>
+                  <button pButton type="button" label="Limpiar" (click)="cleanFormExpediente()" style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"></button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </p-panel>
+        <p-panel header="Resultados búsqueda" [style]="{border: 'none'}" *ngIf="listadoExpedientes$">
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+              <p-dataTable emptyMessage="No se encontraron resultados"
+                           [paginator]="true" [rows]="5" [responsive]="true" [(first)]="first"
+                           [value]="listadoExpedientes$ | async"
+                           [(selection)]="state.unidadesSeleccionadas" [expandableRows]="true" (onRowSelect)="selectDocumento($event)">
+                <p-column selectionMode="single" styleClass="col-icon" [style]="{'width':'50px'}" ></p-column>
+
+                <p-column field="serieSubseries" header="Serie/Subserie" [sortable]="true">
+                  <ng-template pTemplate="body" let-row="rowData">
+                    {{descriptionSerieSubserie(row)}}
+                  </ng-template>
+                </p-column>
+                <p-column field="unidadDocumental" header="Identificador unidad documental"
+                          [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.id}}
+                  </ng-template>
+                </p-column>
+                <p-column field="NombreUnidadDocumental" header="Nombre unidad ducumental"
+                          [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.nombreUnidadDocumental}}
+                  </ng-template>
+                </p-column>
+                <p-column field="Descriptor1" header="Descriptor 1" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.descriptor1}}
+                  </ng-template >
+                </p-column>
+                <p-column field="Descriptor2" header="Descriptor 2" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.descriptor2}}
+                  </ng-template>
+                </p-column>
+                <p-column field="tipoExpediente" header="Tipo expediente" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                     {{row.soporte}}
+                  </ng-template>
+                </p-column>
+                <p-column field="ubicacionFisica" header="Ubicacion fisica" [sortable]="true"
+                          [style]="{'width':'110px'}">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.ubicacionTopografica}}
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+            </div>
+          </div>
+        </p-panel>
+        <p-panel header="Detalles" [style]="{border: 'none'}" *ngIf="listadoExpedientes$">
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+              <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="single"
+                           [paginator]="true" [rows]="5" [responsive]="true" [(selection)]="documentSelected"  [value]="documentSelected$ | async"
+                           [expandableRows]="true">
+                <p-column field="tipoDocumento" header="Tipo Documental" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.tipologiaDocumental}}
+                  </ng-template>
+                </p-column>
+                <p-column field="nombreDocumento" header="Nombre del documento" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.nombreDocumento}}
+                  </ng-template>
+                </p-column>
+                <p-column field="nRadicado" header="Nº radicado" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.nroRadicado | niceNoRadicado}}
+                  </ng-template>
+                </p-column>
+                <p-column field="remitente" header="Remitente" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row.nombreRemitente}}
+                  </ng-template>
+                </p-column>
+                <p-column field="destinatario" header="Destinatario" [sortable]="true">
+                  <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+                    {{row?.destinatario}}
+                  </ng-template>
+                </p-column>
+                <p-column field="versiones" header="Versiones" [sortable]="true">
+                  <ng-template let-row="rowData"  pTemplate="body">
+                    <button pButton type="button" label="Ver" (click)="versionesDocumentosDialog(row)" [disabled]="!documentSelected$ | async" style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"></button>
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+            </div>
+          </div>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+  <p-dialog [visible]="versionesDialogVisible" modal="modal"
+            [responsive]="true" [positionTop]="'30%'" [width]="600"
+            (onHide)="hideVersionesDialog()">
+    <p-header>
+      Historial de versiones
+    </p-header>
+        <p-dataTable emptyMessage="No se encontraron resultados"
+                   [paginator]="true" [rows]="5" [responsive]="true" [value]="versiones$ | async"
+                   [expandableRows]="true"  >
+        <p-column selectionMode="single" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+        <p-column field="versiones" header="Versión" [sortable]="true">
+          <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+            {{row.versionLabel}}
+          </ng-template>
+        </p-column>
+        <p-column field="fecha" header="Fecha" [sortable]="true">
+          <ng-template let-row="rowData" let-row="rowIndex" pTemplate="body">
+            {{row.fechaCreacion| date:'dd/MM/yy'}} - {{row.fechaCreacion | date:'mediumTime'}}
+          </ng-template>
+        </p-column>
+        <p-column field="documento" header="Documento" [sortable]="true">
+            <ng-template pTemplate="item" let-row="rowData" pTemplate="body">
+              <button type="button" pButton label="Ver Documento" (click)="showDocument(row)" [disabled]="viewerManager != null"></button>
+            </ng-template>
+        </p-column>
+      </p-dataTable>
+
+    <p-dialog [visible]="showPDF" (onHide)="hideDocument()"
+              [responsive]="true" [positionTop]="'20'" [width]="1000">
+      <div class="ui-g-12 padding-top" *ngIf="viewerManager != null" style="max-height: 400px;overflow-y: auto">
+        <p-panel>
+          <p-header>
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-6">
+                Documento
+              </div>
+              <div class="ui-g-6 text-right">
+                <button type="button" label="Cerrar" pButton (click)="hideDocument()" style="width: auto" class="ui-button-danger"></button>
+              </div>
+            </div>
+          </p-header>
+          <ng-template [ngIf]=" $viewer.PDF == viewerManager" [ngIfElse]="htmlContent">
+            <p-blockUI [(blocked)]="isLoading"></p-blockUI>
+            <div class="pdf-container">
+              <div id="pdf-embeded" style="min-height: 400px" class="pdf-container-print"></div>
+            </div>
+          </ng-template>
+
+          <ng-template #htmlContent>
+            <div id="content-html" style="padding: 10px" appHtmlContent [content]="contentHtml"></div>
+          </ng-template>
+        </p-panel>
+      </div>
+
+    </p-dialog>
+
+  </p-dialog>
+
+
+
+
+
+

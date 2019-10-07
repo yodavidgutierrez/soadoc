@@ -1,0 +1,55 @@
+<div class="ui-flui d radicar-comunicaciones">
+  <app-task-container>
+    <div customActions>
+      <div *ngIf="!(closedTask | async)">
+        <button pButton type="button" label="Cancelar" style="width: auto; margin-bottom: 10px" *ngIf="!radicacion"
+        (click)="abort()"></button>
+
+        <button  pButton type="button" label="Guardar" style="width: auto; margin-bottom: 10px" *ngIf="!radicacion"
+                (click)="save()"></button>
+
+        <button pButton type="button" label="Actualizar" style="width: auto; margin-bottom: 10px"
+        [disabled]="!enableActualizar()" (click)="actualizarComunicacion()"></button>
+      </div>
+    </div>
+    <div taskBody>
+
+      <p-tabView [activeIndex]="tabIndex" (onChange)="updateTabIndex($event)">
+        <p-tabPanel header="Datos generales" leftIcon="ui-icon-assignment">
+          <app-datos-generales [tipoRadicacion]="tipoRadicacion"  #datosGenerales  [(editable)]="editable" [fieldsDisabled]="fieldDatosGeneralesDisabled">
+          </app-datos-generales>
+        </p-tabPanel>
+
+         <p-tabPanel header="Datos remitente" leftIcon="ui-icon-assignment"  >
+          <app-datos-remitente #datosRemitente [editable]="editable" tipoComunicacion="EE" ></app-datos-remitente>
+        </p-tabPanel>
+
+        <p-tabPanel header="Datos destinatario" leftIcon="ui-icon-assignment" >
+          <app-datos-destinatario #datosDestinatario [editable]="editable" [tipoDestinatarioDefaultInput]="tipoDestinatarioDefaultSelection$ | async" [tipoDestinatarioInput]="tipoDestinatarioSuggestions$ | async" [sedeAdministrativaInput]="sedeDestinatarioSuggestions$ | async">
+          </app-datos-destinatario>
+        </p-tabPanel>
+        <p-tabPanel header="Adjuntar documentos" leftIcon="ui-icon-assignment" *ngIf="HasDocuments()">
+          <div style="overflow-y: scroll;max-height: 700px" >
+            <app-documentos-ecm-list [idDocumentECM]="comunicacion.ppdDocumentoList[0].ideEcm" [versionar]="true"></app-documentos-ecm-list>
+          </div>
+        </p-tabPanel>
+
+      </p-tabView>
+      <div class="ui-g-12" style="margin-top: 10px; margin-bottom: 10px">
+        <button pButton type="button" label="Siguiente" style="width: 150px; float: right"
+                (click)="openNext()" icon="ui-icon-arrow-forward" *ngIf="tabIndex < 3"
+                >
+        </button>
+        <button pButton label="Anterior" style="width: 150px; float: left"
+                (click)="openPrev()" icon="ui-icon-arrow-back" *ngIf="tabIndex > 0">
+        </button>
+      </div>
+    </div>
+  </app-task-container>
+</div>
+
+
+
+
+
+

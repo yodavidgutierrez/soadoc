@@ -1,0 +1,68 @@
+<div class="ui-fluid radicar-comunicaciones">
+  <app-task-container>
+    <div customActions>
+
+    </div>
+
+    <div taskBody>
+
+      <p-fileUpload id="doc-digitalize" #uploader
+                    mode="advanced"
+                    chooseLabel="Buscar"
+                    uploadLabel="Guardar"
+                    cancelLabel="Cancelar"
+                    multiple="true"
+                    accept="application/pdf"
+                    maxFileSize="10485760"
+                    customUpload="true"
+                    invalidFileSizeMessageSummary="El documento que desea adjuntar supera el tamaño permitido"
+                    invalidFileSizeMessageDetail=""
+                    [disabled]="uploadDisabled"
+                    [showUploadButton]="!uploadDisabled"
+                    [showCancelButton]="!uploadDisabled"
+                    (uploadHandler)="customUploader($event)"
+                    (onUpload)="onUpload($event)"
+                    (onClear)="onClear($event)"
+                    (onSelect)="onSelect($event)"
+                    [styleClass]="uploadDisabled?'uploaderDisabled':''"
+      >
+
+
+        <ng-template pTemplate="content" #parent>
+          <p-panel  *ngIf="status >= 1 && previewWasRefreshed">
+            <p-header>
+              <button pButton style="float:right;width:100px;" (click)="hideDocument()" label="Ocultar" class="ui-button-success"> </button>
+            </p-header>
+
+          <div style="min-height: 600px;overflow-y: auto">
+          <app-pdf-viewer #viewer [pdfSrc]="url"
+                     [containerStyle]="{'min-height':'400px'}"
+          ></app-pdf-viewer>
+          </div>
+          </p-panel>
+        </ng-template>
+
+
+        <ng-template let-file pTemplate="file" class="ui-fluid">
+          <div class="ui-g ui-fileupload-row">
+            <div class="ui-lg-3 ui-sm-3 ui-xl-3">{{ file.name }}</div>
+            <div class="ui-lg-2 ui-sm-2 ui-xl-2">{{ file.size }} KB</div>
+            <div class="ui-lg-2 ui-sm-2 ui-xl-2">{{ file.type | fileType }}</div>
+            <div class="ui-lg-2 ui-sm-2 ui-xl-2">{{ file.lastModifiedDate | date:'dd/MM/yyyy' }}</div>
+            <div class="ui-lg-2 ui-sm-2 ui-xl-2"  *ngIf="!ideEcm">
+              <p-radioButton name="principal" [value]="file.name" label="Principal"
+                             [(ngModel)]="principalFile" *ngIf="isPdf(file)">
+              </p-radioButton>
+            </div>
+            <div class="ui-lg-1 ui-sm-1 ui-xl-1" >
+              <button alt="Visualizar Contenido" icon="ui-icon-remove-red-eye" pButton type="button"
+                      class="ui-button ui-button-icon-only orange-btn" (click)="preview(file)"></button>
+            </div>
+          </div>
+        </ng-template>
+      </p-fileUpload>
+
+    </div>
+  </app-task-container>
+</div>
+

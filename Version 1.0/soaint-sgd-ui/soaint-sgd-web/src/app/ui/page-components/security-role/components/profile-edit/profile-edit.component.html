@@ -1,0 +1,137 @@
+
+<div *ngIf="funcionario !== null">
+<div class="page-title">
+  <h2>Editar Perfil de usuario</h2>
+</div>
+
+<div class="ui-g ui-fluid">
+  <div class="ui-g ui-g-12">
+    <p-panel header="Editar Perfil">
+      <form [formGroup]="form" >
+        <div class="ui-g ui-fluid">
+          <div class="ui-g ui-g-3 ui-sm-6">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-nombre">Nombre</label>
+              </div>
+              <div class="ui-g-12">
+                <input pInputText id="profile-nombre" formControlName="nombre" (blur)="listenForBlurEvents('nombre')" >
+                <div class="ui-message ui-messages-error" *ngIf="validations.nombre">
+                    {{validations.nombre}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-g-3 ui-sm-6">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-apellido1">Primer Apellido</label>
+              </div>
+              <div class="ui-g-12">
+                <input pInputText id="profile-apellido1"  formControlName="valApellido1" (blur)="listenForBlurEvents('valApellido1')">
+                <div class="ui-message ui-messages-error" *ngIf="validations.valApellido1">
+                     {{ validations.valApellido1 }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-g-3 ui-sm-6">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-apellido2">Segundo Apellido</label>
+              </div>
+              <div class="ui-g-12">
+                <input pInputText id="profile-apellido2"  formControlName="valApellido2" (blur)="listenForBlurEvents('valApellido2')">
+                <div class="ui-message ui-messages-error" *ngIf="validations.valApellido2">
+                  {{ validations.valApellido2}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-g-3 ui-sm-6">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-email">Correo Electr&oacute;nico</label>
+              </div>
+              <div class="ui-g-12">
+                <input pInputText id="profile-email" formControlName="corrElectronico" (blur)="listenForBlurEvents('corrElectronico')">
+                <div class="ui-message ui-messages-error" *ngIf="validations.corrElectronico">
+                  {{ validations.corrElectronico }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g ui-g-4">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-codTipoId">Tipo de Identificaci&oacute;n</label>
+              </div>
+              <div class="ui-g-12">
+                <p-dropdown [options]="tipoDocumentoId$ | async | dropdownItemSingle"
+                            [autoWidth]="false" placeholder="Seleccione" id="profile-codTipoId"
+                            formControlName="codTipDocIdent"  (blur)="listenForBlurEvents('codTipDocIdent')"></p-dropdown>
+                <div class="ui-message ui-messages-error" *ngIf="validations.codTipDocIdent">
+                  {{ validations.codTipDocIdent }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-g-4">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-identificacion"># Identificación</label>
+              </div>
+              <div class="ui-g-12">
+                <input pInputText id="profile-identificacion" formControlName="nroIdentificacion"  (blur)="listenForBlurEvents('nroIdentificacion')">
+                <div class="ui-message ui-messages-error" *ngIf="validations.nroIdentificacion">
+                  {{ validations.nroIdentificacion }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-g-4">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-cargo">Cargo</label>
+              </div>
+              <div class="ui-g-12">
+                <input pInputText id="profile-cargo" formControlName="cargo"  (blur)="listenForBlurEvents('cargo')">
+               </div>
+            </div>
+          </div>
+          <div class="ui-g ui-g-4">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-firma">Firma</label>
+              </div>
+              <div class="ui-g-12">
+                <input pInputText id="profile-firma" formControlName="firmaPolitica"  (blur)="listenForBlurEvents('firmaPolitica')">
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-g-4">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label for="profile-firma">Es Jefe ?</label>
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox [binary]="true" formControlName="esJefe"></p-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </p-panel>
+
+
+      <div class="ui-g ui-fluid ui-dialog-footer ui-widget" style="width: calc(100% + 30px); margin: 15px -15px -10px -15px;">
+        <div class="ui-g ui-g-12">
+          <button pButton label="Guardar" [disabled]="form.invalid"  class="ui-button-primary" type="button" (click)="save()"
+                  style="width: 120px; margin-right: 15px; margin-bottom: 10px;position: relative; left:calc(100% - 120px)"></button>
+        </div>
+      </div>
+    </div>
+</div>
+</div>

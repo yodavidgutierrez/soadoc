@@ -1,0 +1,283 @@
+<div class="ui-fluid">
+  <app-task-container>
+    <div customActions>
+      <button pButton type="button" label="Aprobar" style="width: auto; margin-bottom: 10px"
+      (click)="State.ActualizarEstadoUD( status === 1 ? 'Aprobado' : ( status === 2 ?'Confirmada' : 'Ubicada'))"></button>
+
+      <button *ngIf="status!== 3" pButton type="button" label="Rechazar" style="width: auto; margin-bottom: 10px"
+      (click)="State.ActualizarEstadoUD('Rechazado')"></button>
+
+      <button pButton type="button" label="Guardar" style="width: auto; margin-bottom: 10px"
+              (click)="guardarEstadoTarea()"></button>
+
+     <button pButton type="button" label="Finalizar" style="width: auto; margin-bottom: 10px"
+              (click)="Finalizar()" [disabled]="formTransferencia.invalid"></button>
+    </div>
+
+    <div taskBody>
+      <p-panel header="Datos transferencia" leftIcon="ui-icon-assignment">
+        <div class="ui-g ui-fluid">
+
+        </div>
+        <form
+         [formGroup]="formTransferencia"
+         novalidate
+         (ngSubmit)="Listar()"
+         >
+          <div class="ui-g ui-fluid">
+            <div class="ui-sm-12 ui-g-2 ui-lg-2">
+              <div class="ui-g form-group">
+                  <div class="ui-g-12">
+                      <label for="fondo">Fondo</label>
+                  </div>
+                  <div class="ui-g-12">
+                      <input type="text" pInputText   id="fondo" formControlName="fondo" readonly="readonly"/>
+                  </div>
+              </div>
+          </div>
+          <div class="ui-sm-12 ui-g-2 ui-lg-2">
+            <div class="ui-g form-group">
+                <div class="ui-g-12">
+                    <label for="seccion">Dependencia Jerárquica</label>
+                </div>
+                <div class="ui-g-12">
+                    <input type="text" pInputText  pTooltip={{tooltipJerarquica}} id="seccion" formControlName="seccion" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+            <div class="ui-sm-12 ui-g-2 ui-lg-2">
+              <div class="ui-g form-group">
+                  <div class="ui-g-12">
+                      <label for="tipoTransferencia">Tipo transferencia (Objeto)</label>
+                  </div>
+                  <div class="ui-g-12">
+                      <input type="text" pInputText   id="tipoTransferencia" formControlName="tipoTransferencia" readonly="readonly" />
+                  </div>
+              </div>
+          </div>
+          <div class="ui-sm-12 ui-g-3 ui-lg-3">
+            <div class="ui-g form-group">
+                <div class="ui-g-12">
+                    <label for="funcionarioResponsable">Funcionario responsable</label>
+                </div>
+                <div class="ui-g-12">
+                    <input type="text" pInputText   id="funcionarioResponsable" formControlName="funcionarioResponsable" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="ui-sm-12 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+              <div class="ui-g-12">
+                  <label for="fechaAprobacion">Fecha y hora aprobación</label>
+              </div>
+              <div class="ui-g-12">
+                <input type="text" pInputText   id="fechaAprobacion"  readonly="readonly"  value="{{fechaAprobacion | date:'yyyy/MM/dd'}} {{fechaAprobacion | date:'mediumTime'}}"/>
+
+                </div>
+          </div>
+      </div>
+      <div class="ui-sm-12 ui-g-2 ui-lg-2">
+        <div class="ui-g form-group">
+            <div class="ui-g-12">
+                <label for="subfondo">Subfondo</label>
+            </div>
+            <div class="ui-g-12">
+                <input type="text" pInputText   id="subfondo" formControlName="subfondo" readonly="readonly"/>
+            </div>
+        </div>
+    </div>
+      <div class="ui-sm-12 ui-g-2 ui-lg-2">
+        <div class="ui-g form-group">
+            <div class="ui-g-12">
+                <label for="subseccion">Dependencia Productora</label>
+            </div>
+            <div class="ui-g-12">
+                <input type="text" pInputText pTooltip={{tooltipProductora}}  id="subseccion" formControlName="subseccion" readonly="readonly"/>
+            </div>
+        </div>
+
+    </div>
+    <div class="ui-sm-12 ui-g-2 ui-lg-2">
+      <div class="ui-g form-group">
+          <div class="ui-g-12">
+              <label for="nroTransferencia">N&deg;. transferencia</label>
+          </div>
+          <div class="ui-g-12">
+              <input type="text" pInputText   id="nroTransferencia" formControlName="nroTransferencia" readonly="readonly"/>
+          </div>
+      </div>
+
+  </div>
+  <div class="ui-sm-12 ui-g-3 ui-lg-3">
+    <div class="ui-g form-group">
+        <div class="ui-g-12">
+            <label for="cargoFuncionario">Cargo funcionario</label>
+        </div>
+        <div class="ui-g-12">
+            <input type="text" pInputText   id="cargoFuncionario" formControlName="cargoFuncionario" readonly="readonly"/>
+        </div>
+    </div>
+
+</div>
+
+            <div class="ui-sm-12 ui-g-3 ui-lg-3" *ngIf="false">
+              <div class="ui-g form-group">
+                <button pButton type="button" label="Ver Detalles" style="width: auto; margin-bottom: 10px" (click)="verDetalle()"></button>
+              </div>
+
+            </div>
+ <div *ngIf="status===2" class="ui-sm-12 ui-g-3 ui-lg-3">
+  <div class="ui-g form-group">
+      <div class="ui-g-12">
+          <label>Verificación</label>
+          <br><br>
+          <p-checkbox label="Física" formControlName="fisica" [binary]="true"></p-checkbox>&nbsp;
+          <p-checkbox label="Electrónica" formControlName="electronica" [binary]="true"></p-checkbox>
+      </div>
+      <div class="ui-g-12" *ngIf="formTransferencia.get('fisica')?.value">
+        <label for="dependencia-v"> Dependencia<span class="text-danger">*</span>
+          <input type="text" pInputText   id="dependencia-v" formControlName="dependencia" (onBlur)="OnBlurEvents('dependencia')" />
+          <div class="ui-message ui-messages-error"
+               *ngIf="validations.dependencia">
+            {{ validations.dependencia }}
+          </div>
+        </label>
+      </div>
+
+  </div>
+
+</div>
+
+            <div *ngIf="status===4" class="ui-sm-12 ui-g-3 ui-lg-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="entidadRecibe">Entidad que recibe</label>
+                </div>
+                <div class="ui-g-12">
+                  <input type="text" pInputText   id="entidadRecibe" formControlName="entidadRecibe" (onBlur)="OnBlurEvents('entidadRecibe')" />
+                </div>
+                <div class="ui-message ui-messages-error"
+                     *ngIf="validations.entidadRecibe">
+                  {{ validations.lugarVerificacion }}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </p-panel>
+
+      <p-panel [header]="status < 4 ? 'Resultado de búsqueda' : 'Unidades documentales a ubicar'" leftIcon="ui-icon-assignment">
+        <div class="ui-fluid">
+          <p-dataTable selectionMode="multiple"
+                       (onRowSelect)="selectRow($event)"
+                       (selectionChange)="selectAll($event)"
+                      [(selection)]="State.unidadesSeleccionadas"
+                       [paginator]="true"
+                       [rows]="10"
+                       [responsive]="true"
+                       [value]="State.ListadoUnidadDocumental"
+                       emptyMessage="No se encontraron resultados "
+                       scrollWidth="100%"
+                       [scrollable]="true"
+                       styleClass="ui-datatable-scrollable-header ui-datatable-scrollable-body"
+          >
+            <p-column selectionMode="multiple" [style]="{'width':'50px'}"></p-column>
+            <p-column field="nombreSerie" header="Nombre serie/subserie" [style]="{'width':'200px'}">
+              <ng-template let-row = "rowData" pTemplate="body">
+                {{ descriptionSerieSubserie(row)}}
+              </ng-template>
+            </p-column>
+            <p-column field="id" header="Identificador unidad documental" [style]="{'width':'150px'}"></p-column>
+            <p-column field="nombreUnidadDocumental" header="Nombre unidad documental" [style]="{'width':'200px'}"></p-column>
+            <p-column field="descriptor1" header="Descriptor 1" [style]="{'width':'200px'}"></p-column>
+            <p-column field="descriptor2" header="Descriptor 2" [style]="{'width':'200px'}"></p-column>
+            <p-column  header="Fase archivo" [style]="{'width':'100px'}">
+              <ng-template pTemplate="body">
+                {{ status < 4 ? "Archivo Gestión" : "Archivo Central" }}
+              </ng-template>
+            </p-column>
+            <p-column  header="Estado Unidad Documental" [style]="{'width':'150px'}">
+              <ng-template  pTemplate="body">
+                Inactivo
+              </ng-template>
+            </p-column>
+            <p-column header="Fecha extrema inicial" [style]="{'width':'150px'}">
+              <ng-template let-col="rowData" let-i="rowIndex" pTemplate="body">
+                {{col.fechaExtremaInicial | date: 'dd/MM/yyyy'}}{{col.fechaExtremaInicial | date: 'mediumTime'}}
+              </ng-template>
+            </p-column>
+            <p-column  header="Fecha extrema final" [style]="{'width':'150px'}">
+              <ng-template let-col="rowData" let-i="rowIndex" pTemplate="body">
+                {{col.fechaExtremaFinal | date: 'dd/MM/yyyy'}}  {{col.fechaExtremaFinal | date: 'mediumTime'}}
+              </ng-template>
+            </p-column>
+            <p-column header="Fecha cierre trámite" [style]="{'width':'150px'}">
+              <ng-template let-col="rowData" let-i="rowIndex" pTemplate="body">
+                {{col.fechaCierre | date: 'dd/MM/yyyy'}} {{col.fechaCierre | date: 'mediumTime'}}
+              </ng-template>
+            </p-column>
+            <p-column field="soporte" header="Soporte" [style]="{'width':'100px'}"></p-column>
+            <p-column  header="Estado transferencia"  field="estado" [sortable]="true"  [style]="{'width':'150px'}"></p-column>
+            <p-column header="Consultar unidad de conservación" [style]="{'width':'150px'}">
+              <ng-template let-col="rowData" let-index="rowIndex" pTemplate="body" >
+                <button pButton type="button" label="Ver" style="width: auto; margin-bottom: 10px" (click)="verDetalle(index)" *ngIf="col.soporte !='Electronico'"
+                       ></button>
+              </ng-template>
+            </p-column>
+            <p-column  header="Notas" [style]="{'width':'120px','text-align':'center'}" >
+                <ng-template let-col="rowData" let-i="rowIndex" pTemplate="body">
+                    <button pButton type="button" style="width: 35px; float: right"
+                                       icon="ui-icon-arrow-forward" (click)="AgregarNotas(i)">
+                   </button>
+
+                </ng-template>
+                </p-column>
+          </p-dataTable>
+        </div>
+      </p-panel>
+    </div>
+  </app-task-container>
+</div>
+
+<p-dialog
+    [visible]="State.AbrirDetalle "
+    modal="modal"
+    [responsive]="true"
+    [closable]="true"
+    [width]="1200"
+    (onHide)="State.CerrarDetalle()"
+    header="Datos unidad documental"
+>
+
+<app-detalle-unidad-conservacion [state]="State" [selectedIdx]="selectedIndex"  [innerComponent]="true" [allowLocate]="status == 3"  *ngIf="hasUnidadesFisicas()"   (onNoFound)="showNoFoundUnidadesConservacionNotification()">
+  <div before>
+    <div class="ui-g" >
+      <div class="ui-g-12" >
+        <h2 class="text-left page-title">Transferencias Documentales</h2>
+      </div>
+      <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6" *ngIf="isUbicar || isSecundaria">
+        <h3 class="text-left page-subtitle" *ngIf="isSecundaria">Ubicar Transferencia Secundaria</h3>
+        <h3 class="text-left page-subtitle" *ngIf="!isSecundaria">Ubicar Transferencia Primaria</h3>
+      </div>
+    </div>
+  </div>
+</app-detalle-unidad-conservacion>
+</p-dialog>
+
+<p-dialog
+    [visible]="abrirNotas"
+    modal="modal"
+    [responsive]="true"
+    [closable]="true"
+    [width]="800"
+     (onHide)="CerrarNotas()"
+    header="Transferencias Documentales">
+<app-popup-unidad-documental-notas [state]="state" [index]="indexUnidadSeleccionada" (completado)="CerrarNotas()" ></app-popup-unidad-documental-notas>
+</p-dialog>
+
+
+
+
+

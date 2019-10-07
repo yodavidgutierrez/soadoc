@@ -1,0 +1,68 @@
+<div class="ui-g ui-fluid" [formGroup]="form">
+  <ng-content select="[before]"></ng-content>
+  <div class="ui-g-12">
+    <div class="ui-g-4 ui-sm-6">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <p-dropdown [autoWidth]="false"   [options]="(bodegaObservable$ | async)" formControlName="bodega" optionLabel="nombre"
+                      placeholder="Seleccione una bodega"   (onChange)="selectHandler($event,'bodega')"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-4 ui-sm-6">
+      <div class="ui-g form-group">
+
+        <div class="ui-g-12">
+          <p-dropdown  [autoWidth]="false"  [options]="piso" optionLabel="nombre"
+                       placeholder="Seleccione un piso"  formControlName="piso" (onChange)="selectHandler($event,'piso')"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-4 ui-sm-6" *ngIf="visibility.estante">
+      <div class="ui-g form-group">
+        <div class="ui-g-3">
+          <label >Estante</label>
+        </div>
+        <div class="ui-g-9">
+          <p-dropdown  [autoWidth]="false" [options]="estante " optionLabel="nombre"
+                       placeholder="Seleccione un estante" formControlName="estante" (onChange)="selectHandler($event,'estante')"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-4 ui-sm-6" *ngIf="visibility.seccion">
+      <div class="ui-g form-group">
+        <div class="ui-g-3">
+          <label >Entrepaño</label>
+        </div>
+        <div class="ui-g-9">
+          <p-dropdown  [autoWidth]="false" [options]="seccion" optionLabel="nombre"
+                       formControlName="seccion"    placeholder="Seleccione un entrepaño" (onChange)="selectHandler($event,'seccion')"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-4 ui-sm-6" *ngIf="visibility.caja">
+      <div class="ui-g form-group">
+        <div class="ui-g-3">
+          <label >Caja</label>
+        </div>
+        <div class="ui-g-9">
+          <p-dropdown  [autoWidth]="false" [options]="caja" optionLabel="nombre"
+                       placeholder="Seleccione una caja" formControlName="caja"  (onChange)="selectHandler($event,'caja')" ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-4 ui-sm-6">
+      <div class="ui-g form-group">
+        <div class="ui-g-3">
+          <label >Carpeta</label>
+        </div>
+        <div class="ui-g-9">
+          <p-dropdown  [autoWidth]="false" [options]="carpeta" optionLabel="nombre"
+                       formControlName="carpeta" placeholder="Seleccione una carpeta"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-content select="[after]"></ng-content>
+</div>

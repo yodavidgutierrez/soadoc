@@ -1,0 +1,9 @@
+co\com\foundation\soaint\security\infrastructure\builder\PrincipalContextBuilder.class
+co\com\foundation\soaint\security\ldap\LDAPSecurityAuthenticator.class
+co\com\foundation\soaint\security\main\Main.class
+co\com\foundation\soaint\security\api\SecurityAPI.class
+co\com\foundation\soaint\security\domain\AuthenticationResponseContext.class
+co\com\foundation\soaint\security\interfaces\SecurityAuthenticator.class
+co\com\foundation\soaint\security\domain\PrincipalContext.class
+co\com\foundation\soaint\security\wrapper\SecurityWrapper.class
+co\com\foundation\soaint\security\ldap\mapper\PrincipalMapper.class

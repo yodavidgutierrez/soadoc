@@ -1,0 +1,183 @@
+<div class="ui-fluid">
+  <div class="page-title">
+
+    <div class="ui-g">
+      <div class="ui-sm-6 ui-g-6">
+        <div class="ui-g-12">
+          <h2 class="text-left page-title">Comunicaciones Oficiales</h2>
+        </div>
+        <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6">
+          <h3 class="text-left page-subtitle">Recibir Documentos Fisico</h3>
+        </div>
+      </div>
+
+      <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6">
+        <div class="page-buttons text-right">
+          <button pButton type="button" class="ui-button-success" label="Cancelar" (click)="Finalizar()"
+                  style="width: auto;  margin-bottom: 10px"></button>
+          <button pButton type="button" class="ui-button-success" label="Guardar" [disabled]="!(selectedComunications?.length> 0)"
+                  style="width: auto;  margin-bottom: 10px"  (click)="confirmarRecibo()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <p-panel header="Búsqueda de tareas" [style]="{border: 'none'}">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+
+            <!--<div class="ui-sm-3 ui-g-3 ui-lg-1" [formGroup]="form">-->
+              <!--<div class="ui-g form-group">-->
+                <!--<div class="ui-g-12">-->
+                  <!--<label for="rd-anno">A&ntilde;o</label>-->
+                <!--</div>-->
+                <!--<div class="ui-g-12">-->
+                  <!--<input type="text" pInputText id="rd-anno" formControlName="anno">-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <div class="ui-sm-3 ui-g-3 ui-lg-2" [formGroup]="form">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="numeroRadicado">N&deg;. de radicado</label>
+                </div>
+                <div class="ui-g-12">
+                  <input type="text" pInputText id="numeroRadicado" formControlName="nroRadicado">
+                </div>
+              </div>
+            </div>
+
+            <!--<div class="ui-sm-3 ui-g-3 ui-lg-1" [formGroup]="form">-->
+              <!--<div class="ui-g form-group">-->
+                <!--<div class="ui-g-12">-->
+                  <!--<label for="consecutivo">Consecutivo</label>-->
+                <!--</div>-->
+                <!--<div class="ui-g-12">-->
+                  <!--<input type="text" pInputText id="consecutivo" formControlName="consecutivo">-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <div class="ui-sm-6 ui-g-4 ui-lg-4" [formGroup]="form">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="dependencia">Dependencia Productora</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-dropdown [options]="dependencias | dropdownItem" id="dependencia"
+                              placeholder="Seleccione"
+                              [autoWidth]="false" formControlName="dependencia"
+                              (onBlur)="OnBlurEvents('dependencia')">
+                  </p-dropdown>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-sm-4 ui-g-3 ui-lg-2">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="startDate">Fecha inicial</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-calendar [(ngModel)]="start_date" [showIcon]="true" dateFormat="dd/mm/yy"
+                              [maxDate]="end_date"
+                              id="startDate"></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-4 ui-g-3 ui-lg-2">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="endDate">Fecha final</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-calendar [(ngModel)]="end_date" [showIcon]="true" dateFormat="dd/mm/yy"
+                              [minDate]="start_date"
+                              id="endDate"></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12" [style.padding-top]="'40px'">
+              <button pButton type="button" label="Buscar" [disabled]="form.invalid"
+                      style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"
+                      (click)="listarDistribuciones()"></button>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+
+      <p-panel header="Resultados búsqueda" [style]="{border: 'none'}">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="multiple"
+                         [(selection)]="selectedComunications" [(first)] = "first"
+                         [paginator]="true" [rows]="10" [responsive]="true" [value]="(comunicaciones$ | async)">
+              <p-column selectionMode="multiple" [style]="{'width':'80px'}" [styleClass]="'select-with-title'">
+                <ng-template pTemplate="header">
+                <span>Recibir</span>
+                </ng-template>
+              </p-column>
+              <p-column field="nroRadicado"  header="N&deg;. radicado"  [sortable]="true">
+                <ng-template pTemplate="item" let-data="rowData" >
+                  {{ data.nroRadicado | niceNoRadicado }}
+                </ng-template>
+              </p-column>
+              <p-column field="fechaRadicacion" header="Fecha y hora de radicación" [sortable]="true">
+                <ng-template let-col let-data="rowData" pTemplate="body">
+                  {{data.fechaRadicacion | date:'dd/MM/yyyy'}} {{data.fechaRadicacion | date:'mediumTime'}}
+                </ng-template>
+              </p-column>
+              <p-column header="Destinatario" field="dependencia" [sortable]="true">
+              </p-column>
+              <p-column field="tipoComunicacion" header="Tipo de comunicación" [sortable]="true">
+                <ng-template pTemplate="body" let-row="rowData">
+                  {{ tiposComunicacion$| async | constantName:row.tipoComunicacion }}
+                </ng-template>
+              </p-column>
+              <p-column field="asunto" header="Asunto" ></p-column>
+              <p-column header="Ver Anexos">
+                <ng-template let-row="rowData" pTemplate="body">
+                  <button pButton type="button" label="Ver" *ngIf="hasAnexosFisicos(row?.listaAnexos)" (click)="verAnexos(row.listaAnexos)"></button>
+                </ng-template>
+              </p-column>
+              <p-column field="anexos" header="Cantidad Anexos" [sortable]="true"
+                        [style]="{'width':'110px'}">
+              </p-column>
+              <p-column field="folios" header="Folios" [sortable]="true"
+                        [style]="{'width':'110px'}">
+
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Anexos" [modal]="true" [visible]="anexoDialogVisibility" (onHide)="hideDialogAnexo()">
+
+  <p-dataTable selectionMode="single"
+               [paginator]="true" [rows]="10"
+               [responsive]="true"
+               [value]="anexosFisicos"
+               emptyMessage="No se encontraron resultados">
+
+    <p-header> Listado de anexos</p-header>
+
+    <!--Body-->
+    <p-column field="nombre" header="Tipo anexos" [sortable]="true">
+      <ng-template let-row="rowData" pTemplate="body">
+        {{ tiposAnexos$ | async |constantName:row.codAnexo}}
+      </ng-template>
+    </p-column>
+    <p-column field="descripcion" header="Descripción" [sortable]="true"></p-column>
+    <!--End Body-->
+  </p-dataTable>
+</p-dialog>

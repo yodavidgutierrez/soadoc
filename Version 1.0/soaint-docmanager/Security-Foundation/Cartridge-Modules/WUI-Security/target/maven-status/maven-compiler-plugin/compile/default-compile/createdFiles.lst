@@ -1,0 +1,4 @@
+co\com\foundation\soaint\security\wui\util\WebSecurityUtil.class
+co\com\foundation\soaint\security\wui\mvc\PortalModel.class
+co\com\foundation\soaint\security\wui\domain\LoginContext.class
+co\com\foundation\soaint\security\wui\filter\SecurityFilter.class

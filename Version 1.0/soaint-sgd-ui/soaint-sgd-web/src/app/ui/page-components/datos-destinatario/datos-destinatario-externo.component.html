@@ -1,0 +1,225 @@
+<p-panel header="Datos destinatario" [style]="{border: 'none'}">
+<form [formGroup]="form" name="formDefault">
+  <div class="ui-fluid">
+    <!--<div class="card card-w-title">-->
+      <!--<h1>Datos Remitente</h1>-->
+
+      <!--<div class="ui-g ui-fluid" [hidden]="!visibility.sedeAdministrativa">-->
+        <!--<div class="ui-sm-12 ui-g-6 ui-lg-6">-->
+          <!--<div class="ui-g form-group">-->
+            <!--<div class="ui-g-12">-->
+              <!--<label for="sedeAdministrativa"><span class="text-danger">*</span>Sede</label>-->
+            <!--</div>-->
+            <!--<div class="ui-g-12 md-dropdownfield">-->
+              <!--<p-dropdown [options]="sedeAdministrativaSuggestions$ | async | dropdownItem"-->
+                          <!--id="sedeAdministrativa"-->
+                          <!--formControlName="sedeAdministrativa"-->
+                          <!--placeholder="Seleccione"-->
+                          <!--[filter]="true"-->
+                          <!--[autoWidth]="false"-->
+                          <!--[dynamicDisable]="!visibility.sedeAdministrativa"-->
+                          <!--(onBlur)="listenForBlurEvents('sedeAdministrativa')">-->
+              <!--</p-dropdown>-->
+
+              <!--<div class="ui-message ui-messages-error"-->
+                   <!--*ngIf="validations.sedeAdministrativa">-->
+                <!--{{ validations.sedeAdministrativa }}-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="ui-sm-12 ui-g-6 ui-lg-6">-->
+          <!--<div class="ui-g form-group">-->
+            <!--<div class="ui-g-12">-->
+              <!--<label for="dependenciaGrupo"><span class="text-danger">*</span>Dependencia / Grupo</label>-->
+            <!--</div>-->
+            <!--<div class="ui-g-12 md-dropdownfield">-->
+
+              <!--<p-dropdown [options]="dependenciasGrupoList | dropdownItem"-->
+                          <!--id="dependenciaGrupo"-->
+                          <!--formControlName="dependenciaGrupo"-->
+                          <!--placeholder="Seleccione"-->
+                          <!--[filter]="true"-->
+                          <!--[autoWidth]="false"-->
+                          <!--[dynamicDisable]="!visibility.dependenciaGrupo"-->
+                          <!--(onBlur)="listenForBlurEvents('dependenciaGrupo')"-->
+              <!--&gt;-->
+              <!--</p-dropdown>-->
+
+              <!--<div class="ui-message ui-messages-error"-->
+                   <!--*ngIf="validations.dependenciaGrupo">-->
+                <!--{{ validations.dependenciaGrupo }}-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12">
+            <!--Tipo Destinatario-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.tipoPersona">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+              <span class="md-inputfield">
+                <label>Tipo de Destinatario</label>
+              </span>
+                </div>
+                <div class="ui-g-12">
+              <span class="md-inputfield">
+                  <label
+                    style="color: inherit">{{ destinatario.indOriginal }}</label>
+              </span>
+                </div>
+              </div>
+            </div>
+
+
+            <!--Tipo Persona-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.tipoPersona">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+              <span class="md-inputfield">
+                <label>Tipo de persona</label>
+              </span>
+                </div>
+                <div class="ui-g-12">
+              <span class="md-inputfield">
+                  <label
+                    style="color: inherit">{{ destinatario.codTipoPers  }}</label>
+              </span>
+                </div>
+              </div>
+            </div>
+
+            <!--Nombre y Apellidos-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.nombreApellidos">
+
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+              <span class="md-inputfield">
+                <label>Nombre y Apellidos</label>
+              </span>
+                </div>
+                <div class="ui-g-12">
+              <span class="md-inputfield">
+                  <label
+                    style="color: inherit">{{ destinatario.nombre }}</label>
+              </span>
+                </div>
+              </div>
+          </div>
+
+        </div>
+
+        <div class="ui-g-12">
+
+            <!--Tipo Documento-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.tipoDocumento">
+              <div class="ui-g form-group" style="padding-top: 40px">
+                <div class="ui-g-12">
+            <span class="md-inputfield">
+              <label>Tipo de documento</label>
+            </span>
+                </div>
+                <div class="ui-g-12">
+            <span class="md-inputfield">
+
+                <label style="color: inherit">{{ destinatario.codTipDocIdent }}</label>
+            </span>
+                </div>
+              </div>
+            </div>
+
+
+            <!--Nro Documento Identidad-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.nroDocumentoIdentidad">
+
+              <div class="ui-g form-group" style="padding-top: 40px">
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                  <label>No. Documento identidad</label>
+                </span>
+                </div>
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                    <label
+                      style="color: inherit">{{ destinatario.nroDocuIdentidad }}</label>
+                </span>
+                </div>
+              </div>
+            </div>
+
+            <!--Nit-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.nit">
+
+              <div class="ui-g form-group" style="padding-top: 40px">
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                  <label>No Identificacion Tributario</label>
+                </span>
+                </div>
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                    <label
+                      style="color: inherit">{{ destinatario.nit }}</label>
+                </span>
+                </div>
+              </div>
+
+            </div>
+
+            <!--Razon Social-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.razonSocial">
+
+              <div class="ui-g form-group" style="padding-top: 40px">
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                  <label>Razon social</label>
+                </span>
+                </div>
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                    <label
+                      style="color: inherit">{{ destinatario.razonSocial }}</label>
+                </span>
+                </div>
+              </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="ui-g-12">
+            <!--Actua en Calidad-->
+            <div class="ui-sm-12 ui-g-4 ui-lg-4" [hidden]="!visibility.actuaCalidad">
+
+              <div class="ui-g form-group" style="padding-top: 40px">
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                  <label>Actua en calidad</label>
+                </span>
+                </div>
+                <div class="ui-g-12">
+                <span class="md-inputfield">
+                    <label
+                      style="color: inherit">{{ destinatario.ideAgente }}</label>
+                </span>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+      </div>
+    </div>
+  <!--</div>-->
+</form>
+</p-panel>
+
+<div *ngIf="visibility.datosContacto">
+  <app-datos-direccion [contactsDefault]="contactsDefault" (nuevosContactos) = "handleCargarNuevosContactos($event)" [editable]="editable" ></app-datos-direccion>
+</div>

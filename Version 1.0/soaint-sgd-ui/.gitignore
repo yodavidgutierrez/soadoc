@@ -1,0 +1,11 @@
+.idea/
+.settings/
+target/
+*.iml
+*.project
+*.classpath
+*.springBeans
+!pom.xml
+package-lock.json
+.scannerwork/
+sonar-project.properties

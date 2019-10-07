@@ -1,0 +1,69 @@
+<div class="ui-fluid produccion-documental">
+  <app-task-container>
+    <div customActions  *ngIf="!(closedTask | async)">
+      <button pButton type="button" label="Guardar"
+              style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+              (click)="guardarEstadoTarea()"
+      ></button>
+      <button pButton type="button" label="Cerrar" *ngIf="task && task.nombre=='Producir Documento' && task.descripcion.toString().trim() == 'Producir Documento'"
+              style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+              (click)="cancelarTarea()"
+      ></button>
+      <button pButton type="button" label="Devolver" *ngIf="status >  1 && task"
+              style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+              (click)="devolverDocumento()"
+
+      ></button>
+      <button pButton type="button" label="Aprobar" *ngIf="task && status != 2"
+              style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+              [disabled]="!puedeAprobar()"
+              (click)="aprobarDocumento()"
+      ></button>
+      <button pButton type="button" label="Continuar" *ngIf="showContinuarButton()"
+              style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+              [disabled]="!puedeContinuar()"
+              (click)="continuarProceso()"
+      ></button>
+    </div>
+    <div taskBody>
+      <p-tabView [activeIndex]="tabIndex" (onChange)="tabIndex = $event.index">
+        <p-tabPanel header="Datos generales" leftIcon="ui-icon-assignment">
+          <pd-datos-generales #datosGenerales [idecmDocumentoRadicado]="idecmRadicado"
+                              (onChangeTipoPlantillaComunicacion)="detectChangeOnTipoPlantillaComunicacion($event)">
+          </pd-datos-generales>
+          <br/>
+        </p-tabPanel>
+        <p-tabPanel header="Datos destinatario" leftIcon="ui-icon-assignment">
+          <pd-datos-contacto #datosContacto [taskData]="task" [editable]="status === 1" [(sectionsVisible)]="sectionsVisible"></pd-datos-contacto>
+        </p-tabPanel>
+        <p-tabPanel header="Gestionar producción" leftIcon="ui-icon-assignment">
+          <pd-gestionar-produccion #gestionarProduccion [status]="status"></pd-gestionar-produccion>
+        </p-tabPanel>
+        <p-tabPanel header="Observaciones" leftIcon="ui-icon-assignment"  >
+         <pd-observaciones [(tarea)]="task" (updateObservacionesEvent)="updateObservaciones($event)"></pd-observaciones>
+        </p-tabPanel>
+      </p-tabView>
+      <div class="ui-g-12" style="margin-top: 10px; margin-bottom: 10px">
+        <button pButton type="button" label="Siguiente" style="width: 150px; float: right"
+                (click)="openNext()" icon="ui-icon-arrow-forward" *ngIf="tabIndex < 3">
+        </button>
+        <button pButton label="Anterior" style="width: 150px; float: left"
+                (click)="openPrev()" icon="ui-icon-arrow-back" *ngIf="tabIndex > 0">
+        </button>
+      </div>
+    </div>
+
+  </app-task-container>
+</div>
+<!--<p-dialog [modal]="true" [responsive]="true" [(visible)]="noPuedeAprobar">
+  <p-header>
+    Atencion!
+  </p-header>
+  <h4 style="Color: #ff3c46;">{{errorAprobar}}</h4>
+  <p-footer>
+    <button pButton type="button" (click)="closenoPuedeAprobar()" label="Aceptar"></button>
+  </p-footer>
+</p-dialog>-->
+<app-alert #messageAlert [width]="400" [height]="150"></app-alert>
+
+

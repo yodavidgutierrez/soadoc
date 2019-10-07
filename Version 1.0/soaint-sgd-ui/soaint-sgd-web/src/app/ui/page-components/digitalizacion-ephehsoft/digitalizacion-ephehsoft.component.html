@@ -1,0 +1,56 @@
+<div class="ui-fluid radicar-comunicaciones">
+  <app-task-container>
+    <div customActions>
+
+    </div>
+
+    <div taskBody>
+
+      <p-fileUpload id="doc-digitalize" #uploader
+                    mode="advanced"
+                    chooseLabel="Buscar"
+                    uploadLabel="Guardar"
+                    cancelLabel="Cancelar"
+                    multiple="true"
+                    accept="application/pdf"
+                    maxFileSize="10485760"
+                    customUpload="true"
+                    invalidFileSizeMessageSummary="El documento que desea adjuntar supera el tamaño permitido"
+                    invalidFileSizeMessageDetail=""
+                    [disabled]="uploadDisabled"
+                    [showUploadButton]="!uploadDisabled"
+                    [showCancelButton]="!uploadDisabled"
+                    (uploadHandler)="customUploader($event)"
+                    (onUpload)="onUpload($event)"
+                    (onClear)="onClear($event)"
+                    (onSelect)="onSelect($event)"
+                    [styleClass]="uploadDisabled?'uploaderDisabled':''"
+      >
+
+
+        <ng-template pTemplate="content" #parent>
+          <pdf-viewer #viewer [src]="url" *ngIf="status >= 1 && previewWasRefreshed"
+                      [show-all]="true"
+                      [original-size]="false"
+                      style="display: block;"
+          ></pdf-viewer>
+        </ng-template>
+
+
+        <ng-template let-file pTemplate="file" class="ui-fluid">
+          <div class="ui-g ui-fileupload-row">
+            <div class="ui-lg-3 ui-sm-3 ui-xl-3">{{ file.name }}</div>
+            <div class="ui-lg-2 ui-sm-2 ui-xl-2">{{ file.size }} KB</div>
+            <div class="ui-lg-2 ui-sm-2 ui-xl-2">{{ file.type }}</div>
+            <div class="ui-lg-2 ui-sm-2 ui-xl-2">{{ tipoDocumento }}</div>
+           <!-- <div class="ui-lg-2 ui-sm-2 ui-xl-2" *ngIf="continuar">
+               <button pButton type="button" label="Continuar" (click)="preview(file)"></button>
+            </div>-->
+          </div>
+        </ng-template>
+      </p-fileUpload>
+
+    </div>
+  </app-task-container>
+</div>
+

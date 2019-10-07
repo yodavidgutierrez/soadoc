@@ -1,0 +1,96 @@
+<!--<div id="ticket-rad" class="ticket-panel" style="display: table">-->
+  <!--<div>-->
+    <!--<div style="padding-top: 0 !important; padding-bottom: 0 !important;">-->
+      <!--<div style="position: absolute; float: left;">-->
+        <!--<img width="115" src="assets/layout/images/logo.png">-->
+      <!--</div>-->
+      <!--<div class="row-container" style="width: 440px; float: right">-->
+        <!--<div class="ui-g-5 text-right" style="clear: both"><b>No radicado</b></div>-->
+        <!--<div class="ui-g-1 text-right"></div>-->
+        <!--<div class="ui-g-6 text-left">{{ noRadicado  | niceNoRadicado}}</div>-->
+
+        <!--<div class="ui-g-5 text-right"> <b>Fecha</b></div>-->
+        <!--<div class="ui-g-1 text-right"></div>-->
+        <!--<div class="ui-g-6 text-left">{{ fecha | date: 'dd/MM/yyyy hh:mm a'}}</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row-container" >-->
+
+      <!--<div [hidden]="remitenteSede" class="clear" >-->
+        <!--<div class="ui-g-3 text-left "> <b>Remitente</b></div>-->
+        <!--<div class="ui-g-9 text-left "> {{ remitente }}</div>-->
+      <!--</div>-->
+
+      <!--<div [hidden]="!remitenteSede" class="clear" >-->
+        <!--<div class="ui-g-3 text-left "> <b>Remitente</b></div>-->
+        <!--<div class="ui-g-2 text-left "> <b>Sede</b></div>-->
+        <!--<div class="ui-g-7 text-left "> {{ remitenteSede}}</div>-->
+
+        <!--<div class="ui-g-3 text-left "></div>-->
+        <!--<div class="ui-g-2 text-left "> <b>Depen</b></div>-->
+        <!--<div class="ui-g-7 text-left "> {{ remitenteGrupo }}</div>-->
+      <!--</div>-->
+
+      <!--<div [hidden]="destinatarioSede" class="clear"  style="padding-top: 5px; padding-bottom: 0">-->
+        <!--<div class="ui-g-3 text-left "> <b>Dependencia destino</b></div>-->
+        <!--<div class="ui-g-9 text-left "> {{ destinatario }}</div>-->
+      <!--</div>-->
+
+      <!--<div [hidden]="!destinatarioSede" class="clear" style="padding-top: 5px; padding-bottom: 0">-->
+        <!--<div class="ui-g-3 text-left "> <b>Dependencia destino</b></div>-->
+        <!--<div class="ui-g-2 text-left "> <b>Sede</b></div>-->
+        <!--<div class="ui-g-7 text-left "> {{ destinatarioSede}}</div>-->
+
+        <!--<div class="ui-g-3 text-left "></div>-->
+        <!--<div class="ui-g-2 text-left "> <b>Depen</b></div>-->
+        <!--<div class="ui-g-7 text-left "> {{ destinatarioGrupo }}</div>-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<div class="ui-g-12" style="display: flex; justify-content: center;">-->
+
+      <!--<div class="ui-g-2 text-left" style="padding-left: 10px"> <b>Anexo</b></div>-->
+      <!--<div class="ui-g-2 text-left" style="padding-right: 10px"> {{ anexos }}</div>-->
+
+      <!--<div class="ui-g-2 text-left" style="padding-left: 10px"><b>Folios</b></div>-->
+      <!--<div class="ui-g-2 text-left" style="padding-right: 10px"> {{ folios }}</div>-->
+
+    <!--</div>-->
+
+    <!--<ngx-barcode [bc-height]="28" [bc-format]="'CODE128B'" [bc-value]="noRadicado | niceNoRadicado" [bc-display-value]="true"-->
+                 <!--[bc-margin-left]="0" [bc-margin-bottom]="0" [bc-margin-right]="0" [bc-margin-top]="0" [bc-text-margin]="0" [bc-text-align]="0"-->
+                 <!--style="margin: 0 auto"></ngx-barcode>-->
+
+  <!--</div>-->
+<!--</div>-->
+
+<div id="ticket-rad" class="ticket-panel" style="display: table">
+  <p style="text-transform: uppercase;margin:-4px 0 4px ;">SOAINT</p>
+  <div style="margin-top: -5px">
+    <ngx-barcode [bc-height]="30" [bc-format]="'CODE128B'" [bc-value]="noRadicado | niceNoRadicado" [bc-width] = "3.2"
+                 [bc-margin-left]="0" [bc-margin-bottom]="0" [bc-margin-right]="0" [bc-margin-top]="0" [bc-text-margin]="0" [bc-text-align]="0"
+                 style="margin: 0 auto" ></ngx-barcode>
+  </div>
+  <div style="margin-top: -5px">
+    <div class="row-container"  style="text-align: left">
+      <div class="ui-g-8"><strong>N&deg;. Radicado :</strong> {{noRadicado | niceNoRadicado}} </div>
+      <div class="ui-g-4"><strong>Folios: </strong> {{folios}}</div>
+
+    </div>
+      <div class="row-container" style="text-align: left">
+        <div class="ui-g-8"> <strong>Fecha :</strong> {{fecha | date:'dd/MM/yyyy '}} {{fecha | date:'mediumTime'}}</div>
+        <div class="ui-g-4"><strong>Anexos : </strong> {{anexos}}</div>
+      </div>
+
+    <div class="row-container" >
+      <div class="ui-g-12" style="overflow: hidden;text-align: left"> <strong>Dependencia Destino :</strong> {{destinatarioGrupo}}-{{abreviatura}} </div>
+    </div>
+    <div class="row-container"  *ngIf="remitente">
+      <div class="ui-g-12" style="overflow: hidden;text-align: left"> <strong>Remitente :</strong> {{remitente}} </div>
+    </div>
+  </div>
+</div>
+
+

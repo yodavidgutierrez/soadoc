@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Document-Manager">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="Foundation-Framework-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Foundation-Framework/Foundation-Framework">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="WUI-Security-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/WUI-Security/WUI-Security">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Business-Artifacts-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Business-Artifacts/Business-Artifacts">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ClientIntegration-Artifacts-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ClientIntegration-Artifacts/ClientIntegration-Artifacts">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Integration-Artifacts-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Integration-Artifacts/Integration-Artifacts">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="Document-Manager"/>
+        <property name="java-output-path" value="/Document-Manager/target/classes"/>
+    </wb-module>
+</project-modules>

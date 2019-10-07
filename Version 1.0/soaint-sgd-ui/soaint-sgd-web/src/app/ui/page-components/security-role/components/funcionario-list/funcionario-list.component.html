@@ -1,0 +1,137 @@
+<div class="card card-w-title">
+  <h1>Listado de Funcionarios</h1>
+
+  <p-panel header="Búsqueda de funcionarios" [style]="{ border: 'none'}">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="ui-sm-12 ui-g-3 ui-lg-3" [formGroup]="form">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <span class="md-inputfield" style="margin-top: 36px">
+                <input type="text" pInputText id="nombre" formControlName="nombre">
+                <label for="nombre">Nombre</label>
+                <control-messages [control]="form.controls.nombre"></control-messages>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-g-3 ui-lg-3" [formGroup]="form">
+          <div class="ui-g form-group">
+            <!--<div class="ui-g-12">-->
+            <!--<label for="primerApellido">Primer Apellido</label>-->
+            <!--</div>-->
+            <div class="ui-g-12">
+               <span class="md-inputfield" style="margin-top: 36px">
+                 <input type="text" pInputText id="primerApellido" formControlName="primerApellido">
+                 <label for="primerApellido">Primer Apellido</label>
+               </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-g-3 ui-lg-3" [formGroup]="form">
+          <div class="ui-g form-group">
+            <!--<div class="ui-g-12">-->
+              <!--<label for="segundoApellido">Segundo Apellido</label>-->
+            <!--</div>-->
+            <div class="ui-g-12">
+               <span class="md-inputfield" style="margin-top: 36px">
+                <input type="text" pInputText id="segundoApellido" formControlName="segundoApellido">
+                <label for="segundoApellido">Segundo Apellido</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-g-3 ui-lg-3" [formGroup]="form">
+          <div class="ui-g form-group">
+            <div class="ui-g-12" style="margin-top: 36px">
+              <button pButton type="button" label="Buscar" [disabled]="!form.valid"
+                      style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"
+                      (click)="searchFuncionarios()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-dataTable [value]="(funcionarios | async)" selectionMode="single" [(selection)]="funcionarioSelected"
+               [paginator]="true" [rows]="10" [responsive]="true" [(first)] = "first"
+               emptyMessage="No se encontraron resultados">
+    <p-header></p-header>
+    <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+    <p-column field="valApellido1" header="Primer Apellido" [sortable]="true"></p-column>
+    <p-column field="valApellido2" header="Segundo Apellidos" [sortable]="true"></p-column>
+    <p-column header="Acciones" [style]="{'width':'450px','text-align':'center'}">
+      <ng-template let-func="rowData" pTemplate="item">
+        <button pButton type="button" label="Editar Roles" (click)="editFuncionario(func)"></button>
+        <button pButton type="button" label="Relacionar Dependencias" (click)="loadDependenciaPopup(func)"></button>
+        <button pButton type="button" label="Editar Perfil" (click)="loadFuncionarioEditPopup(func)"></button>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</div>
+
+<p-dialog [visible]="funcionarioEditDialog" modal="modal"
+          [responsive]="true" [positionTop]="'50%'" (onHide)="hideEditFuncionario()" [width]="600">
+  <p-header>Datos del Funcionario</p-header>
+  <a id='dwnldLnk' style="display:none;" target="_blank"></a>
+  <div class="card card-w-title">
+
+     <h1>Listado de Roles</h1>
+    <!--form [formGroup]="form" -->
+    <p-dataTable [value]="(roles | async)" selectionMode="single" [(selection)]="roleSelected"
+                 [paginator]="true" [rows]="6" [responsive]="true" sortField="rol"
+                 emptyMessage="No se encontraron resultados">
+      <p-header></p-header>
+      <p-column field="rol" header="Role" [sortable]="true"></p-column>
+      <p-column header="Acciones" [style]="{'width':'120px','text-align':'center'}">
+        <ng-template let-role="rowData" pTemplate="item">
+          <div class="ui-g-12">
+            <p-checkbox name="group1" [value]="role.rol"
+                        [(ngModel)]="selectedFuncionarios" inputId="role.rol"></p-checkbox>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+    <!--/form-->
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button pButton type="button" (click)="updateFuncionarioRol()"
+              class="ui-button-primary" label="Aplicar"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="depenciaPopupVisible" modal="modal"
+          [responsive]="true" [positionTop]="'50%'" (onHide)="hideEditFuncionario()" [width]="800" >
+  <p-header>Datos del Funcionario</p-header>
+   <div class="card card-w-title">
+
+     <h1>Listado de Dependencias</h1>
+    <!--form [formGroup]="form" -->
+    <p-dataTable [value]="(dependencias$ | async)" selectionMode="multiple" [(selection)]="dependenciasSelected" (onHeaderCheckboxToggle)="toggleAll($event)"
+                 [paginator]="true" [rows]="6" [responsive]="true"
+                 emptyMessage="No se encontraron resultados">
+      <p-header></p-header>
+      <p-column field="nombre" header="Dependencia" [sortable]="true"></p-column>
+       <p-column  selectionMode="multiple" [style]="{'width':'120px','text-align':'center'}">
+
+      </p-column>
+    </p-dataTable>
+    <!--/form-->
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+       <button pButton type="button" (click)="bindDepedenciaFuncionario()" class="ui-button-primary" label="Relacionar Dependencias"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)] = "funcionarioEditPopup" (onHide)="hideFuncionarioForEdit()"  modal="modal"
+          [responsive]="true" [positionTop]="'50%'" [width]="800" header="Editar Perfil">
+  <app-profile-edit [funcionario]="funcionarioForEdit"></app-profile-edit>
+</p-dialog>
+
+
+

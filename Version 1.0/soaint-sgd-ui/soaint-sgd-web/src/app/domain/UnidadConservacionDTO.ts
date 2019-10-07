@@ -1,0 +1,32 @@
+export interface UnidadConservacionDTO {
+  ideUniDocConserv?:number;
+  ideUnidDocumental?: number;
+  fecUniDocConserv?:string;
+  fecCierre?:string;
+  fecReaperturaUdc?: string;
+    fecExtremaIniUdc?:string;
+    fecExtremaFinUdc?:string;
+    codEstadoUdc?:string;
+    nombreEstadoUdc?:string;
+    codEstPrestamo?:string;
+    nombreEstPrestamo?:string;
+    codTipSoporte?:string;
+    nombreTipSoporte?:string;
+    valNroUnidDocPadre?:string;
+    valCodigo?:string;
+    nomUniDocConsrv?:string;
+    valDescriptor1?:string;
+    valDescriptor2?:string;
+    nroFoliosUnidDoc?:number;
+    valNumTomo?:string;
+    codBodega?:string;
+    nombreBodega?:string;
+    codUbicFisi?:string;
+    nombreUbicFisi?:string;
+    valRagoIni?:string;
+    valRagoFin?:string;
+   nroRangoIniFolios?:number;
+   nroRangoFinFolios?: number;
+   ideBodega?:number;
+   ideUbicFisiBod?:number;
+}

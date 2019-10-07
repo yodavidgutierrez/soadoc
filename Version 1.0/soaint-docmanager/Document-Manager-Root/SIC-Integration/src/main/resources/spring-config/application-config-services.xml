@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+	<mvc:annotation-driven />
+	<task:executor id="pool-executor" pool-size="30"  />
+	<task:annotation-driven executor="pool-executor"/>
+
+	<!-- SPRING COMMON CONFIGURATION -->
+
+	<context:property-placeholder
+		location="classpath:spring-config/application-services.properties"/>
+
+	<util:properties id="environment"
+		location="classpath:spring-config/application-services.properties" />
+
+	<context:annotation-config />
+	<!-- ~~~~~~~~~~~~~~~~~ async support -->
+	<import resource="classpath:spring-config/persistence-config.xml"/>
+	
+
+	<!-- ~~~~~~~~~~~~~~~~~ core component scanning  -->
+	<context:component-scan base-package="co.com.sic.business"/>
+	<context:component-scan base-package="co.com.sic.web.apis.rest" />
+</beans>

@@ -1,0 +1,115 @@
+<div class="ui-fluid gestionar-devoluciones">
+  <app-task-container>
+    <div customActions [formGroup]="form">
+
+      <!--<button pButton type="button" label="Guardar" style="width: auto; margin-bottom: 10px"-->
+              <!--(click)="guardar()"></button>-->
+
+      <button pButton type="button" label="Gestionar devolución" style="width: auto; margin-bottom: 10px"
+              (click)="gestionarDevolucion()" [disabled] = "disabledDevolucionAction" ></button>
+
+      <button pButton type="button" label="Rechazar devolución" style="width: auto; margin-bottom: 10px"
+      (click)="rechazarDevolucion()" [disabled] = "disabledDevolucionRechazar"></button>
+
+    </div>
+    <div taskBody>
+    <p-panel header="Datos generales devolución" [style]="{ border: 'none'}">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12" style="padding-top: 50px" padding-bottom>
+          <div class="ui-sm-12 ui-g-4 ui-lg-4" [formGroup]="form">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="nroRadicado" disabled [value]="task.variables.numeroRadicado | niceNoRadicado" [(ngModel)]="task.variables.numeroRadicado" formControlName="nroRadicado">
+                    <label>Número de radicado</label>
+                  </span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-sm-12 ui-g-4 ui-lg-4" [formGroup]="form">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="causalDevolucion" disabled [(value)]="causalDevolucion" [(ngModel)]="causalDevolucion" formControlName="causalDevolucion">
+                    <label>Causal devolución</label>
+                  </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-sm-12 ui-g-3 ui-lg-3" [formGroup]="form">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="usuariodevuelve" disabled [(value)]="usuariodevuelve" [(ngModel)]="usuariodevuelve" formControlName="usuariodevuelve">
+                    <label>Usuario que devuelve</label>
+                  </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g-12" style="padding-top: 50px" padding-bottom>
+          <div class="ui-sm-12 ui-g-4 ui-lg-4" [formGroup]="form">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="sedeAdministrativa" disabled [(value)]="sedeAdministrativa" [(ngModel)]="sedeAdministrativa" formControlName="sedeAdministrativa">
+                    <label>Dependencia Jerárquica</label>
+                  </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-sm-12 ui-g-4 ui-lg-4" [formGroup]="form">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText id="dependencia" disabled [(value)]="dependencia" [(ngModel)]="dependencia" formControlName="dependencia">
+                    <label>Dependecia Productora</label>
+                  </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-sm-12 ui-g-4 ui-lg-4" [formGroup]="form" *ngIf="causalDevolucion == 'Calidad Imagen'">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+
+                   <label style="display: inline-block;">Requiere digitalización
+                    <p-radioButton formControlName="requiereDigitalizacion" name="op-rd" [value]="1" ></p-radioButton>
+                     </label>
+                     <label style="display: inline-block;">Adjuntar Documento
+                    <p-radioButton formControlName="requiereDigitalizacion"  name="op-rd" [value]="2"></p-radioButton>
+                     </label>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </p-panel>
+
+      <p-panel header="Observaciones" [style]="{ border: 'none'}">
+
+        <app-popup-agregar-observaciones #popupAgregarObservaciones (countObservaciones)="handleCountObservaciones($event)"></app-popup-agregar-observaciones>
+
+      </p-panel>
+
+     <div *ngIf="hasDocumnts">
+            <app-documentos-ecm-list [idDocumentECM]="comunicacion.ppdDocumentoList[0].ideEcm" [versionar]="false"></app-documentos-ecm-list>
+     </div>
+
+    </div>
+  </app-task-container>
+</div>
+
+
+
+
+
+

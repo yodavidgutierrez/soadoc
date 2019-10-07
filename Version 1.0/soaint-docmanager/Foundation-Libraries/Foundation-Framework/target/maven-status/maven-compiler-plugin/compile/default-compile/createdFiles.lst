@@ -1,0 +1,13 @@
+co\com\foundation\soaint\infrastructure\common\ConfigurationUtil.class
+co\com\foundation\soaint\infrastructure\transformer\Transformer.class
+co\com\foundation\soaint\infrastructure\exceptions\SystemException.class
+co\com\foundation\soaint\infrastructure\annotations\InfrastructureService.class
+co\com\foundation\soaint\infrastructure\annotations\BusinessControl.class
+co\com\foundation\soaint\infrastructure\annotations\WebModel.class
+co\com\foundation\soaint\infrastructure\exceptions\ExceptionBuilder.class
+co\com\foundation\soaint\infrastructure\proxy\BusinessDelegateHandlerProxy.class
+co\com\foundation\soaint\infrastructure\exceptions\BusinessException.class
+co\com\foundation\soaint\infrastructure\builder\Builder.class
+co\com\foundation\soaint\infrastructure\common\MessageUtil.class
+co\com\foundation\soaint\infrastructure\proxy\ProxyBuilder.class
+co\com\foundation\soaint\infrastructure\annotations\BusinessBoundary.class

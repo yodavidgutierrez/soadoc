@@ -1,0 +1,107 @@
+<div class="ui-fluid radicar-comunicaciones">
+  <app-task-container [forceHiddenButtons]="true">
+     <div taskBody>
+       <div  class="page-buttons text-right">
+         <button pButton type="button" label="Guardar" style="width: auto; margin-bottom: 10px" (click)="save()" ></button>
+         <button pButton type="button"  class="ui-button-success" label="Finalizar" style="width: auto; margin-bottom: 10px" (click)="save(true)"  ></button>
+       </div>
+      <div class="card card-w-title">
+        <div class="ui-fluid ui-g">
+          <div class="ui-g ui-g-6">
+            <h1>Descripción anexos</h1>
+          </div>
+
+        </div>
+
+        <div class="ui-g ui-fluid" *ngIf="anexoSelected > -1">
+
+          <div class="ui-sm-12 ui-g-6 ui-lg-6">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label>Tipo anexos</label>
+              </div>
+              <div class="ui-g-12">
+                {{descripcionAnexos[anexoSelected].tipoAnexo.nombre}}
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-sm-12 ui-g-6 ui-lg-6">
+            <div class="ui-g form-group">
+              <div class="ui-g-12">
+                <label >Soporte</label>
+              </div>
+              <div class="ui-g-12">
+
+               {{descripcionAnexos[anexoSelected].soporteAnexo.nombre}}
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-sm-12 ui-g-12 ui-g-12">
+            <form [formGroup]="form">
+            <div class="form-group" style="display: flex; margin: 16px"   >
+              <div class="md-inputfield" style="flex-grow: 1; margin-top: 8px">
+                 <textarea [rows]="3" pInputTextarea
+                           id="descripcionAnexos"
+                           placeholder="Descripción"
+                           [autoResize]="false"
+                           formControlName="description"
+                           (blur)="trimDescription()"
+                 ></textarea>
+                <div class="ui-message ui-messages-error"
+                     *ngIf="validations?.tipoAnexosDescripcion">
+                  {{ validations.tipoAnexosDescripcion }}
+                </div>
+              </div>
+
+              <span style="float: right; margin-top: 30px">
+                  <button pButton type="button" label="Guardar" (click)="changeDescription()"   style="width: auto; margin-left: 12px;"
+                  ></button>
+              </span>
+            </div>
+            </form>
+          </div>
+
+        </div>
+
+        <div class="ui-fluid ui-g">
+          <div class="ui-g-12 ui-g">
+            <p-dataTable selectionMode="single"
+                         [paginator]="true" [rows]="10"
+                         [responsive]="true"
+                         [value]="descripcionAnexos"
+                         inmutable="false"
+                         emptyMessage="No se encontraron resultados"
+
+            >
+
+              <p-header> Listado de anexos</p-header>
+
+              <!--Body-->
+              <p-column field="tipoAnexo.nombre" header="Tipo anexos" [sortable]="true"></p-column>
+              <p-column field="soporteAnexo.nombre" header="Soporte anexos" [sortable]="true"></p-column>
+              <p-column field="descripcion" header="Descripción" [sortable]="true"></p-column>
+              <p-column header="Acciones" [style]="{'width':'120px','text-align':'center'}">
+                <ng-template let-tipoades="rowData" let-i="rowIndex" pTemplate="item">
+                  <button type="button" icon="ui-icon-pencil" pButton (click)="selectAnexo(i)"
+                          class="ui-button ui-button-icon ui-button-danger"
+
+                  ></button>
+                </ng-template>
+              </p-column>
+              <!--End Body-->
+            </p-dataTable>
+            <!--<div class="ui-g-12 md-inputfield">
+              <div class="ui-message ui-messages-error"
+                   *ngIf="descripcionAnexos.length === 0 &&
+                   (form.get('tipoAnexos').touched || form.get('tipoAnexosDescripcion').touched)">
+                Listado requerido
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-task-container>
+</div>

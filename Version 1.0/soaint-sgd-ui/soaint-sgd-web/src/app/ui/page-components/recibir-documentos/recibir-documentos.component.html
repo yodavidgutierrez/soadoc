@@ -1,0 +1,131 @@
+.<div class="ui-g">
+  <div class="ui-g-12">
+    <h2 class="text-left page-title">Comunicaciones Oficiales</h2>
+  </div>
+  <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6">
+    <h3 class="text-left page-subtitle">Recibir Documentos F&iacute;sicos</h3>
+  </div>
+  <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6">
+    <div class="page-buttons text-right">
+
+
+      <button pButton type="button" class="ui-button-success" label="Cancelar" style="width: auto;  margin-bottom: 10px"
+             ></button>
+      <button pButton type="button" class="ui-button-success" label="Guardar"
+              style="width: auto;  margin-bottom: 10px" ></button>
+
+    </div>
+  </div>
+</div>
+
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <p-panel header="Búsqueda" [style]="{border: 'none'}">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <div class="ui-sm-3 ui-g-1 ui-lg-1 ui-md-1" >
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="rd-anno">A&ntilde;o</label>
+                </div>
+                <div class="ui-g-12">
+                  <input  pInputText id="rd-anno"  formControlName="anno">
+                  <div class="ui-message ui-messages-error" *ngIf="false">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-6 ui-g-2 ui-lg-2" >
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="rd-radicado">Radicado</label>
+                </div>
+                <div class="ui-g-12">
+                  <input  pInputText id="rd-radicado" formControlName="noRadicado" >
+                  <div class="ui-message ui-messages-error" *ngIf="false">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-3 ui-g-1 ui-lg-1 ui-md-1 " >
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="rd-consecutivo">Consecutivo</label>
+                </div>
+                <div class="ui-g-12">
+                  <input  pInputText id="rd-consecutivo" formControlName="consecutivo" >
+                  <div class="ui-message ui-messages-error" *ngIf="false">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-6 ui-g-3 ui-lg-3" >
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="rd-dependencia">Dependencia Productora</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-dropdown [options]="(dependencias$ | async)" id="rd-dependencia"
+                              placeholder="Seleccione"
+                              [autoWidth]="false"
+                              formControlName="codDependencia"
+
+                             >
+                  </p-dropdown>
+                  <div class="ui-message ui-messages-error" *ngIf="false" >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-6 ui-g-3 ui-lg-2 ui-sm-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="startDate">Fecha inicial</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-calendar id="startDate"  [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-12 ui-g-3 ui-lg-2 ui-sm-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="endDate">Fecha Final</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-calendar id="endDate" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-g-12" [style.padding-top]="'40px'">
+              <button pButton type="button" label="Buscar"
+                      style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"
+                     ></button>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+      <p-dataTable [value]="(comunicaciones | async)"  [paginator]="true" [rows]="10" [responsive]="true" [showHeaderCheckbox]="false">
+        <p-column  header="N&deg;. radicado" [sortable]="true"></p-column>
+        <p-column  header="Fecha y Hora Radicacion" [sortable]="true"></p-column>
+        <p-column  header="Dependencia Destino" [sortable]="true"></p-column>
+        <p-column  header="Tipo Comunicación" [sortable]="true"></p-column>
+        <p-column  header="Asunto" [sortable]="true"></p-column>
+        <p-column  header="Tipo Anexo" [sortable]="true"></p-column>
+        <p-column  header="Cantidad Anexos" [sortable]="true"></p-column>
+        <p-column  header="Folios" [sortable]="true"></p-column>
+        <p-column  header="Recibir"  selectionMode="multiple" >
+          <ng-template pTemplate="header">
+            Recibir
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div>
+    <cm-uploader  (docUploaded)="onDocUploaded($event)" taskName="Adjuntar Archivo" processName="Radicación contingencia"></cm-uploader>
+
+    <br />
+
+  <div *ngIf="resultUpload" class="result" [ngClass]="{'error': resultUpload.success == 'false'}">
+    <p>{{ resultUpload.error }}</p>
+  </div>
+
+    <cm-records #records (onRefresh)="clearError()"></cm-records>
+</div>

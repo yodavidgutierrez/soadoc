@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- ~~~~~~~~~~~~~~~~~ dev environment -->
+
+    <beans profile="dev_da">
+
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://192.168.1.5:389"/>
+            <property name="userDn" value="CN=sgdea,OU=servicios,OU=sgdea,DC=ADPRUEBAS,DC=COM"/>
+            <property name="password" value="Admin123"/>
+        </bean>
+
+        <util:map id="configurationData">
+            <entry key="user.base.dn" value="OU=appusers,OU=sgdea,DC=ADPRUEBAS,DC=COM"/>
+            <entry key="user.unique.identifier" value="sAMAccountName"/>
+            <entry key="mapper.email" value="userPrincipalName"/>
+            <entry key="mapper.user" value="sAMAccountName"/>
+            <entry key="mapper.password" value="password"/>
+            <entry key="mapper.roles.finder" value="cn"/>
+            <entry key="roles.group.criteria.name" value="objectCategory"/>
+            <entry key="roles.group.criteria.value" value="CN=Group,CN=Schema,CN=Configuration,DC=ADPRUEBAS,DC=COM"/>
+            <entry key="roles.group.member.name" value="member"/>
+            <entry key="group.base.dn" value="OU=grupos,OU=sgdea,DC=ADPRUEBAS,DC=COM"/>
+        </util:map>
+
+    </beans>
+
+    <beans profile="dev">
+
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://localhost:10389"/>
+            <property name="userDn" value="uid=admin,ou=system"/>
+            <property name="password" value="secret"/>
+        </bean>
+
+        <util:map id="configurationData">
+            <entry key="user.base.dn" value="ou=appusers,ou=system"/>
+            <entry key="user.unique.identifier" value="uid"/>
+            <entry key="mapper.email" value="mail"/>
+            <entry key="mapper.user" value="uid"/>
+            <entry key="mapper.password" value="userPassword"/>
+            <entry key="mapper.roles.finder" value="uid"/>
+            <entry key="roles.group.criteria.name" value="objectClass"/>
+            <entry key="roles.group.criteria.value" value="groupOfUniqueNames"/>
+            <entry key="roles.group.member.name" value="uniqueMember"/>
+            <entry key="group.base.dn" value=""/>
+        </util:map>
+
+    </beans>
+
+    <beans profile="qa">
+
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://192.168.1.153:10389"/>
+            <property name="userDn" value="cn=admin,dc=correspondencia,dc=com,dc=co"/>
+            <property name="password" value="correspondencia*22"/>
+        </bean>
+
+        <util:map id="configurationData">
+            <entry key="user.base.dn" value="ou=appusers,ou=system"/>
+            <entry key="user.unique.identifier" value="uid"/>
+            <entry key="mapper.email" value="mail"/>
+            <entry key="mapper.user" value="uid"/>
+            <entry key="mapper.password" value="userPassword"/>
+            <entry key="mapper.roles.finder" value="uid"/>
+            <entry key="roles.group.criteria.name" value="objectClass"/>
+            <entry key="roles.group.criteria.value" value="groupOfUniqueNames"/>
+            <entry key="roles.group.member.name" value="uniqueMember"/>
+            <entry key="group.base.dn" value=""/>
+        </util:map>
+
+    </beans>
+
+    <beans profile="dev_sql">
+
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://localhost:10389"/>
+            <property name="userDn" value="uid=admin,ou=system"/>
+            <property name="password" value="secret"/>
+        </bean>
+
+        <util:map id="configurationData">
+            <entry key="user.base.dn" value="ou=appusers,ou=system"/>
+            <entry key="user.unique.identifier" value="uid"/>
+            <entry key="mapper.email" value="mail"/>
+            <entry key="mapper.user" value="uid"/>
+            <entry key="mapper.password" value="userPassword"/>
+            <entry key="mapper.roles.finder" value="uid"/>
+            <entry key="roles.group.criteria.name" value="objectClass"/>
+            <entry key="roles.group.criteria.value" value="groupOfUniqueNames"/>
+            <entry key="roles.group.member.name" value="uniqueMember"/>
+            <entry key="group.base.dn" value=""/>
+        </util:map>
+
+    </beans>
+	
+	
+
+
+    <!-- ~~~~~~~~~~~~~~~~~ test environment -->
+
+    <beans profile="test">
+
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://192.168.1.5:389"/>
+            <property name="userDn" value="CN=intrumentos colpensiones,OU=servicios,OU=colpensiones,OU=Proyectos,DC=ADPRUEBAS,DC=COM"/>
+            <property name="password" value="Admin123"/>
+        </bean>
+
+        <util:map id="configurationData">
+            <entry key="user.base.dn" value="OU=sistema,OU=sgdea,DC=ADPRUEBAS,DC=COM"/>
+            <entry key="user.unique.identifier" value="sAMAccountName"/>
+            <entry key="mapper.email" value="userPrincipalName"/>
+            <entry key="mapper.user" value="sAMAccountName"/>
+            <entry key="mapper.password" value="password"/>
+            <entry key="mapper.roles.finder" value="cn"/>
+            <entry key="roles.group.criteria.name" value="objectCategory"/>
+            <entry key="roles.group.criteria.value" value="CN=Group,CN=Schema,CN=Configuration,DC=ADPRUEBAS,DC=COM"/>
+            <entry key="roles.group.member.name" value="member"/>
+            <entry key="group.base.dn" value="OU=grupos,OU=sgdea,DC=ADPRUEBAS,DC=COM"/>
+        </util:map>
+
+
+    </beans>
+
+    <beans profile="test_sql">
+
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://localhost:10389"/>
+            <property name="userDn" value="uid=admin,ou=system"/>
+            <property name="password" value="secret"/>
+        </bean>
+
+        <bean id="user_base_dn" class="java.lang.String">
+            <constructor-arg value="ou=appusers,ou=system"/>
+        </bean>
+
+    </beans>
+
+    <!-- ~~~~~~~~~~~~~~~~~ uat environment -->
+
+    <beans profile="uat">
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://localhost:10389"/>
+            <property name="userDn" value="uid=admin,ou=system"/>
+            <property name="password" value="secret"/>
+        </bean>
+
+        <bean id="user_base_dn" class="java.lang.String">
+            <constructor-arg value="ou=appusers,ou=system"/>
+        </bean>
+    </beans>
+
+    <!-- ~~~~~~~~~~~~~~~~~ prod environment -->
+
+    <beans profile="prod">
+        <bean id="ldap_source" class="org.springframework.ldap.core.support.LdapContextSource">
+            <property name="url" value="ldap://10.20.1.92:389"/>
+            <property name="userDn" value="CN=sgdea,OU=sistema,OU=sgdea,DC=sic,DC=local"/>
+            <property name="password" value="Admin123"/>
+        </bean>
+
+        <util:map id="configurationData">
+            <entry key="user.base.dn" value="OU=SIC,DC=sic,DC=local"/>
+            <entry key="user.unique.identifier" value="sAMAccountName"/>
+            <entry key="mapper.email" value="userPrincipalName"/>
+            <entry key="mapper.user" value="sAMAccountName"/>
+            <entry key="mapper.password" value="password"/>
+            <entry key="mapper.roles.finder" value="cn"/>
+            <entry key="roles.group.criteria.name" value="objectCategory"/>
+            <entry key="roles.group.criteria.value" value="CN=Group,CN=Schema,CN=Configuration,DC=sic,DC=local"/>
+            <entry key="roles.group.member.name" value="member"/>
+            <entry key="group.base.dn" value="OU=grupos,OU=sgdea,DC=sic,DC=local"/>
+        </util:map>
+    </beans>
+
+</beans>

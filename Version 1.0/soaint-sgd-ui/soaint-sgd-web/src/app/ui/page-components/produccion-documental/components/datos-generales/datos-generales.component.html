@@ -1,0 +1,410 @@
+<form [formGroup]="form">
+  <p-panel header="Datos Generales" [style]="{border: 'none'}">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12" padding-bottom>
+        <div class="ui-sm-12 ui-md-3 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <label>Usuario Responsable</label>
+                            </span>
+            </div>
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <label
+                                  style="color: inherit">{{screenData !== undefined ? screenData.usuarioProyector : ''}}</label>
+                            </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-md-3 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                              <label>Fecha y Hora de creación</label>
+                            </span>
+            </div>
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <label style="color: inherit">
+                                  {{fechaCreacion | date:'dd/MM/yyyy'}} {{fechaCreacion | date:'mediumTime'}}
+                                </label>
+                            </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-md-3 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <label>Dependencia Jerárquica</label>
+                            </span>
+            </div>
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <label
+                                  style="color: inherit; position: relative">{{screenData !== undefined ? screenData.nombreSede : ''}}</label>
+                            </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-md-3 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <label>Dependencia Productora</label>
+                            </span>
+            </div>
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <label
+                                  style="color: inherit; position: relative">{{screenData !== undefined ? screenData.nombreDependencia : ''}}</label>
+                            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-panel header="Radicado asociado" [style]="{border: 'none'}"
+           *ngIf="screenData!== undefined && screenData.numeroRadicado">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12" padding-bottom style="max-height: 68px">
+        <div class="ui-sm-12 ui-md-3 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                <label>Fecha y Hora de radicacion</label>
+              </span>
+            </div>
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                  <label style="color: inherit">
+                    {{(screenData != undefined ? screenData.fechaRadicacion : 0) | date:'dd/MM/yyyy'}} {{(screenData != undefined ? screenData.fechaRadicacion : 0) | date:'mediumTime'}}
+                  </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-md-3 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                <label>Número de Radicado</label>
+              </span>
+            </div>
+            <div class="ui-g-12">
+                            <span class="md-inputfield">
+                  <label
+                    style="color: inherit">{{(screenData !== undefined ? screenData.numeroRadicado : '') | niceNoRadicado}}</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-sm-12 ui-md-6 ui-g-6 ui-lg-6" *ngIf="screenData !== undefined && screenData.numeroRadicado">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <button pButton type="button" label="Ver documento" style="width:auto;float:right;margin-top:5px;"
+                      (click)="obtenerDocumentoRadicado();"
+
+              >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-panel header="Producir Documento" [style]="{border: 'none'}">
+    <div class="ui-g ui-fluid">
+      <div class="ui-sm-12 ui-g-4 ui-lg-4">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="tipoComunicacion"><span class="text-danger">*</span>Tipo de comunicación</label>
+          </div>
+          <div class="ui-g-12 md-dropdownfield">
+            <p-dropdown [options]="tiposComunicacion$ | async | dropdownItem" id="tipoComunicacion"
+                        formControlName="tipoComunicacion"
+                        [disabled]="listaVersionesDocumento.length > 0"
+                        placeholder="Seleccione" [autoWidth]="false" (onBlur)="listenForBlurEvents('tipoComunicacion')"
+                        (onChange)="tipoComunicacionChange($event)">
+            </p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="ui-sm-12 ui-g-4 ui-lg-4">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="tipoPlantilla">Tipo de plantilla</label>
+          </div>
+          <div class="ui-g-12 md-dropdownfield">
+            <p-dropdown [options]="tiposPlantilla$ | dropdownItem" id="tipoPlantilla" formControlName="tipoPlantilla"
+                        [disabled]="listaVersionesDocumento.length > 0"
+                        placeholder="Seleccione" [autoWidth]="false" (onBlur)="listenForBlurEvents('tipoPlantilla')"
+                        (onChange)="tipoPlanillaChange($event)">
+            </p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="ui-sm-12 ui-g-4 ui-lg-4">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <div class="ui-sm-12 ui-g-4 ui-lg-6">
+              <button pButton label="Cargar" [disabled]="!form.valid || listaVersionesDocumento.length > 0"
+                      style="width:auto;" type="button"
+                      (click)="mostrarVersionDocumento(-1);"></button>
+            </div>
+            <div class="ui-sm-12 ui-g-8 ui-lg-6"
+                 [ngClass]="{'btn-disabled':!form.valid || listaVersionesDocumento.length > 0}">
+              <p-fileUpload #versionUploader
+                            mode="basic"
+                            auto="true"
+                            accept="application/pdf"
+                            chooseLabel="Adjuntar"
+                            customUpload="true"
+                            (uploadHandler)="attachDocument($event,versionUploader)"
+                            (onError)="onErrorUpload($event)"
+                            [disabled]="!form.valid || listaVersionesDocumento.length > 0"
+              ></p-fileUpload>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-g ui-fluid" style="margin-bottom: 16px">
+      <div class="ui-sm-12 ui-g-12 ui-lg-12">
+        <p-dataTable selectionMode="single" [paginator]="true" [rows]="10" [responsive]="true"
+                     [value]="listaVersionesDocumento" emptyMessage="No se han subido documentos">
+          <p-header> Tabla versiones documento</p-header>
+          <p-column field="tipo" header="Tipo" [sortable]="true"></p-column>
+          <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+          <p-column field="size" header="Tamaño (Kb)" [sortable]="true"></p-column>
+          <p-column field="version" header="Versión" [sortable]="true"></p-column>
+          <p-column header="Ver documento" [style]="{'width':'250px','text-align':'center'}">
+            <ng-template let-radref="rowData" let-i="rowIndex" pTemplate="item">
+              <button type="button" pButton label="Ver" class="ui-button ui-button-info"
+                      (click)="mostrarVersionDocumento(i)" style="width: 100px"></button>
+              <button type="button" pButton label="Versión pdf" class="ui-button ui-button-info" style="width: 100px"
+                      (click)="viewPdf(radref)" *ngIf="radref.tipo != 'pdf'"></button>
+            </ng-template>
+          </p-column>
+          <p-column header="Eliminar" [style]="{'width':'120px','text-align':'center'}">
+            <ng-template let-version="rowData" let-i="rowIndex" pTemplate="item">
+              <button type="button" pButton label="Eliminar" class="ui-button ui-button-danger"
+                      [disabled]="version.disabled"
+                      (click)="eliminarVersionDocumento(i);">
+              </button>
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-panel header="Anexos" [style]="{border: 'none'}">
+    <div class="ui-g ui-fluid">
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label>Soporte</label>
+          </div>
+          <div class="ui-g-12">
+            <label class="md-check" *ngFor="let tipoSoprte of (tipoSoporte$ | async)">
+              <input type="radio" value="{{tipoSoprte.codigo }}" name="soporte"
+                     formControlName="soporte"> {{tipoSoprte.nombre}}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="tipoAnexo"><span class="text-danger">*</span>Tipo de anexo</label>
+          </div>
+          <div class="ui-g-12 md-dropdownfield">
+            <p-dropdown [options]="tiposAnexo$ | async | dropdownItem"
+                        id="tipoAnexo"
+                        formControlName="tipoAnexo"
+                        placeholder="Seleccione"
+                        [autoWidth]="false">
+            </p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <label for="descripcion">Descripción</label>
+          </div>
+          <div class="ui-g-12">
+            <input type="text" pInputText
+                   id="descripcion"
+                   formControlName="descripcion" (blur)="listenForBlurEvents('descripcion')"/>
+          </div>
+        </div>
+      </div>
+
+      <!--[disabled]="form.get('soporte').value == 'fisico' &&  listaVersionesDocumento.length == 0"-->
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group" style="align-items: flex-end; height: 100%">
+          <div class="ui-g-12"
+               *ngIf="form.get('soporte').value === 'TP-SOPE' || form.get('soporte').value === 'TP-SOPH'" [ngClass]="{'btn-disabled':!form.get('tipoAnexo').value}">
+            <p-fileUpload #anexoUploader
+                          mode="basic"
+                          auto="true"
+                          accept="application/pdf"
+                          chooseLabel="Adjuntar"
+                          customUpload="true"
+                          (click)="selectAnexo()"
+                          (uploadHandler)="agregarAnexo($event, anexoUploader)"
+                          [disabled]="!form.get('tipoAnexo').value"
+                          (onError)="onErrorUpload($event)">
+            </p-fileUpload>
+          </div>
+          <div class="ui-g-12" *ngIf="form.get('soporte').value === 'TP-SOPF'">
+            <button pButton label="Agregar"
+                    [disabled]="form.get('soporte').value == 'electronico' || !form.get('tipoAnexo').value"
+                    (click)="agregarAnexo()" style="width: auto;margin-top: 20px;margin-left: 10px; float: right;"
+                    type="button">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-sm-12 ui-g-12 ui-lg-12">
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <div style="display: flex;align-items: flex-end; height: 100%; float: left">
+              <span><label> <b>Cantidad anexos: </b> {{listaAnexos.length}}</label></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-sm-12 ui-g-12 ui-lg-12">
+        <p-dataTable selectionMode="single" [paginator]="true" [rows]="10" [responsive]="true" [value]="listaAnexos"
+                     emptyMessage="No se encontraron resultados">
+          <p-column header="Soporte" [sortable]="true">
+            <ng-template pTemplate="body" let-row="rowData">
+              {{ row.soporte == 'TP-SOPF' ? 'Físico' : (row.soporte == 'TP-SOPE') ? 'Electrónico' : 'Híbrido'}}
+            </ng-template>
+          </p-column>
+          <p-column field="tipo.nombre" header="Tipo de anexo" [sortable]="true"></p-column>
+          <p-column field="descripcion" header="Descripción" [sortable]="true"></p-column>
+          <p-column header="Ver documento" [style]="{'width':'120px','text-align':'center'}">
+            <ng-template let-item="rowData" let-i="rowIndex" pTemplate="item">
+              <button type="button" pButton class="ui-button ui-button-info" label="Ver"
+                      [disabled]="item.soporte == 'TP-SOPF'"
+                      (click)="mostrarAnexo(i)">
+              </button>
+            </ng-template>
+          </p-column>
+          <p-column header="Eliminar" [style]="{'width':'120px','text-align':'center'}">
+            <ng-template let-item="rowData" let-i="rowIndex" pTemplate="item">
+              <button type="button" pButton class="ui-button ui-button-danger" label="Eliminar"
+                      (click)="eliminarAnexo(i)">
+              </button>
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </p-panel>
+</form>
+
+<p-dialog [visible]="pd_editarPlantillaVisible" [responsive]="true" [modal]="true" positionTop="20"
+          (onHide)="pd_editarPlantillaVisible = false;">
+  <p-header>
+    Editar Plantilla
+  </p-header>
+
+  <ckeditor [(ngModel)]="pd_currentVersion.contenido" [config]="ckEditorConfig" name="test-editor"></ckeditor>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton class="ui-button ui-button-danger" label="Cerrar"
+              (click)="pd_editarPlantillaVisible = false;"></button>
+      <button type="button" pButton label="Vista PDF" (click)="viewPdf(pd_currentVersion)"></button>
+      <button pButton type="button" label="Versionar" *ngIf="pd_currentVersion.editable"
+              (click)="pd_confirmarVersionadoVisible= true"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [visible]="pd_confirmarVersionadoVisible" modal="modal" [responsive]="true" positionTop="20"
+          (onHide)="hideVersionesDocumentoDialog()" [width]="510">
+  <p-header>
+    Confirmación
+  </p-header>
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-sm-12 ui-g-8 ui-lg-8" style="padding-left: 16px;padding-top: 10px;">
+      <span style="text-align:center;">¿Está seguro de generar versión del documento?</span>
+    </div>
+    <div class="ui-sm-12 ui-g-12 ui-lg-12">
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <div class="ui-sm-12 ui-g-12 ui-lg-12">
+            <input type="text" pInputText
+                   [(ngModel)]="pd_currentVersion.nombre"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button pButton type="button" label="Guardar"
+              style="width: auto; margin-bottom: 10px;margin-left: 12px"
+              (click)="confirmarVersionDocumento()"></button>
+      <button pButton type="button" label="Cancelar"
+              style="width: auto; margin-bottom: 10px;margin-left: 12px"
+              (click)="hideVersionesDocumentoDialog()"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog [visible]="documentPreview" modal="modal" [responsive]="true" positionTop="20"
+          (onHide)="hidePdf()" [width]="1024">
+  <p-header>
+    Visor de PDF
+  </p-header>
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-sm-12 ui-g-12 ui-lg-12">
+      <app-documentos-ecm-list [(idDocumentECM)]="idecmDocumentoRadicado" [versionar]="false"></app-documentos-ecm-list>
+      <!--<div style="overflow-y: scroll;max-height:500px">-->
+      <!--<pdf-viewer [src]="documentPreviewUrl" [show-all]="true" [zoom]="1.5"-->
+      <!--(after-load-complete)="afterLoadComplete($event)"-->
+      <!--&gt;</pdf-viewer>-->
+      <!--</div>-->
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button pButton type="button" label="Cerrar" style="width: auto; margin-bottom: 10px;margin-left: 12px"
+              (click)="hidePdf()"></button>
+      <!--<button pButton type="button" label="Descargar" style="width: auto; margin-bottom: 10px;margin-left: 12px"-->
+      <!--[disabled]="!documentLoaded"-->
+      <!--(click)="downloadPdf()"></button>-->
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="previewPdf" modal="modal" [width]="1000" [responsive]="true" positionTop="20"
+          header="Vista previa" [positionLeft]="30">
+
+  <div class="pdf-container" style="max-height: 600px;overflow: auto" *ngIf="previewPdf">
+    <app-pdf-viewer [pdfSrc]="documentPreviewUrl" [containerStyle]="{'min-height':'400px'}"></app-pdf-viewer>
+    <!--<pdf-viewer [src]="documentPreviewUrl" [show-all]="true" [zoom]="1.5"  ></pdf-viewer>-->
+  </div>
+
+</p-dialog>
+
+<app-alert #alertItem [width]="400" [height]="150"></app-alert>

@@ -1,0 +1,277 @@
+<div class="page-title">
+  <h2>Asignación de comunicaciones</h2>
+</div>
+
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <!--<p-panel header="Opciones asignación" [style]="{border: 'none'}">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12" style="padding: 10px">
+            <p-radioButton name="groupname" value="auto" [(ngModel)]="asignationType"
+                           label="Automático"></p-radioButton>
+            <p-radioButton name="groupname" value="manual" [(ngModel)]="asignationType" label="Manual"
+                           [style]="{'margin-left':'10px'}"></p-radioButton>
+          </div>
+        </div>
+      </p-panel>-->
+      <p-panel header="Búsqueda de tareas" [style]="{ border: 'none'}">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <div class="ui-sm-6 ui-g-2 ui-lg-2 ui-md-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="startDate">Fecha inicial</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-calendar [(ngModel)]="start_date" [showIcon]="true" dateFormat="dd/mm/yy"
+                              [maxDate]="end_date"
+                              id="startDate"></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-6 ui-g-2 ui-lg-2 ui-md-3">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="endDate">Fecha final</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-calendar [(ngModel)]="end_date" [showIcon]="true" dateFormat="dd/mm/yy" id="endDate"
+                              [minDate]="start_date"></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-6 ui-g-2 ui-lg-2 ui-md-3" [formGroup]="form">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="estadoCorrespondencia">Estado tarea</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-dropdown [options]="estadosCorrespondencia" id="estadoCorrespondencia"
+                              [autoWidth]="false" formControlName="estadoCorrespondencia"></p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-6 ui-g-2 ui-lg-2 ui-md-3" [formGroup]="form">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="numeroRadicado">Número de radicado</label>
+                </div>
+                <div class="ui-g-12">
+                  <input type="text" pInputText id="numeroRadicado" formControlName="nroRadicado">
+                </div>
+              </div>
+            </div>
+            <div class="ui-sm-6 ui-g-4 ui-md-4" [formGroup]="form" [hidden]="!visibility.funcionario">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="ac-funcionario">Funcionario</label>
+                </div>
+                <div class="ui-g-12">
+                  <p-dropdown id="ac-funcionario"   placeholder="Seleccione un funcionario" [autoWidth]="false" formControlName="funcionario" [options]="funcionariosDependencia$ | async | funcionarioNombreId"></p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12" [style.padding-top]="'40px'">
+              <button pButton type="button" label="Buscar" [disabled]="!formValid"
+                      style="width: 120px; margin-right: 15px; margin-bottom: 10px;float: right"
+                      (click)="listarComunicaciones()"></button>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+      <p-panel header="Datos funcionarios a asignar"
+        pTooltip="La asignación se realizará en el orden en que escoja a los funcionarios."
+        [style]="{border: 'none'}" *ngIf="asignationType === 'auto'">
+
+        <div class="ui-g ui-fluid"  >
+          <div class="ui-g-6" style="padding-top: 30px;padding-bottom: 5px">
+            <p-multiSelect maxSelectedLabels="4" [options]="(funcionariosSuggestions$ | async) | dropdownItemFullName"
+                           [(ngModel)]="selectedFuncionarios" [panelStyle]="{minWidth:'12em'}"
+                           defaultLabel="Seleccione los funcionarios"
+                           selectedItemsLabel="{0} funcionarios seleccionados">
+            </p-multiSelect>
+            <div *ngIf="selectedFuncionarios.length > 4">
+              <p *ngFor="let item of selectedFuncionarios">
+                {{item.nombre + ' ' + (item.valApellido1 ? item.valApellido1 : "") + ' ' + (item.valApellido2 ?
+                item.valApellido2 : "")}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+
+      <p-panel header="Datos funcionario a asignar" [style]="{border: 'none'}" *ngIf="asignationType === 'manual'">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <div class="ui-sm-12 ui-g-6 ui-lg-6">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <label for="funcionario">Funcionario</label>
+                </div>
+                <div class="ui-g-12 md-dropdownfield">
+                  <p-dropdown [options]="funcionariosSuggestions$ | async | dropdownItemFullName"
+                              [(ngModel)]="funcionarioSelected"
+                              id="funcionario"
+                              placeholder="Seleccione"
+                              [filter]="true"
+                              [autoWidth]="false">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+
+      <p-panel header="Resultados búsqueda" [style]="{border: 'none'}">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <p-dataTable emptyMessage="No se encontraron resultados" selectionMode="multiple"
+                         [(selection)]="selectedComunications" [(first)] ="first"
+                         [paginator]="true" [rows]="10" [responsive]="true" [value]="(comunicaciones$ | async)">
+              <p-column selectionMode="multiple" [style]="{'width':'50px'}"></p-column>
+              <p-column sortField="correspondencia.nroRadicado" header="Número radicado" [sortable]="true">
+                <ng-template pTemplate="body" let-row="rowData">
+                  {{ row.correspondencia.nroRadicado | niceNoRadicado}}
+                </ng-template>
+              </p-column>
+              <p-column sortField="correspondencia.fecRadicado" field="fecRadicado" header="Fecha y hora de radicación" [sortable]="true">
+                <ng-template let-col let-correspondencia="rowData" pTemplate="body">
+                  {{correspondencia['correspondencia'][col.field] | date:'dd/MM/yyyy hh:mm a'}}
+                </ng-template>
+              </p-column>
+              <p-column sortField="correspondencia.fecVenGestion" field="fecVenGestion" header="Fecha de vencimiento" [sortable]="true">
+                <ng-template let-col let-correspondencia="rowData" pTemplate="body">
+                  {{correspondencia['correspondencia'][col.field] | date:'dd/MM/yyyy hh:mm a'}}
+                </ng-template>
+              </p-column>
+              <p-column [hidden]="!visibility.colFuncionario" header="Funcionario" [sortable]="true">
+
+                <ng-template let-row="rowData" pTemplate="body">
+                  {{ funcionarios$ | async | findFuncionarioById:getDestinatarioPrincipal(row.agenteList)?.ideFunci}}
+                </ng-template>
+              </p-column>
+              <p-column field="correspondencia.descripcion" header="Asunto" [sortable]="true"></p-column>
+
+              <p-column header="Estado" [style]="{'width':'110px'}">
+
+                <ng-template pTemplate="body">
+                  {{estadoAsignacion | estadoAsignacion}}
+                </ng-template>
+              </p-column>
+              <p-column header="Ver detalles" [style]="{'text-align':'center','width':'130px'}">
+                <ng-template let-correspondencia="rowData" let-i="rowIndex" pTemplate="item">
+                  <button pButton type="button" label="Ver detalles"
+                          style="width: auto;"
+                          (click)="showDetailsDialog(correspondencia['correspondencia'].nroRadicado)"></button>
+                </ng-template>
+              </p-column>
+              <p-column header="Observación" [style]="{'text-align':'center','width':'200px'}">
+                <ng-template let-correspondencia="rowData" let-i="rowIndex" pTemplate="item">
+                  <button pButton type="button" label="Observaciones"
+                          style="width: auto;"
+                          (click)="showAddObservationsDialog(correspondencia['correspondencia']['ideDocumento'])"></button>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+          </div>
+          <div class="ui-g-12" style="padding-top: 20px">
+            <button pButton type="button" label="Redireccionar"
+                    [disabled]="selectedComunications.length === 0  || form.get('estadoCorrespondencia').value === 'AS'"
+                    style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+                    (click)="showRedirectDialog()"></button>
+            <button pButton type="button" label="Tramitar"
+                    [disabled]="selectedComunications.length == 0 || form.get('estadoCorrespondencia').value === 'AS'"
+                    style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+                    (click)="processComunications()"></button>
+            <button pButton type="button" label="Devolver"
+                    [disabled]="comunicacionesEntradaSelected.length == 0"
+                    style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+                    (click)="showRejectDialog()"></button>
+            <button pButton type="button" label="Reasignar"
+                    [disabled]="(!funcionarioSelected && selectedFuncionarios.length === 0) || selectedComunications.length == 0 || form.get('estadoCorrespondencia').value === 'SA'"
+                    style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+                    (click)="reassignComunications()"></button>
+            <button pButton type="button" label="Asignar"
+                    style="width: auto; margin-bottom: 10px;float:right;margin-left: 12px"
+                    [disabled]="(!funcionarioSelected && selectedFuncionarios.length === 0) || selectedComunications.length == 0 || form.get('estadoCorrespondencia').value === 'AS'"
+                    (click)="assignComunications()"></button>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+
+  <p-dialog [visible]="detailsDialogVisible$ | async" modal="modal" [responsive]="true"
+            (onHide)="hideDetailsDialog()" [width]="1000">
+
+    <app-detalles-asignacion #detallesView></app-detalles-asignacion>
+  </p-dialog>
+
+  <p-dialog [visible]="justificationDialogVisible$ | async" modal="modal" [responsive]="true"
+            (onHide)="hideJustificationPopup()" [width]="800">
+    <p-header>
+      Redireccionar
+    </p-header>
+    <app-popup-justificacion (onRedirectComunication)="redirectComunications($event)"
+                             #popupjustificaciones></app-popup-justificacion>
+
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button pButton type="button" class="ui-button-primary"
+                label="Cerrar" (click)="hideJustificationPopup()"></button>
+        <button pButton type="button" class="ui-button-primary" [disabled]="!popupjustificaciones.form.valid"
+                label="Redireccionar" (click)="sendRedirect()"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+  <p-dialog [visible]="agregarObservacionesDialogVisible$ | async" modal="modal" [responsive]="true"
+            (onHide)="hideAddObservationsPopup()" [width]="800">
+    <p-header>
+      Observaciones
+    </p-header>
+    <app-popup-agregar-observaciones #popupAgregarObservaciones></app-popup-agregar-observaciones>
+
+  </p-dialog>
+  <p-dialog [visible]="rejectDialogVisible$ | async" modal="modal" [responsive]="true"
+            (onHide)="hideRejectDialog()" [width]="800">
+    <p-header>
+      Devolver
+    </p-header>
+    <app-popup-reject #popupReject (onRejectComunication)="rejectComunications($event)" ></app-popup-reject>
+
+
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button pButton type="button" class="ui-button-primary"
+                label="Cerrar" (click)="hideRejectDialog()"></button>
+        <button pButton type="button" class="ui-button-primary" [disabled]="!popupReject.form.valid"
+                label="Devolver" (click)="sendReject()"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+
+  <!--Quité el popup de redirecionamiendo cuando falla para que cuando este la info mostrarla [visible]="redireccionesFallidas"-->
+  <p-dialog [visible]="redireccionesFallidas" modal="modal" [responsive]="true"
+            [contentStyle]="{'overflow':'visible'}"
+            (onHide)="hideAndCleanDevolucionesFallidasDialog()" [width]="800">
+    <p-header>
+      Devoluciones / Redirecciones - Fallidas
+    </p-header>
+    <app-redirecciones-recursivas-traza [redireccionesFallidas]="redireccionesFallidas"
+                                        (onEjecutarRedireccionOrigen)="devolverOrigenRedireccionFallida()"></app-redirecciones-recursivas-traza>
+
+
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button pButton type="button" class="ui-button-danger"
+                label="Cerrar" (click)="hideAndCleanDevolucionesFallidasDialog()"></button>
+      </div>
+
+    </p-footer>
+  </p-dialog>
+</div>
+
+
+

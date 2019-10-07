@@ -1,0 +1,46 @@
+<div class="ui-fluid carga-masiva">
+  <app-task-container [taskName]="taskName" [processName]="processName" >
+    <div customActions>
+      <a  style="width: auto;  top: 10px" class="ui-button-success ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" href="{{baseUrl}}/assets/Plantilla_radicacion_contigencia_SIC_final.xlsx">
+        <span class="ui-button-text ui-clickable"> Descargar plantilla</span>
+       </a>
+    </div>
+
+    <div taskBody>
+      <ng-content select="before"></ng-content>
+      <p-fileUpload id="massive-load" #uploader
+                    mode="advanced"
+                    chooseLabel="Buscar"
+                    uploadLabel="Subir"
+                    cancelLabel="Cancelar"
+                    multiple="false"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                    maxFileSize="1000000"
+                    customUpload="true"
+                    (uploadHandler)="uploadFileAction($event)"
+                    (onUpload)="onUpload($event)"
+                    (onClear)="onClear($event)"
+                    (onSelect)="onSelect($event)"
+
+      >
+
+        <ng-template let-file pTemplate="file" class="ui-fluid">
+            <div class="ui-g ui-fileupload-row">
+                <div>{{ file.name }}</div>
+                <div>{{ file.size }} KB</div>
+                <div>{{ file.type }}</div>
+                <div>{{ today | date:'dd/mm/yyyy' }}</div>
+            </div>
+
+        </ng-template>
+
+
+      </p-fileUpload>
+
+    </div>
+  </app-task-container>
+
+  <br/>
+
+  <ng-content select="after"></ng-content>
+</div>

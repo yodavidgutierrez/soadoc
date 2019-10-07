@@ -1,0 +1,172 @@
+<div *ngIf="UnidadSeleccionada"  style="position: relative">
+  <ng-content select="before"></ng-content>
+<p-panel header="Datos unidad documental" leftIcon="ui-icon-assignment">
+  <div class="ui-g ui-fluid">
+      <div class="ui-sm-12 ui-g-6 ui-lg-12">
+        <div class="ui-sm-12 ui-g-3 ui-lg-3">
+          <div class="ui-g form-group">
+              <div class="ui-g-12">
+                  <label for="idunidaddocumental">Identificador principal unidad documental</label>
+              </div>
+              <div class="ui-g-12">
+                  <input type="text" pInputText   id="idunidaddocumental" [(ngModel)]="UnidadSeleccionada.id" disabled />
+              </div>
+          </div>
+      </div>
+      <div class="ui-sm-12 ui-g-3 ui-lg-3">
+        <div class="ui-g form-group">
+            <div class="ui-g-12">
+                <label for="nombre">Nombre unidad documental</label>
+            </div>
+            <div class="ui-g-12">
+                <input type="text" pInputText   id="nombre" [(ngModel)]="UnidadSeleccionada.nombreUnidadDocumental" disabled />
+            </div>
+        </div>
+    </div>
+    <div class="ui-sm-12 ui-g-3 ui-lg-3">
+      <div class="ui-g form-group">
+          <div class="ui-g-12">
+              <label for="descriptor1">Descriptor 1</label>
+          </div>
+          <div class="ui-g-12">
+              <input type="text" pInputText   id="descriptor1" [(ngModel)]="UnidadSeleccionada.descriptor1" disabled/>
+          </div>
+      </div>
+  </div>
+  <div class="ui-sm-12 ui-g-3 ui-lg-3">
+    <div class="ui-g form-group">
+        <div class="ui-g-12">
+            <label for="descriptor2">Descriptor 2</label>
+        </div>
+        <div class="ui-g-12">
+            <input type="text" pInputText   id="descriptor2" [(ngModel)]="UnidadSeleccionada.descriptor2" disabled/>
+        </div>
+    </div>
+  </div>
+        </div>
+     </div>
+</p-panel>
+<p-panel header="Unidades de conservación asociadas" leftIcon="ui-icon-assignment">
+        <div class="ui-fluid">
+          <p-dataTable selectionMode="single"
+                       [paginator]="true"
+                       [rows]="10"
+                       [responsive]="true"
+                       [value]="UnidadSeleccionada.unidadesConservacion"
+                        emptyMessage="No se encontraron resultados "
+                       scrollWidth="100%"
+                       [scrollable]="true"
+                       styleClass="ui-datatable-scrollable-header ui-datatable-scrollable-body"
+          >
+            <p-column [style]="{'width':'50px'}">
+              <ng-template pTemplate="body" let-index="rowIndex">
+                {{index + 1}}
+              </ng-template>
+            </p-column>
+            <p-column  header="Nombre serie/subserie" [style]="{'width':'200px'}">
+              <ng-template pTemplate="body" >
+                {{descriptionSerieSubserie(UnidadSeleccionada)}}
+              </ng-template>
+            </p-column>
+            <p-column  header="Identificación unidad conservación" field="valCodigo" [sortable]="true" [style]="{'width':'150px'}">
+            </p-column>
+            <p-column field="nomUniDocConsrv" header="Nombre unidad conservación" [sortable]="true" [style]="{'width':'200px'}">
+            </p-column>
+            <p-column field="valDescriptor1" header="Descriptor 1" [sortable]="true" [style]="{'width':'200px'}">
+            </p-column>
+            <p-column field="valDescriptor2" header="Descriptor 2" [sortable]="true" [style]="{'width':'200px'}">
+             </p-column>
+            <p-column field="faseArchivo" header="Fase archivo" [style]="{'width':'100px'}">
+              <ng-template pTemplate="body" >
+                {{UnidadSeleccionada.faseArchivo}}
+              </ng-template>
+            </p-column>
+            <p-column  header="Estado" *ngIf="!isSecundaria"  [sortable]="true" [style]="{'width':'150px'}">
+              <ng-template pTemplate="body">
+                Inactivo
+              </ng-template>
+            </p-column>
+            <p-column field="fecExtremaIniUdc" header="Fecha extrema inicial"  [sortable]="true" [style]="{'width':'150px'}">
+              <ng-template let-row="rowData" pTemplate="body">
+                {{row.fecExtremaIniUdc |  date: 'dd/MM/yyyy'}} {{row.fecExtremaIniUdc |  date: 'mediumTime'}}
+              </ng-template>
+            </p-column>
+            <p-column field="fecExtremaFinUdc" header="Fecha extrema final"  [sortable]="true" [style]="{'width':'150px'}">
+              <ng-template let-row="rowData" pTemplate="body">
+                {{row.fecExtremaFinUdc |  date: 'dd/MM/yyyy'}} {{row.fecExtremaFinUdc |  date: 'mediumTime'}}
+              </ng-template>
+            </p-column>
+            <p-column field="nroFoliosUnidDoc" header="No. Folios" [style]="{'width':'85px'}" [sortable]="true"></p-column>
+            <p-column  header="Ubicar" [style]="{'width':'120px','text-align':'center'}" *ngIf="allowLocate">
+              <ng-template let-col="rowData" let-i="rowIndex" pTemplate="body">
+                <button pButton type="button" style="width: 35px; float: right" (click)="showUbicarDialog(i)" [disabled]="dialogVisible"
+                         icon="ui-icon-arrow-forward">
+                </button>
+              </ng-template>
+            </p-column>
+          </p-dataTable>
+     </div>
+</p-panel>
+ <div class="ui-dialog-mask" style="position: absolute; z-index: 2" *ngIf="innerComponent && dialogVisible"></div>
+</div>
+
+<ng-content select="after"></ng-content>
+<p-dialog [modal]="!innerComponent"
+          [(visible)]="dialogVisible"
+          [responsive]="true"
+          [closable]="true"
+          [width]="800"
+          header="Ubicación Física" *ngIf="allowLocate && UnidadSeleccionada">
+
+ <ng-template ngFor [ngForOf]="state.ListadoUnidadDocumental" let-unidad let-uindex="index" >
+    <ng-template ngFor [ngForOf]="unidad.unidadesConservacion" let-uc let-idx="index" *ngIf="unidad.unidadesConservacion">
+      <div  [ngClass]="{hidden:selectedIndex !== idx || uindex!==selectedIdx }"  *ngIf="hasVisitedIndex(uindex,idx)">
+       <app-datos-unidad-conservacion  [tipoArchivo]="tipoArchivo"  (onChange)="updateUnidadConservacion($event)" (onNoFound)="showNoFoundUnidadesConservacionNotification()">
+       <div before>
+         <div class="ui-sm-12 ui-g-6 ui-lg-12">
+           <div class="ui-sm-12 ui-g-4 ui-lg-4">
+             <div class="ui-g form-group">
+               <div class="ui-g-12">
+                 <label for="idunidaddocumental">Nombre Serie/Subserie</label>
+               </div>
+               <div class="ui-g-12">
+                 <input type="text" pInputText   id="uc_serie_subserie" value="{{descriptionSerieSubserie(UnidadSeleccionada)}}" disabled />
+               </div>
+             </div>
+           </div>
+           <div class="ui-sm-12 ui-g-4 ui-lg-4">
+             <div class="ui-g form-group">
+               <div class="ui-g-12">
+                 <label for="nombre">Identificador unidad documental</label>
+               </div>
+               <div class="ui-g-12">
+                 <input type="text" pInputText   id="uc_idud" value="{{UnidadSeleccionada?.id}}" disabled />
+               </div>
+             </div>
+           </div>
+           <div class="ui-sm-12 ui-g-4 ui-lg-4">
+             <div class="ui-g form-group">
+               <div class="ui-g-12">
+                 <label for="descriptor1">Identificador unidad de conservación</label>
+               </div>
+               <div class="ui-g-12">
+                 <input type="text" pInputText   id="id_uc" value="{{selectedUnidadConservacion?.valCodigo}}" disabled/>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </app-datos-unidad-conservacion>
+      </div>
+    </ng-template>
+ </ng-template>
+
+
+
+   <p-footer>
+     <button pButton label="Guardar" (click)="saveUnidadConservacion()" [disabled]="!validUbicacionFisica"></button>
+   </p-footer>
+
+</p-dialog>
+
+

@@ -1,0 +1,49 @@
+<project name="automation" basedir="." default="install-env-configuration">
+
+    <!-- ~~~~~~~~~~~~~~~~~ properties Ajustar de acuardo a la configuracion del ambiente-->
+
+
+    <property name="tomcat.home" value="C:/Apache TomCat/apache-tomcat-8.5.34"/>
+
+    <property name="mvn.home" value="C:/Maven/apache-maven-3.5.4"/>
+
+
+    <property name="project.home" value="C:/SIC/sic-document-manager"/>
+
+    <!-- ~~~~~~~~~~~~~~~~~ async support -->
+
+    <target name="install-env-configuration">
+        <echo message="------------------------| INSTALLING ENV CONFIGURATION JAR |------------------------"/>
+        <jar destfile="${tomcat.home}/lib/document-manager-conf.jar" update="true">
+            <fileset dir="${project.home}/Document-Manager-Root/Core-Modules/Business-Artifacts/src/main/resources" excludes="thirdparty-lib/"/>
+            <fileset dir="${project.home}/Document-Manager-Root/Core-Modules/Integration-Artifacts/src/main/resources"/>
+            <fileset dir="${project.home}/Document-Manager-Root/Core-Modules/ClientIntegration-Artifacts/src/main/resources"/>
+        </jar>
+    </target>
+
+    <target name="install-application">
+
+        <echo message="------------------------| INSTALLING APPLICATION |------------------------"/>
+        <exec executable="cmd" dir="${project.home}/Document-Manager-Root" failifexecutionfails="true">
+            <arg value="/c"/>
+            <arg value="${mvn.home}/bin/mvn.cmd"/>
+            <arg value="clean"/>
+            <arg value="install"/>
+        </exec>
+
+        <delete dir="${tomcat.home}/webapps/Document-Manager"/>
+        <delete file="${tomcat.home}/webapps/Document-Manager.war"/>
+
+        <copy file="${project.home}/Document-Manager-Root/Web-Modules/Document-Manager/target/Document-Manager.war"
+              tofile="${tomcat.home}/webapps/Document-Manager.war"/>
+
+        <exec executable="cmd" dir="${tomcat.home}/bin" spawn="true">
+            <arg value="/c"/>
+            <arg value="catalina.bat"/>
+            <arg value="jpda"/>
+            <arg value="start"/>
+        </exec>
+
+    </target>
+
+</project>

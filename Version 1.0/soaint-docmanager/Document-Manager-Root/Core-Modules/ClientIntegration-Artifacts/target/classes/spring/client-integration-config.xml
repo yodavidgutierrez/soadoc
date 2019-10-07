@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://cxf.apache.org/jaxws
+        http://cxf.apache.org/schemas/jaxws.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="co.com.foundation.soaint.documentmanager.transformer"/>
+    <context:component-scan base-package="co.com.foundation.soaint.documentmanager.adapter"/>
+
+
+
+    <!-- soap client endpoints -->
+
+    <!-- ~~~~~~~~~~~~~~~~~ dev environment -->
+
+    <beans profile="qa">
+
+        <jaxws:client id="security_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.security.SecurityAPI"
+                      address="http://192.168.1.21:8080/Security-Cartridge/cartridges-services/SecurityAPI"/>
+
+        <jaxws:client id="ecm_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.ecmintegration.GenerarEstructuraWS"
+                      address="http://192.168.1.23:28080/ecm-integration-services/GenerarEstructuraWS"/>
+
+        <jaxws:client id="organigrama_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigrama.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS"/>
+
+        <jaxws:client id="organigramaintegracion_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigramaintegration.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS"/>
+    </beans>
+
+    <beans profile="dev">
+
+        <jaxws:client id="security_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.security.SecurityAPI"
+                      address="http://localhost:8080/Security-Cartridge/cartridges-services/SecurityAPI"/>
+
+        <jaxws:client id="ecm_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.ecmintegration.GenerarEstructuraWS"
+                      address="http://localhost:8088/mockGenerarEstructuraWSPortBinding"/>
+
+        <jaxws:client id="organigrama_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigrama.GestionarOrganigramaAdministrativoWS"
+                      address="http://localhost:8088/mockGestionarOrganigramaAdministrativoWSPortBinding"/>
+
+        <jaxws:client id="organigramaintegracion_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigramaintegration.GestionarOrganigramaAdministrativoWS"
+                      address="http://localhost:8088/mockGestionarOrganigramaAdministrativoWSPortBinding"/>
+    </beans>
+
+    <beans profile="dev_sql">
+
+        <jaxws:client id="security_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.security.SecurityAPI"
+                      address="http://192.168.1.133:8080/Security-Cartridge/cartridges-services/SecurityAPI"/>
+
+        <jaxws:client id="ecm_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.ecmintegration.GenerarEstructuraWS"
+                      address="http://192.168.1.23:28080/ecm-integration-services/GenerarEstructuraWS"/>
+
+        <jaxws:client id="organigrama_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigrama.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+
+        <jaxws:client id="organigramaintegracion_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigramaintegration.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+    </beans>
+
+    <!-- ~~~~~~~~~~~~~~~~~ test environment -->
+
+    <beans profile="test">
+
+        <jaxws:client id="security_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.security.SecurityAPI"
+                      address="http://PVWIAP26/Security-Cartridge/cartridges-services/SecurityAPI"/>
+
+        <jaxws:client id="ecm_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.ecmintegration.GenerarEstructuraWS"
+                      address="http://192.168.1.23:28080/ecm-integration-services/GenerarEstructuraWS"/>
+
+        <jaxws:client id="organigrama_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigrama.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+
+        <jaxws:client id="organigramaintegracion_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigramaintegration.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+    </beans>
+
+    <!-- ~~~~~~~~~~~~~~~~~ uat environment -->
+
+    <beans profile="uat">
+
+        <jaxws:client id="security_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.security.SecurityAPI"
+                      address="http://PVWIAP26/Security-Cartridge/cartridges-services/SecurityAPI"/>
+
+        <jaxws:client id="ecm_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.ecmintegration.GenerarEstructuraWS"
+                      address="http://192.168.1.23:28080/ecm-integration-services/GenerarEstructuraWS"/>
+
+        <jaxws:client id="organigrama_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigrama.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+
+        <jaxws:client id="organigramaintegracion_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigramaintegration.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+
+    </beans>
+
+    <!-- ~~~~~~~~~~~~~~~~~ prod environment -->
+
+    <beans profile="prod">
+
+        <jaxws:client id="security_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.security.SecurityAPI"
+                      address="http://PVWIAP26/Security-Cartridge/cartridges-services/SecurityAPI"/>
+
+        <jaxws:client id="ecm_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.ecmintegration.GenerarEstructuraWS"
+                      address="http://192.168.1.23:28080/ecm-integration-services/GenerarEstructuraWS"/>
+
+        <jaxws:client id="organigrama_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigrama.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+
+        <jaxws:client id="organigramaintegracion_api"
+                      serviceClass="co.com.foundation.soaint.documentmanager.integration.client.organigramaintegration.GestionarOrganigramaAdministrativoWS"
+                      address="http://192.168.1.23:28080/correspondencia-business-services/GestionarOrganigramaAdministrativoWS?wsdl"/>
+
+    </beans>
+
+</beans>

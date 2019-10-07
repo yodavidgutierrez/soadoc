@@ -1,0 +1,50 @@
+<form [formGroup]="form">
+  <div class="ui-fluid ui-g">
+    <div class="ui-g-12 ui-lg-12" style="margin-top: 30px">
+      <div class="ui-g form-group">
+        <div class="ui-g-12 md-dropdownfield" >
+          <span class="md-inputfield">
+                    <input type="text" pInputText id="nombreNomenclador" formControlName="nombre"  (focus)="focusInput('nombre')" (blur)="listenForBlur('nombre')">
+                    <label >Nombre</label>
+          </span>
+          <div class="ui-message ui-messages-error" *ngIf="validations.nombre">
+            {{validations.nombre}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-lg-12"  style="margin-top: 30px">
+      <div class="ui-g form-group">
+        <div class="ui-g-12 md-dropdownfield" >
+          <p-dropdown [options]="tipoListasEditable$ | async | dropdownItemSingle"
+                      id="tipoNomenclador"
+                      placeholder="Nombre Lista"
+                      [autoWidth]="false"
+                      formControlName="codPadre"
+                      (onFocus)="focusInput('codPadre')"
+                      (onBlur)="listenForBlur('codPadre')"
+          >
+          </p-dropdown>
+          <div class="ui-message ui-messages-error" *ngIf="validations.codPadre">
+            {{validations.codPadre}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-lg-12" style="margin-top: 30px">
+      <div class="ui-g form-group">
+        <div class="ui-g-12 md-dropdownfield" >
+             <p-radioButton label="Activo" value="A" formControlName="estado" name="estado"></p-radioButton>
+             <p-radioButton label="Inactivo" value="D" formControlName="estado" name="estado"></p-radioButton>
+          </div>
+        </div>
+      </div>
+    <div class="ui-g-12 ui-lg-12" style="margin-top: 30px;position: relative">
+      <div style="position: absolute;right: 0;top:-30px;">
+        <button pButton label="Cancelar" style="width: 120px" (click)="cancel()"></button>
+        <button pButton label="Guardar" style="width: 120px" (click)="save()" [disabled]="form.invalid" ></button>
+      </div>
+
+    </div>
+   </div>
+ </form>

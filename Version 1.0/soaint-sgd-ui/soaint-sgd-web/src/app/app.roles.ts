@@ -1,0 +1,19 @@
+export  const BPMMANAGER_ROL = 'Administrador';
+export const AUXILIAR_CORRESPONDENCIA = 'Auxiliar_correspondencia';
+export const ASIGNADOR = 'Asignador';
+export const ARCHIVISTA_AC = 'Archivista_AC';
+export const ARCHIVISTA = 'Archivista';
+export const RADICADOR_CONTINGENCIA = 'Radicador_contingencia';
+export const RADICADOR = 'Radicador';
+export const GESTOR_DEVOLUCIONES = "Gestor_devoluciones";
+export const RECEPCTOR = "Receptor";
+export const PROYECTOR = "Proyector";
+export const REVISOR = "Revisor";
+export const APROBADOR = "Aprobador";
+export const APROBADOR_DEPENDENCIA = "Aprobador_dependencia";
+export const  CONSULTA_PUBLICO = "Consulta público";
+export const  CONSULTA_RESERVADO = "Consulta reservado";
+export const  CONSULTA_CLASIFICADO = "Consulta clasificado";
+export const CONSULTA_KPI= "Consulta_KPI";
+export const  DIGITALIZADOR = 'Digitalizador';
+

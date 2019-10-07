@@ -1,0 +1,45 @@
+Version 1.5/soaint-toolbox-services/.mvn/wrapper/maven-wrapper.jar
+Version 1.5/soaint-toolbox-services/.mvn/wrapper/maven-wrapper.properties
+Version 1.5/soaint-toolbox-services/.mvn/wrapper/MavenWrapperDownloader.java
+.idea/
+.idea/.name
+.idea/artifacts/Security_Cartridge_war.xml
+.idea/artifacts/Security_Cartridge_war_exploded.xml
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/encodings.xml
+.idea/libraries/Maven__co_com_foundation_soaint_Foundation_Framework_1_0_SNAPSHOT.xml
+Foundation-Libraries/Foundation-Framework/target/
+Security-Foundation/Cartridge-Modules/Security-Cartridge/target/
+Security-Foundation/Cartridge-Modules/WUI-Security/target/
+Document-Manager-Root/Core-Modules/Business-Artifacts/target/
+Document-Manager-Root/Core-Modules/ClientIntegration-Artifacts/target/
+Document-Manager-Root/Core-Modules/Integration-Artifacts/target/
+Document-Manager-Root/Web-Modules/Document-Manager/target/
+Document-Manager-Root/Automation/build_local.xml
+Security-Foundation/Automation/build_local.xml
+Document-Manager-Root/SIC-Integration/target/
+Document-Manager-Root/Web-Modules/Document-Manager/src/main/webapp/WEB-INF/jasper/RptVersionesCCD.jasper
+Document-Manager-Root/Web-Modules/Document-Manager/src/main/webapp/WEB-INF/jasper/RptSeries.jasper
+Document-Manager-Root/Web-Modules/Document-Manager/Document-Manager.iml
+Document-Manager-Root/Document-Manager-Root.iml
+Document-Manager-Root/SIC-Integration/SIC-Integration.iml
+*.class
+sic-commons/target/
+sic-persistence/target/
+sic-service/target/
+sic-web/target/
+sic-adapters/target/
+sic-persistence/sic-persistence.iml
+sic-commons/sic-commons.iml
+sic-service/sic-service.iml
+sic-adapters/sic-adapters.iml
+sic-service/sic-service.iml~be4e5e55d758cf9d463d624c786c14a06235d5e5
+WebContent/WEB-INF/lib/com.ibm.ws.runtime.jar
+WebContent/sic-gaf-web.war
+WebContent/WEB-INF/lib/com.ibm.ws.admin.client_8.5.0.jar
+WebContent/WEB-INF/classes
+MGAF.iml
+sic-gaf-web.war
+WebContent/soaint-gaf-web.war
+
